@@ -4,6 +4,8 @@ import simplejson as json
 # Create your views here.
 from django.http import HttpResponse
 from pig.models import  Test_Pig
+from pig.models import  Test_for_Plant
+
 #作为pig的主页显示
 def first_page(request):
     if request.method=='GET':
@@ -29,13 +31,24 @@ def example_database_func(request):
 
 #测试k线图数据
 def example_getData(request):
-    test_list="[[1370217600000,0.7495],\
-							[1370304000000,0.7455],\
-						[1370476800000,0.7635],\
-							[1370563200000,0.7655],\
-							[1370736000000,0.7395],\
-							[1370822400000,0.7595],\
-							[1370908800000,0.7295],\
-							[1370995200000,0.7595]]"
+    # test_list="[[1370217600000,0.7495],\
+		# 					[1370304000000,0.7455],\
+		# 				[1370476800000,0.7635],\
+		# 					[1370563200000,0.7655],\
+		# 					[1370736000000,0.7395],\
+		# 					[1370822400000,0.7595],\
+		# 					[1370908800000,0.7295],\
+		# 					[1370995200000,0.7595]]"
     # staff_str  = map(str, test_list)
-    return HttpResponse(test_list)
+    # temp_list=Test_for_Plant.objects.all()
+    # temp_str=map(str,temp_list)
+    # res_list=[]
+    # for key in temp_str:
+    #     temp_list1=[]
+    #     temp_list1.append(key)
+    #     res_list.append(temp_list1)
+    temp_list=Test_for_Plant.objects.all()
+    str1=''
+    for key in temp_list:
+        str1=str1+str(key)
+    return HttpResponse(str1)
