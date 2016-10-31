@@ -49,5 +49,5 @@ def example_getData(request):
     temp_list=Test_for_Plant.objects.all()
     str1=''
     for key in temp_list:
-        str1=str1+str(key)
+        str1=str1+' '+str(key)
     return HttpResponse(str1)

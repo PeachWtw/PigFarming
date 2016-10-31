@@ -216,25 +216,22 @@ app.controller('productionControlController', [
 				}
 			} else if($location.path().indexOf('/chartPage') == 0) {
 				services.getData().success(function(data) {
-                    console.log(data);
-					var dataArray = data;
+                    var arr = data.trim().split(" ");
+			        var dataArr = [];
+			        for(var i=0;i<arr.length/2;i++){
+				        var temp = [];
+				        temp[0]=+arr[2*i];
+				        temp[1]=+arr[2*i+1];
+				        dataArr[i]=temp;
+			        }
+			        console.log(dataArr);
 					var initData = {
-						title:'Monthly Average Temperature',
-						subtitle:'Source: WorldClimate.com',
+						title:'呵呵呵呵',
+						subtitle:'网址: www.hehe.com',
 						//xScale:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','lyy', 'Nov', 'Dec'],
-						yTitle:'Temperature (°C)',
+						yTitle:'温度 (°C)',
 						valueSuffix:'°C',
-						series: {name:'Beijing',data:dataArray
-//						[
-//							[1370217600000,0.7495],
-//							[1370304000000,0.7455],
-//							[1370476800000,0.7635],
-//							[1370563200000,0.7655],
-//							[1370736000000,0.7395],
-//							[1370822400000,0.7595],
-//							[1370908800000,0.7295],
-//							[1370995200000,0.7595]
-//						]
+						series: {name:'北京',data:dataArr
 						}
 					}
 					var chart = new Chart(initData);
@@ -247,18 +244,3 @@ app.controller('productionControlController', [
 
 	}
 ]);
-
-// 合同状态过滤器
-/*
-app.filter('conState', function() {
-	return function(input) {
-		var state = "";
-		if(input == "0")
-			state = "在建";
-		else if(input == "1")
-			state = "竣工";
-		else if(input == "2")
-			state = "停建";
-		return state;
-	}
-});*/

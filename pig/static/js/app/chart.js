@@ -8,12 +8,10 @@ function Chart(data){
 }
 
 Chart.prototype.init= function(){
-    	var date = new Date(Date.parse("June 4,2013"));
-    	console.log(date.getTime()+28800000);
         $('#container').highcharts({
         	credits: {//版权信息
         	/*enabled:false // 禁用版权信息*/
-            text: 'HCharts.cn',
+            text: '猪网',
             href: 'http://www.hcharts.cn'
         	},
             chart: {
