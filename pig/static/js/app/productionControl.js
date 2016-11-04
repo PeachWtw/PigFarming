@@ -113,6 +113,15 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 		});
 	};
 
+    services.getArticle = function(data) {
+		console.log("请求数据"+JSON.stringify(data));
+		return $http({
+			method: 'get',
+			url: '/pig/getArticle/',
+			params: data
+		});
+	};
+
     //获取K线图所需的数据
 	services.getData = function(){
 		return $http({
@@ -156,7 +165,12 @@ app.controller('productionControlController', [
 			console.log("初始化页面信息");
 
 			if($location.path().indexOf('/pigFarmManagement') == 0) { // 如果是合同列表页
-				productionControl.articals = [{
+                services.getArticle({
+            }).success(function(data) {
+                console.log(data);
+				productionControl.articals = data;
+			});
+				/*productionControl.articals = [{
 					title: "生产现状",
 					releaseTime: "2016-10-15",
 					abstrat: "盼望着，盼望着，东风来了，。风轻俏俏的，草软绵绵的。",
@@ -171,7 +185,7 @@ app.controller('productionControlController', [
 					releaseTime: "2016-10-15",
 					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一起来了，水涨起来了，太阳了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
 					imgUrl: "../../images/pigs.jpg"
-				}];
+				}];*/
 			} else if($location.path().indexOf('/BreedManagement') == 0) {
 				productionControl.articals = [{
 					title: "生产现状",
