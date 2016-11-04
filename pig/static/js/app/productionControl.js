@@ -104,6 +104,15 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 		});
 	};
 
+    services.addArticle = function(data) {
+		console.log("请求数据"+JSON.stringify(data));
+		return $http({
+			method: 'get',
+			url: '/pig/',
+			params: data
+		});
+	};
+
     //获取K线图所需的数据
 	services.getData = function(){
 		return $http({
@@ -134,7 +143,14 @@ app.controller('productionControlController', [
 			});
 		};
 		// 获取逾期合同
-
+        productionControl.addArticle = function() {
+            var $text = encodeURIComponent($("#text").val());
+			services.addArticle({
+                'article':$text
+            }).success(function(data) {
+				console.log("添加文章成功！");
+			});
+		};
 		// 初始化页面信息
 		function initData() {
 			console.log("初始化页面信息");
