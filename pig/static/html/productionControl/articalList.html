@@ -17,10 +17,18 @@
     <button onclick="add2()">求和</button>
     <span id="result"></span>
 </div>
+<textarea id="text" style="width: 200px;height: 100px"></textarea>
+<button ng-click="addArticle()">提交</button>
 <script>
     function add2(){
         $.get("/pig/",{a:12,b:13},function(result){
             $("#result").html(result);
         });
     }
+    $(function(){
+        $("#btn").click(function(){
+            var $text = encodeURIComponent($("#text").val());
+            console.log($text);
+        })
+    })
 </script>
