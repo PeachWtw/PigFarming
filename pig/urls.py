@@ -6,5 +6,6 @@ urlpatterns = patterns('',
     url(r'^example/', 'pig.views.example_func'),
     url(r'^example_database/','pig.views.example_database_func'),
     url(r'^getData/','pig.views.example_getData'),
+    url(r'^getArticle/','pig.views.example_getArticle'),
 
 )

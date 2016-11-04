@@ -80,8 +80,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'superpig',
-        'USER': 'lyy',
-        'PASSWORD': 'smit0296139',
+        'USER': 'wtw',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '3306',
     }

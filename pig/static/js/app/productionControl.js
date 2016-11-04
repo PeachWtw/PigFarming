@@ -108,7 +108,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 		console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
-			url: '/pig/',
+			url: '/pig/getArticle/',
 			params: data
 		});
 	};
