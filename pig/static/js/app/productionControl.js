@@ -160,6 +160,15 @@ app.controller('productionControlController', [
 				console.log("添加文章成功！");
 			});
 		};
+        //获取文章内容
+        productionControl.getArticleDetail = function() {
+            var article = this.id;
+			services.addArticle({
+                'article':$text
+            }).success(function(data) {
+				console.log("添加文章成功！");
+			});
+		};
 		// 初始化页面信息
 		function initData() {
 			console.log("初始化页面信息");

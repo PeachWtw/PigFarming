@@ -5,7 +5,7 @@
 	<section class="article-list">
 		<div class="div-artical"  ng-repeat="art in articals">
 			<div class="div-inf">
-				<h3><a href="#/articalDetail">{{art.title}}</a></h3>
+				<h3><a ng-click="getArticleDetail()" href="#/articalDetail">{{art.title}}</a></h3>
 				<div class="abstract"><p>{{art.abstrat}}</p></div>
 				<div class="releasetime">发布时间：{{art.publish_time}}</div>
 			</div>
