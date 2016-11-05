@@ -36,15 +36,18 @@ def first_page(request):
 #     for key in temp_list:
 #         str1=str1+' '+str(key)
 #     return HttpResponse(str1)
+
+#处理数据库数据的模块函数
+def func_handle_database(db_obj):
+    temp_list=db_obj.objects.all()
+    L=[]
+    for val in temp_list:
+        L.append([str(val)])
+    return L
+
 #测试文章数据
 def func_getArticle(request):
-    temp_list=BreedImprovement.objects.all()
-    L=[]
-    d={}
-    for val in temp_list:
-        temp_str=str(val)
-        L.append([str(val)])
-        # key=temp_str.split(':')[:1]
+    L=func_handle_database(BreedImprovement)
     return HttpResponse(json.dumps(L))
 
 

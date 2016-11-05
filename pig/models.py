@@ -30,8 +30,8 @@ class BreedImprovement(models.Model):
         managed = False
         db_table = 'breed_improvement'
     def __unicode__(self):
-        return '"title":"%s", "abstract":"%s", "content":"%s", "publish_time":"%s", "click_times":"%s", "src_img":"%s", "type":"%s"' % \
-               (self.title,self.abstract,self.content,self.publish_time,self.click_times,self.src_img,self.type)
+        return '"bi_id":"%s","title":"%s", "abstract":"%s", "content":"%s", "publish_time":"%s", "click_times":"%s", "src_img":"%s", "type":"%s"' % \
+               (self.bi_id,self.title,self.abstract,self.content,self.publish_time,self.click_times,self.src_img,self.type)
 
 class Breeding(models.Model):
     breed_id = models.BigIntegerField(primary_key=True)
