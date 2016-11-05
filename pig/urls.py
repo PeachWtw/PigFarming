@@ -1,11 +1,11 @@
+# -*- coding: utf-8 -*-
 __author__ = 'peach'
 from django.conf.urls import patterns, include, url
 
 urlpatterns = patterns('',
     url(r'^$', 'pig.views.first_page'),
-    url(r'^example/', 'pig.views.example_func'),
-    url(r'^example_database/','pig.views.example_database_func'),
-    url(r'^getData/','pig.views.example_getData'),
-    url(r'^getArticle/','pig.views.func_getArticle'),
-
+    #按功能进行分包
+        #文章处理
+    url(r'^article/', include('pig.article_urls')),
+   #url(r'^article/getArticle/','pig.views.func_getArticle'),
 )

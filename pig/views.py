@@ -8,14 +8,7 @@ from pig.models import  Breeding
 
 #作为pig的主页显示
 def first_page(request):
-    if request.method=='GET':
-        # req=simplejson.loads(request.raw_)
-        num1=request.GET['a']
-        num2=request.GET['b']
-        num=int(num1)+int(num2)
-        return HttpResponse(str(num))
-    else:
-        return  HttpResponse("fdfdsfss")
+    return  HttpResponse("fdfdsfss")
 
 #测试示例函数
 # def example_func(request):
@@ -44,11 +37,32 @@ def func_handle_database(db_obj):
     for val in temp_list:
         L.append([str(val)])
     return L
-
+#处理文章列表的函数
+def func_handle_artList(db_obj,page):
+    try:
+        if page<1:
+            raise ValueError("page %d" % page)
+        index_low=(page-1)*10
+        index_high=page*10
+        if page==1:
+            temp_list=db_obj.objects.filter(bi_id__lte=index_high)
+        else:
+            temp_list=temp_list=db_obj.objects.filter(bi_id__lte=index_high).filter(bi_id__gte=index_low)
+        L=[]
+        for val in temp_list:
+            L.append([str(val)])
+        return L,len(L)
+    except ValueError,e:
+        print("value error")
+    return L
 #测试文章数据
 def func_getArticle(request):
     L=func_handle_database(BreedImprovement)
     return HttpResponse(json.dumps(L))
 
-
+#功能：获取文章列表
+def func_getArtList(request):
+    page=request.GET['page']
+    L,cnt=func_handle_artList(BreedImprovement,int(page))
+    return HttpResponse(json.dumps(L),cnt)
 
