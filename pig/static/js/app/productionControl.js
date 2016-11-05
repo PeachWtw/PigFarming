@@ -117,7 +117,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 		console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
-			url: '/pig/getArticle/',
+			url: '/pig/article/getArticle/',
 			params: data
 		});
 	};
@@ -162,11 +162,12 @@ app.controller('productionControlController', [
 		};
         //获取文章内容
         productionControl.getArticleDetail = function() {
-            var article = this.id;
+            var articleId = this.art.bi_id;
+            console.log("获取文章id："+articleId)
 			services.addArticle({
-                'article':$text
+                'article':articleId
             }).success(function(data) {
-				console.log("添加文章成功！");
+				productionControl.artical = data;
 			});
 		};
 		// 初始化页面信息
