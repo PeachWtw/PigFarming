@@ -112,7 +112,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 			params: data
 		});
 	};
-
+    //获取文章列表
     services.getArticle = function(data) {
 		console.log("请求数据"+JSON.stringify(data));
 		return $http({
