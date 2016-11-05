@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>系统管理页面页面</title>
+		<link rel="stylesheet" href="../../css/global.css" />
+		<link rel="stylesheet" href="../../css/nei.css" />
+	</head>
+
+	<body>
+		<!--顶部开始-->
+		<div class="top">
+			<div class="topMain">
+				<span>欢迎来到半仙他哥的养猪官方网站</span>
+				<p>联系电话：17001812888</p>
+			</div>
+		</div>
+		<!--顶部结束-->
+		<!--导航开始-->
+		<div class="nav">
+			<div class="navMain">
+				<div class="logo">
+					<a href="/"><img src="../../images/logo.png" /></a>
+				</div>
+				<div class="navList">
+					<ul>
+						<li>
+							<a href="#/addArticle">添加文章</a>
+						</li>
+						<li>
+							<a href="#/BreedManagement">繁育管理</a>
+						</li>
+						<li>
+							<a href="#/feedManagement">饲养管理</a>
+						</li>
+						<li>
+							<a href="#/dailyManagement">日常管理</a>
+						</li>
+                        <li>
+							<a href="#/chartPage">K线图</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--导航结束-->
+		<div class="container">
+			<section class="main" ng-app="systemManagement">
+				<div ng-view></div>
+			</section>
+		</div>
+		<footer></footer>
+		<script type="text/javascript" src="../../js/lib/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="../../js/lib/angular/angular.js"></script>
+		<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
+        <script type="text/javascript" src="../../js/lib/editor/kindeditor.js"></script>
+		<script type="text/javascript" src="../../js/app/systemManagement.js"></script>
+    <script type="text/javascript">
+			$(function(){
+                KE.show({
+				id: 'content'
+			});
+            })
+
+		</script>
+	</body>
+
+</html>

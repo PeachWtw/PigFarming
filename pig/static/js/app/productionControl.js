@@ -117,7 +117,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 		console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
-			url: '/pig/getArticle/',
+			url: '/pig/article/getArticle/',
 			params: data
 		});
 	};
@@ -160,6 +160,16 @@ app.controller('productionControlController', [
 				console.log("添加文章成功！");
 			});
 		};
+        //获取文章内容
+        productionControl.getArticleDetail = function() {
+            var articleId = this.art.bi_id;
+            console.log("获取文章id："+articleId)
+			services.addArticle({
+                'article':articleId
+            }).success(function(data) {
+				productionControl.artical = data;
+			});
+		};
 		// 初始化页面信息
 		function initData() {
 			console.log("初始化页面信息");
@@ -167,8 +177,7 @@ app.controller('productionControlController', [
 			if($location.path().indexOf('/pigFarmManagement') == 0) { // 如果是合同列表页
                 services.getArticle({
             }).success(function(data) {
-                console.log(data);
-				productionControl.articals = data;
+				productionControl.articals = jsonParse.arrToJsons(data);
 			});
 				/*productionControl.articals = [{
 					title: "生产现状",
