@@ -167,8 +167,7 @@ app.controller('productionControlController', [
 			if($location.path().indexOf('/pigFarmManagement') == 0) { // 如果是合同列表页
                 services.getArticle({
             }).success(function(data) {
-                console.log(data);
-				productionControl.articals = data;
+				productionControl.articals = jsonParse.arrToJsons(data);
 			});
 				/*productionControl.articals = [{
 					title: "生产现状",
