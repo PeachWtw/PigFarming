@@ -95,33 +95,24 @@ app
 app.constant('baseUrl', '/static/');
 app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
-	services.add = function(data) {
+    //根据文章类型获取文章列表
+    services.getArtList = function(data) {
 		console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
-			url: '/pig/',
+			url: '/pig/article/getArtList/',
 			params: data
 		});
 	};
-
-    services.addArticle = function(data) {
+    //根据文章id获取文章的详细内容
+    services.getArtById = function(data) {
 		console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
-			url: '/pig/getArticle/',
+			url: '/pig/article/getArtById/',
 			params: data
 		});
 	};
-    //获取文章列表
-    services.getArticle = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
-		return $http({
-			method: 'get',
-			url: '/pig/article/getArticle/',
-			params: data
-		});
-	};
-
     //获取K线图所需的数据
 	services.getData = function(){
 		return $http({
@@ -140,32 +131,22 @@ app.controller('productionControlController', [
 	function($scope, services, $location) {
 		// 养殖
 		var productionControl = $scope;
+        //获取文章列表分页
+        productionControl.getArtList = function(page) {
+				services.getArtList({
+					page : page
+				}).success(function(data) {
+					productionControl.articals = data.list;
+					productionControl.totalPage = data.totalPage;
+				});
+			};
 
-		// 获取欠款合同
-		productionControl.add = function() {
-			services.add({
-                'a':2,
-                'b':3
-            }).success(function(data) {
-				console.log("返回数据"+data);
-				productionControl.value1 = data;
-			});
-		};
-		// 获取逾期合同
-        productionControl.addArticle = function() {
-            var $text = encodeURIComponent($("#text").val());
-			services.addArticle({
-                'article':$text
-            }).success(function(data) {
-				console.log("添加文章成功！");
-			});
-		};
-        //获取文章内容
+        //获取文章详细内容
         productionControl.getArticleDetail = function() {
             var articleId = this.art.bi_id;
             console.log("获取文章id："+articleId)
-			services.addArticle({
-                'article':articleId
+			services.getArtById({
+                'articleId':articleId
             }).success(function(data) {
 				productionControl.artical = data;
 			});
@@ -173,29 +154,26 @@ app.controller('productionControlController', [
 		// 初始化页面信息
 		function initData() {
 			console.log("初始化页面信息");
-
-			if($location.path().indexOf('/pigFarmManagement') == 0) { // 如果是合同列表页
-                services.getArticle({
-            }).success(function(data) {
-				productionControl.articals = jsonParse.arrToJsons(data);
-			});
-				/*productionControl.articals = [{
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/pigs.jpg"
-				}, {
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 ，水涨起来了，太阳小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/pigs.jpg"
-				}, {
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一起来了，水涨起来了，太阳了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/pigs.jpg"
-				}];*/
-			} else if($location.path().indexOf('/BreedManagement') == 0) {
+			if($location.path().indexOf('/pigFarmManagement') == 0) { //猪场管理
+                services.getArtList({
+                    //'articleType':'pigFarmManagement',
+                    'page':'1'
+                }).success(function(data) {
+                    console.log("直接打印返回的数据："+data)
+                    productionControl.totalPage = data.totalPage;
+                    var $pages = $(".tcdPageCode");
+                    if ($pages.length != 0) {
+							$pages.createPage({
+								pageCount : productionControl.totalPage,
+								current : 1,
+								backFn : function(p) {
+									productionControl.getContractList(p);// 点击页码时获取第p页的数据
+								}
+							});
+						}
+                    productionControl.articals = jsonParse.arrToJsons(data);
+                });
+			} else if($location.path().indexOf('/BreedManagement') == 0) {//繁育管理
 				productionControl.articals = [{
 					title: "生产现状",
 					releaseTime: "2016-10-15",
