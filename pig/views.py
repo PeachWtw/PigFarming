@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 # Create your views here.
+#异常模块
+from pig.ExceptClass import *
 import  json
+import  math
 from django.http import HttpResponse
 from pig.models import BreedImprovement
 from pig.models import  Breeding
@@ -37,11 +40,11 @@ def func_handle_database(db_obj):
     for val in temp_list:
         L.append([str(val)])
     return L
-#处理文章列表的函数
+#处理文章列表的函数，准备把处理数据库数据的模块函数合并到这个函数
 def func_handle_artList(db_obj,page):
     try:
         if page<1:
-            raise ValueError("page %d" % page)
+            raise PageLessThanOneError("页面小于1 page=%d" % page)
         index_low=(page-1)*10
         index_high=page*10
         if page==1:
@@ -51,10 +54,12 @@ def func_handle_artList(db_obj,page):
         L=[]
         for val in temp_list:
             L.append([str(val)])
-        return L,len(L)
-    except ValueError,e:
-        print("value error")
-    return L
+        #获取元组总数
+        temp_list=db_obj.objects.filter(bi_id__gte=1)
+        num=map(str,temp_list)
+        return L,int(math.ceil(len(num)/10.0))
+    finally:
+        pass
 #测试文章数据
 def func_getArticle(request):
     L=func_handle_database(BreedImprovement)
@@ -64,5 +69,8 @@ def func_getArticle(request):
 def func_getArtList(request):
     page=request.GET['page']
     L,cnt=func_handle_artList(BreedImprovement,int(page))
-    return HttpResponse(json.dumps(L),cnt)
+    # s='"page":'+'"'+str(cnt)+'"'
+    d = dict(AllList=L, page=cnt)
+    s=json.dumps(d)
+    return HttpResponse(json.dumps(d))
 
