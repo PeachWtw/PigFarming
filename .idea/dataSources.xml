@@ -5,8 +5,8 @@
       <driver-ref>sqlite.xerial</driver-ref>
       <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://127.0.0.1:3306/superpig</jdbc-url>
-      <user-name>wtw</user-name>
-      <user-password>df9bdf98df99df9edf9fdf9c</user-password>
+      <user-name>root</user-name>
+      <user-password>dfd9dfc7dfc3dfdedf9adf98df93df9cdf9bdf99df93</user-password>
       <libraries />
     </data-source>
   </component>
