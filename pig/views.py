@@ -6,9 +6,9 @@ from pig.ExceptClass import *
 import json
 import math
 from django.http import HttpResponse
-from pig.models import BreedImprovement
-from pig.models import Breeding
 
+#引入model中的全部数据库模块
+from pig.models import *
 #作为pig的主页显示
 def first_page(request):
     return HttpResponse("fdfdsfss")
@@ -51,7 +51,7 @@ def func_handle_artList(db_obj, page):
         index_low = (page - 1) * 10
         index_high = page * 10
         if page == 1:
-            temp_list = db_obj.objects.filter(bi_id__lte=2)
+            temp_list = db_obj.objects.filter(bi_id__lte=index_high)
         else:
             temp_list = temp_list = db_obj.objects.filter(bi_id__lte=index_high).filter(bi_id__gte=index_low)
         L = []

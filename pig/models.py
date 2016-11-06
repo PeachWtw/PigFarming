@@ -13,7 +13,15 @@ from __future__ import unicode_literals
 
 from django.db import models
 import json
+#处理datetime问题使用的方法：http://stackoverflow.com/questions/11875770/how-to-overcome-datetime-datetime-not-json-serializable-in-python
+from datetime import datetime
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
 
+    if isinstance(obj, datetime):
+        serial = obj.isoformat()
+        return serial
+    raise TypeError ("Type not serializable")
 
 
 class BreedImprovement(models.Model):
@@ -26,10 +34,10 @@ class BreedImprovement(models.Model):
     src_img = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=20, blank=True, null=True)
     def res_dict(self):
-        # return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
-        #      publish_time=self.publish_time,click_times=self.click_times,src_img=self.src_img,type=self.type)
         return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
-             click_times=self.click_times,src_img=self.src_img,type=self.type)
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
+        # return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
+        #      click_times=self.click_times,src_img=self.src_img,type=self.type)
 
 
     class Meta:
