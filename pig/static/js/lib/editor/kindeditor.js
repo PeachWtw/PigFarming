@@ -1001,19 +1001,7 @@ KE.util = {
         }
     },
     getFullHtml : function(id, tagLineMode) {
-        var html = '<html>';
-        html += '<head>';
-        html += '<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />';
-        html += '<title>KindEditor</title>';
-        if (tagLineMode) {
-            html += '<link href="' + KE.g[id].skinsPath + 'editor.css" rel="stylesheet" type="text/css" />';
-        }
-        if (KE.g[id].cssPath) {
-            html += '<link href="' + KE.g[id].cssPath + '" rel="stylesheet" type="text/css" />';
-        }
-        html += '</head>';
-        html += '<body class="ke-content"></body>';
-        html += '</html>';
+        var html = '<body id="ke-content" class="ke-content"></body>';
         return html;
     },
     resize : function(id, width, height, isCheck) {
