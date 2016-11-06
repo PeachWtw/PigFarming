@@ -12,7 +12,7 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+import json
 
 
 
@@ -25,13 +25,24 @@ class BreedImprovement(models.Model):
     click_times = models.IntegerField(blank=True, null=True)
     src_img = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=20, blank=True, null=True)
+    def res_dict(self):
+        # return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
+        #      publish_time=self.publish_time,click_times=self.click_times,src_img=self.src_img,type=self.type)
+        return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
+             click_times=self.click_times,src_img=self.src_img,type=self.type)
+
 
     class Meta:
         managed = False
         db_table = 'breed_improvement'
     def __unicode__(self):
-        return '"bi_id":"%s","title":"%s", "abstract":"%s", "content":"%s", "publish_time":"%s", "click_times":"%s", "src_img":"%s", "type":"%s"' % \
-               (self.bi_id,self.title,self.abstract,self.content,self.publish_time,self.click_times,self.src_img,self.type)
+        return '%s %s %s %s %s %s %s %s' % \
+                (self.bi_id,self.title,self.abstract,self.content,self.publish_time,self.click_times,self.src_img,self.type)
+
+        # return str(dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
+        #     publish_time=self.publish_time,click_times=self.click_times,src_img=self.src_img,type=self.type))
+        # return '"bi_id":"%s","title":"%s", "abstract":"%s", "content":"%s", "publish_time":"%s", "click_times":"%s", "src_img":"%s", "type":"%s"' % \
+        #        (self.bi_id,self.title,self.abstract,self.content,self.publish_time,self.click_times,self.src_img,self.type)
 
 class Breeding(models.Model):
     breed_id = models.BigIntegerField(primary_key=True)

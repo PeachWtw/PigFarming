@@ -137,7 +137,7 @@ app.controller('productionControlController', [
                     //'articleType':artType,
 					page : page
 				}).success(function(data) {
-					productionControl.articles = data.AllList;
+					productionControl.articles = data.allList;
 					productionControl.totalPage = data.page;
 				});
 			};
@@ -158,7 +158,7 @@ app.controller('productionControlController', [
                     //'articleType':'pigFarmManagement',
                     'page':'1'
                 }).success(function(data) {
-                    productionControl.articles = data.AllList;
+                    productionControl.articles = data.allList;
                     productionControl.totalPage = data.page;
                     console.log("直接打印返回的数据："+productionControl.articles)
                     console.log("直接打印返回的数据："+productionControl.totalPage)

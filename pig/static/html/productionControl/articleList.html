@@ -6,7 +6,7 @@
 		<div class="div-article"  ng-repeat="art in articles">
 			<div class="div-inf">
 				<h3><a ng-click="getArticleDetail()" href="#/articleDetail">{{art.title}}</a></h3>
-				<div class="abstract"><p>{{art.abstrat}}</p></div>
+				<div class="abstract"><p>{{art.abstract}}</p></div>
 				<div class="releasetime">发布时间：{{art.publish_time}}</div>
 			</div>
 			<div class="div-img"><img src={{art.src_img}} alt="图片未找到" class="img-list" /></div>

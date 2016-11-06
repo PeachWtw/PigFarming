@@ -1,17 +1,18 @@
 # -*- coding: utf-8 -*-
 from django.shortcuts import render
 # Create your views here.
-#异常模块
+# 异常模块
 from pig.ExceptClass import *
-import  json
-import  math
+import json
+import math
 from django.http import HttpResponse
 from pig.models import BreedImprovement
-from pig.models import  Breeding
+from pig.models import Breeding
 
 #作为pig的主页显示
 def first_page(request):
-    return  HttpResponse("fdfdsfss")
+    return HttpResponse("fdfdsfss")
+
 
 #测试示例函数
 # def example_func(request):
@@ -35,42 +36,48 @@ def first_page(request):
 
 #处理数据库数据的模块函数
 def func_handle_database(db_obj):
-    temp_list=db_obj.objects.all()
-    L=[]
+    temp_list = db_obj.objects.all()
+    L = []
     for val in temp_list:
         L.append([str(val)])
     return L
+
+
 #处理文章列表的函数，准备把处理数据库数据的模块函数合并到这个函数
-def func_handle_artList(db_obj,page):
+def func_handle_artList(db_obj, page):
     try:
-        if page<1:
+        if page < 1:
             raise PageLessThanOneError("页面小于1 page=%d" % page)
-        index_low=(page-1)*10
-        index_high=page*10
-        if page==1:
-            temp_list=db_obj.objects.filter(bi_id__lte=index_high)
+        index_low = (page - 1) * 10
+        index_high = page * 10
+        if page == 1:
+            temp_list = db_obj.objects.filter(bi_id__lte=2)
         else:
-            temp_list=temp_list=db_obj.objects.filter(bi_id__lte=index_high).filter(bi_id__gte=index_low)
-        L=[]
-        for val in temp_list:
-            L.append([str(val)])
+            temp_list = temp_list = db_obj.objects.filter(bi_id__lte=index_high).filter(bi_id__gte=index_low)
+        L = []
+        for iter in temp_list:
+            L.append(iter.res_dict())
         #获取元组总数
-        temp_list=db_obj.objects.filter(bi_id__gte=1)
-        num=map(str,temp_list)
-        return L,int(math.ceil(len(num)/10.0))
+        temp_list = db_obj.objects.filter(bi_id__gte=1)
+        num = map(str, temp_list)
+        return L, int(math.ceil(len(num) / 10.0))
     finally:
         pass
+
+
 #测试文章数据
 def func_getArticle(request):
-    L=func_handle_database(BreedImprovement)
+    L = func_handle_database(BreedImprovement)
     return HttpResponse(json.dumps(L))
+
 
 #功能：获取文章列表
 def func_getArtList(request):
-    page=request.GET['page']
-    L,cnt=func_handle_artList(BreedImprovement,int(page))
-    # s='"page":'+'"'+str(cnt)+'"'
-    d = dict(AllList=L, page=cnt)
-    s=json.dumps(d)
+    page = request.GET['page']
+    L, cnt = func_handle_artList(BreedImprovement, int(page))
+    d = dict(allList=L, page=cnt)
+    s = json.dumps(d)
     return HttpResponse(json.dumps(d))
+
+
 
