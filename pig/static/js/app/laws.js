@@ -85,8 +85,8 @@ app
 						controller: 'ProduceController'
 					})
 				.when(
-					'/articalDetail', {
-						templateUrl: '/banxiandexiangmu/html/laws/articalDetail.html',
+					'/articleDetail', {
+						templateUrl: '/banxiandexiangmu/html/laws/articleDetail.html',
 						controller: 'ProduceController'
 					})
 

@@ -62,27 +62,27 @@ app
 			$routeProvider
 				.when(
 					'/pigFarmManagement', {
-						templateUrl: '/static/html/productionControl/articalList.html',
+						templateUrl: '/static/html/productionControl/articleList.html',
 						controller: 'productionControlController'
 					})
 				.when(
 					'/BreedManagement', {
-						templateUrl: '/static/html/productionControl/articalList.html',
+						templateUrl: '/static/html/productionControl/articleList.html',
 						controller: 'productionControlController'
 					})
 				.when(
 					'/feedManagement', {
-						templateUrl: '/static/html/productionControl/articalList.html',
+						templateUrl: '/static/html/productionControl/articleList.html',
 						controller: 'productionControlController'
 					})
 				.when(
 					'/dailyManagement', {
-						templateUrl: '/static/html/productionControl/articalList.html',
+						templateUrl: '/static/html/productionControl/articleList.html',
 						controller: 'productionControlController'
 					})
 				.when(
-					'/articalDetail', {
-						templateUrl: '/static/html/productionControl/articalDetail.html',
+					'/articleDetail', {
+						templateUrl: '/static/html/productionControl/articleDetail.html',
 						controller: 'productionControlController'
 					})
                 .when(
@@ -132,12 +132,13 @@ app.controller('productionControlController', [
 		// 养殖
 		var productionControl = $scope;
         //获取文章列表分页
-        productionControl.getArtList = function(page) {
+        productionControl.getArtList = function(page,artType) {
 				services.getArtList({
+                    //'articleType':artType,
 					page : page
 				}).success(function(data) {
-					productionControl.articals = data.list;
-					productionControl.totalPage = data.totalPage;
+					productionControl.articles = data.allList;
+					productionControl.totalPage = data.page;
 				});
 			};
 
@@ -148,89 +149,45 @@ app.controller('productionControlController', [
 			services.getArtById({
                 'articleId':articleId
             }).success(function(data) {
-				productionControl.artical = data;
+				productionControl.article = data;
 			});
 		};
-		// 初始化页面信息
-		function initData() {
-			console.log("初始化页面信息");
-			if($location.path().indexOf('/pigFarmManagement') == 0) { //猪场管理
-                services.getArtList({
+        //页面初始化时获取文章列表，含分页
+        function getArticleList(articleType){
+            services.getArtList({
                     //'articleType':'pigFarmManagement',
                     'page':'1'
                 }).success(function(data) {
-                    console.log("直接打印返回的数据："+data)
-                    productionControl.totalPage = data.totalPage;
+                    productionControl.articles = data.allList;
+                    productionControl.totalPage = data.page;
+                    console.log("直接打印返回的数据："+productionControl.articles)
+                    console.log("直接打印返回的数据："+productionControl.totalPage)
                     var $pages = $(".tcdPageCode");
                     if ($pages.length != 0) {
 							$pages.createPage({
 								pageCount : productionControl.totalPage,
 								current : 1,
 								backFn : function(p) {
-									productionControl.getContractList(p);// 点击页码时获取第p页的数据
+									productionControl.getArtList(p,"pigFarmManagement");// 点击页码时获取第p页的数据
 								}
 							});
 						}
-                    productionControl.articals = jsonParse.arrToJsons(data);
+                    //productionControl.articles = jsonParse.arrToJsons(data);
                 });
+        }
+		// 初始化页面信息
+		function initData() {
+			console.log("初始化页面信息");
+			if($location.path().indexOf('/pigFarmManagement') == 0) { //猪场管理
+                getArticleList("pigFarmManagement");
 			} else if($location.path().indexOf('/BreedManagement') == 0) {//繁育管理
-				productionControl.articals = [{
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/p2.jpg"
-				}, {
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/p2.jpg"
-				}, {
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/p2.jpg"
-				}];
-			} else if($location.path().indexOf('/feedManagement') == 0) {
-				productionControl.articals = [{
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/p3.jpg"
-				}, {
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/p3.jpg"
-				}, {
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/p3.jpg"
-				}];
-			} else if($location.path().indexOf('/dailyManagement') == 0) {
-				productionControl.articals = [{
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/p4.jpg"
-				}, {
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/p4.jpg"
-				}, {
-					title: "生产现状",
-					releaseTime: "2016-10-15",
-					abstrat: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。",
-					imgUrl: "../../images/p4.jpg"
-				}];
-			} else if($location.path().indexOf('/articalDetail') == 0) {
-				productionControl.artical = {
-					title: "半仙他哥的养猪计划",
-					releaseTime: "2016-10-15",
-					clickTimes: 3000,
-					detail: "一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土地里钻出来， 嫩嫩的， 绿绿的。 园子里， 田野里， 瞧去， 一大片一大片满是的。 "
-				}
+				getArticleList("BreedManagement");
+			} else if($location.path().indexOf('/feedManagement') == 0) {//饲养管理
+				getArticleList("feedManagement");
+			} else if($location.path().indexOf('/dailyManagement') == 0) {//日常管理
+				getArticleList("dailyManagement");
+			} else if($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
+				getArticleList("articleDetail");
 			} else if($location.path().indexOf('/chartPage') == 0) {
 				services.getData().success(function(data) {
                     var arr = data.trim().split(" ");
@@ -258,6 +215,5 @@ app.controller('productionControlController', [
 		    }
 		}
 		initData();
-
 	}
 ]);
