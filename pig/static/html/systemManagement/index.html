@@ -6,6 +6,8 @@
 		<title>系统管理页面页面</title>
 		<link rel="stylesheet" href="../../css/global.css" />
 		<link rel="stylesheet" href="../../css/nei.css" />
+        <link rel="stylesheet" href="../../css/edit.css" />
+
 	</head>
 
 	<body>
@@ -26,7 +28,7 @@
 				<div class="navList">
 					<ul>
 						<li>
-							<a href="#/addArticle">添加文章</a>
+							<a href="/static/html/systemManagement/index.html">添加文章</a>
 						</li>
 						<li>
 							<a href="#/BreedManagement">繁育管理</a>
@@ -46,6 +48,25 @@
 		</div>
 		<!--导航结束-->
 		<div class="container">
+            <form id="addArticle" class="forminfo">
+                <ul class="forminfo">
+                    <li><label>文章标题</label><input name="" type="text" class="dfinput" /><i>标题不能超过20个字符</i></li>
+                    <li><label>文章类型</label>
+                        <select name="" class="dfinput" />
+                            <option>呵呵</option>
+                            <option>哼哼</option>
+                            <option>哈哈</option>
+                        </select>
+                    </li>
+                     <li>
+                         <label>摘要</label>
+                         <textarea name="" cols="" rows="" class="textinput"></textarea>
+                     </li>
+                <textarea id="content" name="content" style="width:1000px;height:250px;visibility:hidden;"></textarea>
+                <li><label>&nbsp;</label><input name="" type="button" class="btn" value="确认保存"/></li>
+            </ul>
+            </form>
+
 			<section class="main" ng-app="systemManagement">
 				<div ng-view></div>
 			</section>
@@ -59,10 +80,9 @@
     <script type="text/javascript">
 			$(function(){
                 KE.show({
-				id: 'content'
-			});
+				        id: 'content'
+			        });
             })
-
 		</script>
 	</body>
 

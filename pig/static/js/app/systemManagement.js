@@ -72,9 +72,13 @@ app
 				.when(
 					'/addArticle', {
 						templateUrl: '/static/html/systemManagement/addArticle.html',
-						controller: 'ProduceController'
+						controller: 'systemManagementController'
 					})
-
+                .when(
+					'/BreedManagement', {
+						templateUrl: '/static/html/systemManagement/addArticle.html',
+						controller: 'systemManagementController'
+					})
 		}
 	]);
 app.constant('baseUrl', '/CIMS/');
@@ -92,76 +96,22 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	return services;
 }]);
 
-app.controller('ProduceController', [
+app.controller('systemManagementController', [
 	'$scope',
 	'services',
 	'$location',
 	function($scope, services, $location) {
 		// 养殖
-		var produce = $scope;
-
+		var system = $scope;
 		// 初始化页面信息
 		function initData() {
-			console.log("初始化页面信息");
+			if($location.path().indexOf('/addArticle') == 0) { // 如果是添加文章页
+                console.log("添加文章");
 
-			if($location.path().indexOf('/pig') == 0) { // 如果是合同列表页
-				produce.articals = [{
-					type: "生产现状",
-					releaseTime: "2016-10-15",
-					clickTimes: 2000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "生产规模",
-					releaseTime: "2016-10-20",
-					clickTimes: 2000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "行业状况",
-					releaseTime: "2016-10-25",
-					clickTimes: 2000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}];
-			} else if($location.path().indexOf('/chicken') == 0) {
-				produce.articals = [{
-					type: "生产现状",
-					releaseTime: "2016-10-15",
-					clickTimes: 1000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "生产规模",
-					releaseTime: "2016-10-20",
-					clickTimes: 1000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "行业状况",
-					releaseTime: "2016-10-25",
-					clickTimes: 1000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}];
-			} else if($location.path().indexOf('/fish') == 0) {
-				produce.articals = [{
-					type: "生产现状",
-					releaseTime: "2016-10-15",
-					clickTimes: 3000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "生产规模",
-					releaseTime: "2016-10-20",
-					clickTimes: 3000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "行业状况",
-					releaseTime: "2016-10-25",
-					clickTimes: 3000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}];
-			} else if($location.path().indexOf('/articalDetail') == 0) {
-				produce.artical = {
-					title: "半仙他哥的养猪计划",
-					releaseTime: "2016-10-15",
-					clickTimes: 3000,
-					detail: "一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土地里钻出来， 嫩嫩的， 绿绿的。 园子里， 田野里， 瞧去， 一大片一大片满是的。 "
-				}
+			} else if($location.path().indexOf('/BreedManagement') == 0) {
+                $('#addArticle').css('display','none');
+			} else if($location.path().indexOf('/feedManagement') == 0) {
+				 $('#addArticle').css('display','none');
 			}
 		}
 
@@ -182,4 +132,15 @@ app.filter('conState', function() {
 			state = "停建";
 		return state;
 	}
+});
+
+app.directive('onFinishRenderFilters', function ($timeout) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attr) {
+            console.log($('#content'))
+
+
+        }
+    };
 });
