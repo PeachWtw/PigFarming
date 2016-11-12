@@ -66,7 +66,7 @@ app
 						controller: 'productionControlController'
 					})
 				.when(
-					'/BreedManagement', {
+					'/breedManagement', {
 						templateUrl: '/static/html/productionControl/articleList.html',
 						controller: 'productionControlController'
 					})
@@ -180,14 +180,13 @@ app.controller('productionControlController', [
 			console.log("初始化页面信息");
 			if($location.path().indexOf('/pigFarmManagement') == 0) { //猪场管理
                 getArticleList("pigFarmManagement");
-			} else if($location.path().indexOf('/BreedManagement') == 0) {//繁育管理
-				getArticleList("BreedManagement");
+			} else if($location.path().indexOf('/breedManagement') == 0) {//繁育管理
+				getArticleList("breedManagement");
 			} else if($location.path().indexOf('/feedManagement') == 0) {//饲养管理
 				getArticleList("feedManagement");
 			} else if($location.path().indexOf('/dailyManagement') == 0) {//日常管理
 				getArticleList("dailyManagement");
 			} else if($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
-				getArticleList("articleDetail");
 			} else if($location.path().indexOf('/chartPage') == 0) {
 				services.getData().success(function(data) {
                     var arr = data.trim().split(" ");

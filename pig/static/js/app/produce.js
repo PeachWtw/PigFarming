@@ -71,22 +71,22 @@ app
 			$routeProvider
 				.when(
 					'/pig', {
-						templateUrl: '/banxiandexiangmu/html/produce/artical.html',
+						templateUrl: '/static/html/produce/article.html',
 						controller: 'ProduceController'
 					})
 				.when(
 					'/chicken', {
-						templateUrl: '/banxiandexiangmu/html/produce/artical.html',
+						templateUrl: '/static/html/produce/article.html',
 						controller: 'ProduceController'
 					})
 				.when(
 					'/fish', {
-						templateUrl: '/banxiandexiangmu/html/produce/artical.html',
+						templateUrl: '/static/html/produce/article.html',
 						controller: 'ProduceController'
 					})
 				.when(
-					'/articalDetail', {
-						templateUrl: '/banxiandexiangmu/html/produce/articalDetail.html',
+					'/articleDetail', {
+						templateUrl: '/static/html/produce/articleDetail.html',
 						controller: 'ProduceController'
 					})
 
@@ -95,12 +95,22 @@ app
 app.constant('baseUrl', '/CIMS/');
 app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
-	services.getContractList = function(data) {
-		/* console.log("发送请求获取合同信息"); */
+    //根据文章类型获取文章列表
+    services.getArtList = function(data) {
+		console.log("请求数据"+JSON.stringify(data));
 		return $http({
-			method: 'post',
-			url: baseUrl + 'contract/getContractList.do',
-			data: data
+			method: 'get',
+			url: '/pig/article/getArtList/',
+			params: data
+		});
+	};
+    //根据文章id获取文章的详细内容
+    services.getArtById = function(data) {
+		console.log("请求数据"+JSON.stringify(data));
+		return $http({
+			method: 'get',
+			url: '/pig/article/getArtById/',
+			params: data
 		});
 	};
 
@@ -115,77 +125,62 @@ app.controller('ProduceController', [
 		// 养殖
 		var produce = $scope;
 
-		// 获取欠款合同
-		/*contract.getDebtContract = function() {
-			services.getDebtContract({}).success(function(data) {
-				console.log("获取欠款合同成功！");
-				contract.contracts = data;
+        //获取文章列表分页
+        produce.getArtList = function(page,artType) {
+				services.getArtList({
+                    //'articleType':artType,
+					page : page
+				}).success(function(data) {
+					produce.articles = data.allList;
+					produce.totalPage = data.page;
+				});
+			};
+
+        //获取文章详细内容
+        produce.getArticleDetail = function() {
+            var articleId = this.art.bi_id;
+            console.log("获取文章id："+articleId)
+			services.getArtById({
+                'articleId':articleId
+            }).success(function(data) {
+				produce.article = data;
 			});
-		};*/
-		// 获取逾期合同
+		};
+        //页面初始化时获取文章列表，含分页
+        function getArticleList(articleType){
+            services.getArtList({
+                    //'articleType':'pigFarmManagement',
+                    'page':'1'
+                }).success(function(data) {
+                    produce.articles = data.allList;
+                    produce.totalPage = data.page;
+                    console.log("直接打印返回的数据："+produce.articles)
+                    console.log("直接打印返回的数据："+produce.totalPage)
+                    var $pages = $(".tcdPageCode");
+                    if ($pages.length != 0) {
+							$pages.createPage({
+								pageCount : produce.totalPage,
+								current : 1,
+								backFn : function(p) {
+									produce.getArtList(p,articleType);// 点击页码时获取第p页的数据
+								}
+							});
+						}
+                    //productionControl.articles = jsonParse.arrToJsons(data);
+                });
+        }
 
 		// 初始化页面信息
 		function initData() {
 			console.log("初始化页面信息");
 
 			if($location.path().indexOf('/pig') == 0) { // 如果是合同列表页
-				produce.articals = [{
-					type: "生产现状",
-					releaseTime: "2016-10-15",
-					clickTimes: 2000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "生产规模",
-					releaseTime: "2016-10-20",
-					clickTimes: 2000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "行业状况",
-					releaseTime: "2016-10-25",
-					clickTimes: 2000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}];
+				getArticleList("pig");
 			} else if($location.path().indexOf('/chicken') == 0) {
-				produce.articals = [{
-					type: "生产现状",
-					releaseTime: "2016-10-15",
-					clickTimes: 1000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "生产规模",
-					releaseTime: "2016-10-20",
-					clickTimes: 1000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "行业状况",
-					releaseTime: "2016-10-25",
-					clickTimes: 1000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}];
+				getArticleList("chicken");
 			} else if($location.path().indexOf('/fish') == 0) {
-				produce.articals = [{
-					type: "生产现状",
-					releaseTime: "2016-10-15",
-					clickTimes: 3000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "生产规模",
-					releaseTime: "2016-10-20",
-					clickTimes: 3000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "行业状况",
-					releaseTime: "2016-10-25",
-					clickTimes: 3000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}];
-			} else if($location.path().indexOf('/articalDetail') == 0) {
-				produce.artical = {
-					title: "半仙他哥的养猪计划",
-					releaseTime: "2016-10-15",
-					clickTimes: 3000,
-					detail: "一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土地里钻出来， 嫩嫩的， 绿绿的。 园子里， 田野里， 瞧去， 一大片一大片满是的。 "
-				}
+				getArticleList("fish");
+			} else if($location.path().indexOf('/articleDetail') == 0) {
 			}
 		}
 
