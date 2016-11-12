@@ -66,7 +66,7 @@ app
 						controller: 'productionControlController'
 					})
 				.when(
-					'/BreedManagement', {
+					'/breedManagement', {
 						templateUrl: '/static/html/productionControl/articleList.html',
 						controller: 'productionControlController'
 					})
@@ -132,9 +132,11 @@ app.controller('productionControlController', [
 		// 养殖
 		var productionControl = $scope;
         //获取文章列表分页
-        productionControl.getArtList = function(page,artType) {
+        productionControl.getArtList = function(page,articleType) {
 				services.getArtList({
                     //'articleType':artType,
+                    //更改了这个部分！！！！
+                    articleType : articleType,
 					page : page
 				}).success(function(data) {
 					productionControl.articles = data.allList;
@@ -156,6 +158,8 @@ app.controller('productionControlController', [
         function getArticleList(articleType){
             services.getArtList({
                     //'articleType':'pigFarmManagement',
+                    //更改了这个部分！！！！
+                    'articleType':articleType,
                     'page':'1'
                 }).success(function(data) {
                     productionControl.articles = data.allList;
@@ -168,7 +172,8 @@ app.controller('productionControlController', [
 								pageCount : productionControl.totalPage,
 								current : 1,
 								backFn : function(p) {
-									productionControl.getArtList(p,"pigFarmManagement");// 点击页码时获取第p页的数据
+                                    //更改了这个部分！！！！
+									productionControl.getArtList(p,articleType);// 点击页码时获取第p页的数据
 								}
 							});
 						}
@@ -180,8 +185,8 @@ app.controller('productionControlController', [
 			console.log("初始化页面信息");
 			if($location.path().indexOf('/pigFarmManagement') == 0) { //猪场管理
                 getArticleList("pigFarmManagement");
-			} else if($location.path().indexOf('/BreedManagement') == 0) {//繁育管理
-				getArticleList("BreedManagement");
+			} else if($location.path().indexOf('/breedManagement') == 0) {//繁育管理
+				getArticleList("breedManagement");
 			} else if($location.path().indexOf('/feedManagement') == 0) {//饲养管理
 				getArticleList("feedManagement");
 			} else if($location.path().indexOf('/dailyManagement') == 0) {//日常管理

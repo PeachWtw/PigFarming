@@ -84,8 +84,9 @@ def func_getArticle(request):
          #日常管理 dailyManagement
 def func_getArtList(request):
     page = request.GET['page']
-    #article_type=request.GET['articleType']
-    article_type='pigFarmManagement'
+    article_type=request.GET['articleType']
+    #article_type='pigFarmManagement'
+
     if article_type=='pigFarmManagement':
          L, cnt = func_handle_artList(BreedImprovement, int(page),article_type)
     elif article_type=='breedManagement':
