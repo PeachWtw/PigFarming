@@ -9,3 +9,5 @@ urlpatterns = patterns('',
     url(r'^article/', include('pig.article_urls')),
    #url(r'^article/getArticle/','pig.views.func_getArticle'),
 )
+
+

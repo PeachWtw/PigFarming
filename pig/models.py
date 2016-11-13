@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
-# T
-# his is an auto-generated Django model module.
+# This is an auto-generated Django model module.
 # You'll have to do the following manually to clean this up:
 #   * Rearrange models' order
 #   * Make sure each model has one field with primary_key=True
@@ -12,6 +11,9 @@
 from __future__ import unicode_literals
 
 from django.db import models
+
+
+
 import json
 #处理datetime问题使用的方法：http://stackoverflow.com/questions/11875770/how-to-overcome-datetime-datetime-not-json-serializable-in-python
 from datetime import datetime
@@ -38,25 +40,18 @@ class BreedImprovement(models.Model):
              publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
         # return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
         #      click_times=self.click_times,src_img=self.src_img,type=self.type)
-
-
     class Meta:
         managed = False
         db_table = 'breed_improvement'
-    def __unicode__(self):
-        return '%s %s %s %s %s %s %s %s' % \
-                (self.bi_id,self.title,self.abstract,self.content,self.publish_time,self.click_times,self.src_img,self.type)
 
-        # return str(dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
-        #     publish_time=self.publish_time,click_times=self.click_times,src_img=self.src_img,type=self.type))
-        # return '"bi_id":"%s","title":"%s", "abstract":"%s", "content":"%s", "publish_time":"%s", "click_times":"%s", "src_img":"%s", "type":"%s"' % \
-        #        (self.bi_id,self.title,self.abstract,self.content,self.publish_time,self.click_times,self.src_img,self.type)
+
 
 class Breeding(models.Model):
-    breed_id = models.BigIntegerField(primary_key=True)
-    production_status = models.TextField(db_column='Production_status')  # Field name made lowercase.
-    production_scale = models.TextField(db_column='Production_scale')  # Field name made lowercase.
-    industry_situation = models.TextField(db_column='Industry_situation')  # Field name made lowercase.
+    breed_id = models.IntegerField(primary_key=True)
+    production_status = models.TextField(blank=True, null=True)
+    production_scale = models.TextField(blank=True, null=True)
+    scaleindustry_situation = models.TextField(blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -111,7 +106,59 @@ class Corn(models.Model):
         db_table = 'corn'
 
 
+class DayePrivet(models.Model):
+    day_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
 
+    class Meta:
+        managed = False
+        db_table = 'daye_privet'
+
+
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.SmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
+class DjangoMigrations(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
 
 
 class Environment(models.Model):
