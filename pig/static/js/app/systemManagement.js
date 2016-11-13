@@ -1,11 +1,15 @@
 $(function () {
+    KE.show({
+        id:"content"
+    })
+
+
     $('#addArticleBtn').click(function (e) {
         preventDefault(e);
-        console.log($('#ke-content'));
         var $title    = encodeURIComponent($('#title').val().trim()),
             $type     = encodeURIComponent($('#type').val().trim()),
             $abstract = encodeURIComponent($('#abstract').val().trim()),
-            $content  = encodeURIComponent(document.getElementById("ke-content").innerHTML);
+            $content  = encodeURIComponent($(document.getElementsByTagName("iframe")[0].contentWindow.document.body).html());
         console.log($title);
         console.log($type);
         console.log($abstract);

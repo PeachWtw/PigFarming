@@ -1,4 +1,5 @@
 function Chart(data){
+    this.elementId = data.elementId;
 	this.title = data.title;
 	this.subtitle = data.subtitle;
 	this.xScale = data.xScale;
@@ -8,7 +9,7 @@ function Chart(data){
 }
 
 Chart.prototype.init= function(){
-        $('#container').highcharts({
+        $(this.elementId).highcharts({
         	credits: {//版权信息
         	/*enabled:false // 禁用版权信息*/
             text: '猪网',
