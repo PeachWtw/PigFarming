@@ -132,11 +132,14 @@ app.controller('productionControlController', [
 		// 养殖
 		var productionControl = $scope;
         //获取文章列表分页
-        productionControl.getArtList = function(page,artType) {
+        productionControl.getArtList = function(page,articleType) {
 				services.getArtList({
                     //'articleType':artType,
+                    //更改了这个部分！！！！
+                    articleType : articleType,
 					page : page
 				}).success(function(data) {
+                    console.log(data);
 					productionControl.articles = data.allList;
 					productionControl.totalPage = data.page;
 				});
@@ -156,6 +159,8 @@ app.controller('productionControlController', [
         function getArticleList(articleType){
             services.getArtList({
                     //'articleType':'pigFarmManagement',
+                    //更改了这个部分！！！！
+                    'articleType':articleType,
                     'page':'1'
                 }).success(function(data) {
                     productionControl.articles = data.allList;
@@ -166,7 +171,8 @@ app.controller('productionControlController', [
 								pageCount : productionControl.totalPage,
 								current : 1,
 								backFn : function(p) {
-									productionControl.getArtList(p,"pigFarmManagement");// 点击页码时获取第p页的数据
+                                    //更改了这个部分！！！！
+									productionControl.getArtList(p,articleType);// 点击页码时获取第p页的数据
 								}
 							});
 						}

@@ -79,17 +79,17 @@ class ArticleHandleCls(object):
         else:
             L,cnt=None,None
         return  L,cnt
-    # #获取文章详情的方法
-    # @classmethod
-    # def wrap_articleDetail_method(cls,request):
-    #     index=request.GET['articleId']  #从request获取所需参数
-    #     table_obj=request.session['table']
-    #     pass    #文章点击次数加1
-    #     temp_list = table_obj.objects.all()   #获取元组内容
-    #     L = []  #生成dict对象
-    #     for iter in temp_list:
-    #         L.append(iter.res_dict())
-    #     return L
+    #获取文章详情的方法
+    @classmethod
+    def wrap_articleDetail_method(cls,request):
+        index=request.GET['articleId']  #从request获取所需参数
+        table_obj=request.session['table']
+        pass    #文章点击次数加1
+        temp_list = table_obj.objects.all()   #获取元组内容
+        L = []  #生成dict对象
+        for iter in temp_list:
+            L.append(iter.res_dict())
+        return L
 
 #测试文章数据
 def func_getArticle(request):
@@ -120,10 +120,10 @@ def func_getArtList(request):
     s = json.dumps(d)
     return HttpResponse(json.dumps(d))
 
-# def func_getArtById(request):
-#     L=ArticleHandleCls.wrap_articleDetail_method(request)
-#     d = dict(allList=L)   #进行json串行化处理
-#     s = json.dumps(d)
-#     return HttpResponse(json.dumps(d))
+def func_getArtById(request):
+    L=ArticleHandleCls.wrap_articleDetail_method(request)
+    d = dict(allList=L)   #进行json串行化处理
+    s = json.dumps(d)
+    return HttpResponse(json.dumps(d))
 
 
