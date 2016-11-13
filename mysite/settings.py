@@ -76,14 +76,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+from utils import Properties
+dbProperties=Properties("db.properties").getProperties()
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'superpig',
-        'USER': 'wtw',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': dbProperties['mysql']['engine'],
+        'NAME': dbProperties['mysql']['name'],
+        'USER': dbProperties['mysql']['user'],
+        'PASSWORD': dbProperties['mysql']['password'],
+        'HOST': dbProperties['mysql']['host'],
+        'PORT': dbProperties['mysql']['port'],
     }
 }
 
@@ -106,3 +108,63 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+# more details on how to customize your logging configuration.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'formatters': {
+        'standard': {
+                'format': '%(levelname)s %(asctime)s %(message)s'
+                },
+    },
+    'filters': {
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter':'standard',
+        },
+        'test1_handler': {
+            'level':'DEBUG',
+            'class':'logging.handlers.RotatingFileHandler',
+            'filename':'path1',
+            'formatter':'standard',
+        },
+        'test2_handler': {
+            'level':'DEBUG',
+                   'class':'logging.handlers.RotatingFileHandler',
+            'filename':'path2',
+            'formatter':'standard',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        'test1':{
+            'handlers': ['test1_handler'],
+            'level': 'INFO',
+            'propagate': False
+        },
+         'test2':{
+            'handlers': ['test2_handler'],
+            'level': 'INFO',
+                          'propagate': False
+        },
+    }
+}
+
+
+
+
+
+
+
+
+
