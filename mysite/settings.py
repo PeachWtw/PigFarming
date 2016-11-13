@@ -76,14 +76,16 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+from utils import Properties
+dbProperties=Properties("db.properties").getProperties()
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'superpig',
-        'USER': 'wtw',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
-        'PORT': '3306',
+        'ENGINE': dbProperties['mysql']['engine'],
+        'NAME': dbProperties['mysql']['name'],
+        'USER': dbProperties['mysql']['user'],
+        'PASSWORD': dbProperties['mysql']['password'],
+        'HOST': dbProperties['mysql']['host'],
+        'PORT': dbProperties['mysql']['port'],
     }
 }
 

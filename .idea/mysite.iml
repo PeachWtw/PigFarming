@@ -6,16 +6,16 @@
         <option name="rootFolder" value="$MODULE_DIR$" />
         <option name="settingsModule" value="mysite/settings.py" />
         <option name="manageScript" value="manage.py" />
+        <option name="environment" value="&lt;map/&gt;" />
       </configuration>
     </facet>
   </component>
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Python 2.7.12 (C:\Python27\python.exe)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 2.7.12 virtualenv at ~/Documents/WORKSPACE-Pycharm/pigfarming/venv" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
   </component>
 </module>
-
