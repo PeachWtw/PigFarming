@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
-from Utils import Properties
+from utils import Properties
 dbProperties=Properties("db.properties").getProperties()
 DATABASES = {
     'default': {
