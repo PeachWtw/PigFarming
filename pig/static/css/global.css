@@ -609,3 +609,7 @@ ul li {
 	margin-top: 12px;
 }
 /*文章列表完*/
+
+.n_contact a{
+    display: inline-block;
+}

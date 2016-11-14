@@ -26,7 +26,6 @@ $(function () {
         $(event.target).css("color", "#fff");
         getTreesData(path, chartTitle);
     });
-
     //发送ajax请求获取数据，成功之后生成图表
     function getFoodData(path, chartTitle) {
         $.get("/pig/charts/getChartDataByName/",{path:path},function(data){

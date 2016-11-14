@@ -1,19 +1,16 @@
 $(function () {
-    KE.show({
-        id:"content"
-    })
-
-
+    //编辑器
+    KindEditor.ready(function(K) {
+        window.editor = K.create('#content');
+    });
+    //获取页面中输入的内容并发送添加文章请求
     $('#addArticleBtn').click(function (e) {
         preventDefault(e);
         var $title    = encodeURIComponent($('#title').val().trim()),
             $type     = encodeURIComponent($('#type').val().trim()),
             $abstract = encodeURIComponent($('#abstract').val().trim()),
-            $content  = encodeURIComponent($(document.getElementsByTagName("iframe")[0].contentWindow.document.body).html());
-        console.log($title);
-        console.log($type);
-        console.log($abstract);
-        console.log($content);
+            $content  = encodeURIComponent(editor.html());
+
         if ($title==""||$type==""||$abstract==""||$content==""){
             alert("输入框不能为空！");
             return false;
