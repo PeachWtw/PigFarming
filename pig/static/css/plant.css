@@ -7,6 +7,7 @@
 
 .main{
 	min-height: 200px;
+    margin-top: 24px;
 	float: left;
 	width: 100%;
 }
@@ -32,7 +33,8 @@
 
 
 .n_contact a{
-	margin-left: 5px;
+	/*margin-left: 5px;*/
+    padding: 2px 3px;
 }
 
 .n_contact span{
@@ -42,4 +44,8 @@
 	margin-top: 10px;
 	border-bottom: 1px solid #CCCCCC;
 	
+}
+
+.highcharts-title{
+    font-weight: bold;
 }

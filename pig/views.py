@@ -14,7 +14,7 @@ from pig.models import *
 
 #作为pig的主页显示
 def first_page(request):
-    return HttpResponse("fdfdsfss")
+    return HttpResponse("welcome to mysite")
 
 
 #测试示例函数
@@ -61,7 +61,7 @@ class ArticleHandleCls(object):
             L = []  #生成dict对象
             for iter in filter_list:
                 L.append(iter.res_dict())
-            #request.session['table']=db_obj #利用session保存表名
+            request.session['tableData']=L  #利用Session存储表的数据
             return L, page_total
         finally:
             pass
@@ -82,13 +82,9 @@ class ArticleHandleCls(object):
     # #获取文章详情的方法
     @classmethod
     def wrap_articleDetail_method(cls,request):
-        indexusername = request.GET['articleId']  #从request获取所需参数
-        table_obj=request.session['table']  #获取session存储的数据库表
-        pass    #文章点击次数加1
-        temp_list = table_obj.objects.all()   #获取元组内容
-        L = []  #生成dict对象
-        for iter in temp_list:
-            L.append(iter.res_dict())
+        index = request.GET['articleId']  #从request获取所需参数
+        L=request.session.get('tableData')#从Session获取表中的数据
+        #pass    #文章点击次数加1
         return L
 
 #测试文章数据
@@ -115,15 +111,15 @@ def func_getArticle(request):
 
 #获取文章列表的url函数
 def func_getArtList(request):
-    L,cnt=ArticleHandleCls.wrap_articleList_method(request)   #调用工具类方法
-    d = dict(allList=L, page=cnt)   #进行json串行化处理
+    L,page_total=ArticleHandleCls.wrap_articleList_method(request)   #调用工具类方法
+    d = dict(allList=L, page=page_total)   #进行json串行化处理
     s = json.dumps(d)
     return HttpResponse(json.dumps(d))
 
-# def func_getArtById(request):
-#     L=ArticleHandleCls.wrap_articleDetail_method(request)
-#     d = dict(allList=L)   #进行json串行化处理
-#     s = json.dumps(d)
-#     return HttpResponse(json.dumps(d))
+# #获取文章详情的url函数
+def func_getArtById(request):
+    d=ArticleHandleCls.wrap_articleDetail_method(request)
+    s=json.dumps(d)
+    return HttpResponse(json.dumps(d))
 
 
