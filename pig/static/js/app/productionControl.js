@@ -138,7 +138,7 @@ app.controller('productionControlController', [
                     articleType : articleType,
 					page : page
 				}).success(function(data) {
-                    productionControl.articles = data.allList;
+					productionControl.articles = data.allList;
 					productionControl.totalPage = data.page;
 				});
 			};
@@ -164,8 +164,6 @@ app.controller('productionControlController', [
                 }).success(function(data) {
                     productionControl.articles = data.allList;
                     productionControl.totalPage = data.page;
-                    console.log("直接打印返回的数据："+productionControl.articles)
-                    console.log("直接打印返回的数据："+productionControl.totalPage)
                     var $pages = $(".tcdPageCode");
                     if ($pages.length != 0) {
 							$pages.createPage({
