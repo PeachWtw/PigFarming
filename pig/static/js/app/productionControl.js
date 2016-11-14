@@ -135,11 +135,10 @@ app.controller('productionControlController', [
         productionControl.getArtList = function(page,articleType) {
 				services.getArtList({
                     //'articleType':artType,
-                    //更改了这个部分！！！！
                     articleType : articleType,
 					page : page
 				}).success(function(data) {
-					productionControl.articles = data.allList;
+                    productionControl.articles = data.allList;
 					productionControl.totalPage = data.page;
 				});
 			};
@@ -151,7 +150,8 @@ app.controller('productionControlController', [
 			services.getArtById({
                 'articleId':articleId
             }).success(function(data) {
-				productionControl.article = data;
+                productionControl.article = data;
+
 			});
 		};
         //页面初始化时获取文章列表，含分页
@@ -172,8 +172,7 @@ app.controller('productionControlController', [
 								pageCount : productionControl.totalPage,
 								current : 1,
 								backFn : function(p) {
-                                    //更改了这个部分！！！！
-									productionControl.getArtList(p,articleType);// 点击页码时获取第p页的数据
+                                   	productionControl.getArtList(p,articleType);// 点击页码时获取第p页的数据
 								}
 							});
 						}
@@ -192,7 +191,6 @@ app.controller('productionControlController', [
 			} else if($location.path().indexOf('/dailyManagement') == 0) {//日常管理
 				getArticleList("dailyManagement");
 			} else if($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
-				getArticleList("articleDetail");
 			} else if($location.path().indexOf('/chartPage') == 0) {
 				services.getData().success(function(data) {
                     var arr = data.trim().split(" ");

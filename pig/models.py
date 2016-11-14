@@ -40,10 +40,14 @@ class BreedImprovement(models.Model):
              publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
         # return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
         #      click_times=self.click_times,src_img=self.src_img,type=self.type)
+    # def __unicode__(self):
+    #     return "%s %s %s %s %s %s %s %s" % (self.bi_id,self.title,self.abstract,self.content,\
+    #             json_serial(self.publish_timem),self.click_times,self.src_img,self.type)
     class Meta:
         managed = False
         db_table = 'breed_improvement'
-
+    def serialize(self):
+        return self.__dict__
 
 
 class Breeding(models.Model):
