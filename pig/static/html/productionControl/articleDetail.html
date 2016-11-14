@@ -1,14 +1,11 @@
 <div class="listConts">
 	<!-- 标题区域开始 -->
 	<h1 class="title">{{article.title}}</h1>
-	<div class="info"><small>更新时间：</small>{{article.releaseTime}}<small>点击次数：</small>{{article.clickTimes}}次</div>
+	<div class="info"><small>更新时间：</small>{{article.publish_time}}<small>点击次数：</small>{{article.click_times}}次</div>
 	<!-- 标题区域结束 -->
 
 	<!-- 内容区域开始 -->
-	<div class="conttitle"></div>
-	<div id="textarea">
-		{{article.detail}}
-	</div>
+	<div class="art-content">{{article.content}}</div>
 	<!-- 内容区域结束 -->
 </div>
 <!-- 详细区域结束 -->

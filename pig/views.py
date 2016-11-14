@@ -61,6 +61,7 @@ class ArticleHandleCls(object):
             L = []  #生成dict对象
             for iter in filter_list:
                 L.append(iter.res_dict())
+            request.session['StoreArticleType']=art_type    #利用Session文章类型
             request.session['tableData']=L  #利用Session存储表的数据
             return L, page_total
         finally:
@@ -79,13 +80,31 @@ class ArticleHandleCls(object):
         else:
             L,cnt=None,None
         return  L,cnt
+    # 处理点击次数加1的方法
+    @classmethod
+    def func_handle_artDetail(cls,article_type,id):
+        if string.find(article_type,"Management"):  #进行不同的数据库表匹配
+            brd_obj=BreedImprovement.objects.get(bi_id=id)
+            brd_obj.click_times=brd_obj.click_times+1
+            brd_obj.save()
+        elif string.find(article_type,"其他接口"):
+            pass
+        else:
+            pass
     # #获取文章详情的方法
     @classmethod
     def wrap_articleDetail_method(cls,request):
-        index = request.GET['articleId']  #从request获取所需参数
-        L=request.session.get('tableData')#从Session获取表中的数据
+        index_id = request.GET['articleId']  #从request获取所需参数
+        art_type=request.session['StoreArticleType']    #利用Session文章类型
+        L=request.session.get('tableData')  #从Session获取表中的数据
+        cls.func_handle_artDetail(art_type,index_id)
+        for k in L:
+            if int(k['bi_id'])==int(index_id):
+                return k
+            else:
+                continue
         #pass    #文章点击次数加1
-        return L
+        return None
 
 #测试文章数据
 def func_getArticle(request):
@@ -120,6 +139,7 @@ def func_getArtList(request):
 def func_getArtById(request):
     d=ArticleHandleCls.wrap_articleDetail_method(request)
     s=json.dumps(d)
+    print s
     return HttpResponse(json.dumps(d))
 
 
