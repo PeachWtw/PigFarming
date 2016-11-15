@@ -1,20 +1,11 @@
 var app = angular
 	.module(
-		'produce', ['ngRoute'],
+		'laws', ['ngRoute'],
 		function($httpProvider) { // ngRoute引入路由依赖
 			$httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
 			$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-			// Override $http service's default transformRequest
 			$httpProvider.defaults.transformRequest = [function(data) {
-				/**
-				 * The workhorse; converts an object to
-				 * x-www-form-urlencoded serialization.
-				 * 
-				 * @param {Object}
-				 *            obj
-				 * @return {String}
-				 */
 				var param = function(obj) {
 					var query = '';
 					var name, value, fullSubName, subName, subValue, innerObj, i;
@@ -71,139 +62,151 @@ app
 			$routeProvider
 				.when(
 					'/laws', {
-						templateUrl: '/banxiandexiangmu/html/laws/artical.html',
-						controller: 'ProduceController'
+						templateUrl: '/static/html/laws/articleList.html',
+						controller: 'lawsController'
 					})
 				.when(
 					'/project', {
-						templateUrl: '/banxiandexiangmu/html/laws/artical.html',
-						controller: 'ProduceController'
+						templateUrl: '/static/html/laws/articleList.html',
+						controller: 'lawsController'
 					})
 				.when(
 					'/facility', {
-						templateUrl: '/banxiandexiangmu/html/laws/artical.html',
-						controller: 'ProduceController'
+						templateUrl: '/static/html/laws/articleList.html',
+						controller: 'lawsController'
 					})
 				.when(
 					'/articleDetail', {
-						templateUrl: '/banxiandexiangmu/html/laws/articleDetail.html',
-						controller: 'ProduceController'
+						templateUrl: '/static/html/laws/articleDetail.html',
+						controller: 'lawsController'
 					})
 
 		}
 	]);
-app.constant('baseUrl', '/CIMS/');
+app.constant('baseUrl', '/static/');
 app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
-	services.getContractList = function(data) {
-		/* console.log("发送请求获取合同信息"); */
+    //根据文章类型获取文章列表
+    services.getArtList = function(data) {
+		console.log("请求数据"+JSON.stringify(data));
 		return $http({
-			method: 'post',
-			url: baseUrl + 'contract/getContractList.do',
-			data: data
+			method: 'get',
+			url: '/pig/article/getArtList/',
+			params: data
 		});
 	};
+    //根据文章id获取文章的详细内容
+    services.getArtById = function(data) {
+		console.log("请求数据"+JSON.stringify(data));
+		return $http({
+			method: 'get',
+			url: '/pig/article/getArtById/',
+			params: data
+		});
+	};
+    //获取K线图所需的数据
+	services.getData = function(){
+		return $http({
+			method: 'get',
+			url: '/pig/getData/'
+		});
+	}
 
 	return services;
 }]);
 
-app.controller('ProduceController', [
+app.controller('lawsController', [
 	'$scope',
 	'services',
 	'$location',
 	function($scope, services, $location) {
 		// 养殖
-		var produce = $scope;
+		var productionControl = $scope;
+        //获取文章列表分页
+        productionControl.getArtList = function(page,articleType) {
+				services.getArtList({
+                    articleType : articleType,
+					page : page
+				}).success(function(data) {
+					productionControl.articles = data.allList;
+					productionControl.totalPage = data.page;
+				});
+			};
 
-		// 获取欠款合同
-		/*contract.getDebtContract = function() {
-			services.getDebtContract({}).success(function(data) {
-				console.log("获取欠款合同成功！");
-				contract.contracts = data;
-			});
-		};*/
-		// 获取逾期合同
+        //获取文章详细内容
+        productionControl.getArticleDetail = function () {
+            var articleId = this.art.bi_id;
+            window.sessionStorage.setItem('artId', articleId);
+            console.log("获取文章id：" + articleId)
 
+        };
+        //页面初始化时获取文章列表，含分页
+        function getArticleList(articleType){
+            services.getArtList({
+                    'articleType':articleType,
+                    'page':'1'
+                }).success(function(data) {
+                    productionControl.articles = data.allList;
+                    productionControl.totalPage = data.page;
+                    console.log("直接打印返回的数据："+productionControl.articles)
+                    console.log("直接打印返回的数据："+productionControl.totalPage)
+                    var $pages = $(".tcdPageCode");
+                    if ($pages.length != 0) {
+							$pages.createPage({
+								pageCount : productionControl.totalPage,
+								current : 1,
+								backFn : function(p) {
+                                 	productionControl.getArtList(p,articleType);// 点击页码时获取第p页的数据
+								}
+							});
+						}
+                    //productionControl.articles = jsonParse.arrToJsons(data);
+                });
+        }
 		// 初始化页面信息
 		function initData() {
 			console.log("初始化页面信息");
+			if($location.path().indexOf('/laws') == 0) { //养殖排污法规
+                getArticleList("laws");
+			} else if($location.path().indexOf('/project') == 0) {//先进治污方案
+				getArticleList("project");
+			} else if($location.path().indexOf('/facility') == 0) {//设施工艺
+				getArticleList("facility");
+			} else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
+                var articleId = window.sessionStorage.getItem('artId');
+                services.getArtById({
+                    'articleId': articleId
+                }).success(function (data) {
+                    console.log(data);
+                    productionControl.article = data;
+                });
+            } else if ($location.path().indexOf('/chartPage') == 0) {
+                services.getData().success(function (data) {
+                    var arr = data.trim().split(" ");
+                    var dataArr = [];
+                    for (var i = 0; i < arr.length / 2; i++) {
+                        var temp = [];
+                        temp[0] = +arr[2 * i];
+                        temp[1] = +arr[2 * i + 1];
+                        dataArr[i] = temp;
+                    }
+                    console.log(dataArr);
+                    var initData = {
+                        title: '呵呵呵呵',
+                        subtitle: '网址: www.hehe.com',
+                        //xScale:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','lyy', 'Nov', 'Dec'],
+                        yTitle: '温度 (°C)',
+                        valueSuffix: '°C',
+                        series: {name: '北京', data: dataArr
+                        }
+                    }
+                    var chart = new Chart(initData);
+                    chart.init();
+                });
 
-			if($location.path().indexOf('/laws') == 0) { // 如果是合同列表页
-				produce.articals = [{
-					type: "法规1",
-					releaseTime: "2016-10-15",
-					clickTimes: 2000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "法规2",
-					releaseTime: "2016-10-20",
-					clickTimes: 2000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "法规3",
-					releaseTime: "2016-10-25",
-					clickTimes: 2000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}];
-			} else if($location.path().indexOf('/project') == 0) {
-				produce.articals = [{
-					type: "方案1",
-					releaseTime: "2016-10-15",
-					clickTimes: 1000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "方案2",
-					releaseTime: "2016-10-20",
-					clickTimes: 1000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "方案3",
-					releaseTime: "2016-10-25",
-					clickTimes: 1000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}];
-			} else if($location.path().indexOf('/facility') == 0) {
-				produce.articals = [{
-					type: "设施1",
-					releaseTime: "2016-10-15",
-					clickTimes: 3000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "设施2",
-					releaseTime: "2016-10-20",
-					clickTimes: 3000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}, {
-					type: "设施3",
-					releaseTime: "2016-10-25",
-					clickTimes: 3000,
-					content: "盼望着，盼望着，东风来了，春天的脚步近了。 一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。 小草偷偷地从土地里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻俏俏的，草软绵绵的。"
-				}];
-			} else if($location.path().indexOf('/articalDetail') == 0) {
-				produce.artical = {
-					title: "半仙他哥的养猪计划",
-					releaseTime: "2016-10-15",
-					clickTimes: 3000,
-					detail: "法律法规具体内容 "
-				}
-			}
-		}
+            }
+        }
 
-		initData();
-
-	}
+        initData();
+    }
 ]);
-
-// 合同状态过滤器
-app.filter('conState', function() {
-	return function(input) {
-		var state = "";
-		if(input == "0")
-			state = "在建";
-		else if(input == "1")
-			state = "竣工";
-		else if(input == "2")
-			state = "停建";
-		return state;
-	}
-});
