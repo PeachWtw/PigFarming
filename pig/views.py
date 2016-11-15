@@ -229,7 +229,7 @@ def func_getPigReturnData(db_obj):
     return dict(price=priceList)
 
 #获取猪价系统数据画出k线图
-def func_getPigData(request):
+def func_getPigPriceChartData(request):
     PigType=request.GET['pigName']
     for case in switch(PigType):
         if case('feed_corn'): #分饲玉米

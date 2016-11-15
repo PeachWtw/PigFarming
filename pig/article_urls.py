@@ -7,5 +7,5 @@ urlpatterns = patterns('',
     url(r'^getArtList/','pig.views.func_getArtList'),#文章列表
     url(r'^getArtById/','pig.views.func_getArtById'),#文章详情
     url(r'^getChartData/','pig.views.func_getChartData'),#物种系统
-    url(r'^getPigData/','pig.views.func_getChartData'),#猪价系统
+    url(r'^getPigPriceChartData/','pig.views.func_getPigPriceChartData'),#猪价系统
 )
