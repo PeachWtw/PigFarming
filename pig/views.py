@@ -129,14 +129,31 @@ def func_getArtById(request):
 class PlantUtils(object):
     @classmethod
     def ret_timeOrderByPrice(self,db_obj):
-        return [db_obj.timestp,db_obj.price]
+        return [float(db_obj.timestp),db_obj.price]
     @classmethod
     def ret_timeOrderByScale(self,db_obj):
-        return [db_obj.timestp,db_obj.scale]
+        return [float(db_obj.timestp),db_obj.scale]
     @classmethod
     def ret_timeOrderByProduction(self,db_obj):
-        return [db_obj.timestp,db_obj.production]
-
+        return [float(db_obj.timestp),db_obj.production]
+#Switch工具类
+class switch(object):
+	def __init__(self, value):
+		self.value = value
+		self.fall = False
+	def __iter__(self):
+		"""Return the match method once, then stop"""
+		yield self.match
+		raise StopIteration
+	def match(self, *args):
+		"""Indicate whether or not to enter a case suite"""
+		if self.fall or not args:
+			return True
+		elif self.value in args: # changed for v1.5, see below
+			self.fall = True
+			return True
+		else:
+			return False
 #返回物种的数据函数
 def func_getPlantData(db_obj):
     temp_obj=db_obj.objects.all()
@@ -149,6 +166,56 @@ def func_getPlantData(db_obj):
 #获取物种类型画出k线图
 def func_getChartData(request):
     plantType=request.GET['plantName']
-    d=func_getPlantData(plantType)
-    s=json.dumps(d)
-    return HttpResponse(json.dumps(d))
+    for case in switch(plantType):
+        if case('corn'):
+            d=json.dumps(func_getPlantData(Corn))
+            break
+        if case('pea'): #黄豆
+            d=json.dumps(func_getPlantData(Pea))
+            break
+        if case('wheat'): #小麦
+            d=json.dumps(func_getPlantData(Wheat))
+            break
+        if case('camphor'): #香樟
+            d=json.dumps(func_getPlantData(Camphor))
+            break
+        if case('osmanthus'): #桂花
+            d=json.dumps(func_getPlantData(Osmanthus))
+            break
+        if case('ginkgo'): #银杏
+            d= json.dumps(func_getPlantData(Ginkgo))
+            break
+        if case('Lagerstroemia_indica'): #紫薇
+            d= json.dumps(func_getPlantData(LagerstroemiaIndica))
+            break
+        if case('Hackberry'): #朴树
+            d= json.dumps(func_getPlantData(Hackberry))
+            break
+        if case('cedar'): #雪松
+            d= json.dumps(func_getPlantData(Cedar))
+            break
+        if case('daye_privet'): #大叶女贞
+            d= json.dumps(func_getPlantData(DayePrivet))
+            break
+        if case('podocarpus'): #罗汉松
+            d= json.dumps(func_getPlantData(Podocarpus))
+            break
+        if case('Photinia_fruticosa'): #红叶石楠
+            d= json.dumps(func_getPlantData(PhotiniaFruticosa))
+            break
+        if case('redwood'): #红继木
+            d= json.dumps(func_getPlantData(Redwood))
+            break
+        if case('Privet_of_Kingson'): #金森女贞
+            d= json.dumps(func_getPlantData(PhotiniaFruticosa))
+            break
+        if case('pittosporum'): #海桐
+            d= json.dumps(func_getPlantData(Pittosporum))
+            break
+        if case('france_green'): #法青
+            d= json.dumps(func_getPlantData(FranceGreen))
+            break
+        if case(): # 默认
+            print "Error PlantType"
+            d=None
+    return HttpResponse(d)
