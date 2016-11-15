@@ -29,6 +29,7 @@ $(function () {
     //发送ajax请求获取数据，成功之后生成图表
     function getFoodData(path, chartTitle) {
         $.get("/pig/charts/getChartData/",{plantName:path},function(data){
+            console.log("后台获取的表格数据："+data);
             var data1 = {
                 elementId: '#chart1',
                 title: chartTitle + '种植规模',
@@ -36,16 +37,7 @@ $(function () {
                 //xScale:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','lyy', 'Nov', 'Dec'],
                 yTitle: '种植规模 (°C)',
                 valueSuffix: '°C',
-                series: {name: 'Beijing', data: [
-                    [1370217600000, 0.7495],
-                    [1370304000000, 0.7455],
-                    [1370476800000, 0.7635],
-                    [1370563200000, 0.7655],
-                    [1370736000000, 0.7395],
-                    [1370822400000, 0.7595],
-                    [1370908800000, 0.7295],
-                    [1370995200000, 0.7595]
-                ]}
+                series: {name: 'Beijing', data: data}
             }
             var chart1 = new Chart(data1);
             chart1.init();

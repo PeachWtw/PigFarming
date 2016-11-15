@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50599
 File Encoding         : 65001
 
-Date: 2016-11-13 15:55:49
+Date: 2016-11-15 20:09:27
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -198,7 +198,7 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 -- Records of breed_improvement
 -- ----------------------------
 BEGIN;
-INSERT INTO `breed_improvement` VALUES ('1', 'yyy', 'wtw', 'ss', '2016-11-02 00:00:00', '1000', '2', 'pigFarmManagement'), ('2', 'ttt', 'rr', 'cto', '2016-11-03 00:00:00', '1000', '3', 'pigFarmManagement'), ('4', 'rr', 'rr', 'fdgf', '2016-10-06 15:17:45', '55', '4', 'breedManagement'), ('5', 'gdff ', 'gdfg ', 'gdfgdgr', '2016-10-03 15:18:26', '33', '5', 'dailyManagement'), ('6', 'trrdg', 'grdgdr', 'rgdrgrg', '2016-10-18 15:19:12', '55', '6', 'breedManagement'), ('7', 'drgdrgr', 'terter', 'rr', '2016-10-11 15:19:37', '55', '7', 'pigFarmManagement'), ('8', 'e', 'ww', 'dff', '2016-10-04 15:20:04', '11', '8', 'dailyManagement'), ('9', 'dsa', 'dsa', 'wwww', '2016-10-21 15:20:26', '11', '9', 'feedManagement'), ('10', 'wew', 'fdf', 'wrew', '2016-02-05 15:20:50', '1', '10', 'dailyManagement'), ('11', 'fd', 'ccc', 'ddd', '2016-11-02 15:21:23', '0', '11', 'feedManagement');
+INSERT INTO `breed_improvement` VALUES ('1', 'yyy', 'wtw', 'ss阿萨德发地方撒好久爱搜考虑对方啊浴室柜好大夫和看哈就开始东方雨虹 UI爱是永恒福吓死 a8yuweir 啊UI唯有日发售 啊UI收到法院hi刈 子u爱上运动服下US会发到空间u爱实打实地方 阿斯蒂芬干 阿斯蒂芬阿斯蒂芬暗室逢灯安抚暗室逢灯阿斯蒂芬阿斯蒂芬暗室逢灯阿斯蒂芬阿斯蒂芬阿斯蒂芬暗室逢灯阿斯蒂芬阿双方各阿尔让我送人广发安慰她股份wean按时', '2016-11-02 00:00:00', '1021', '2', 'pigFarmManagement'), ('2', 'ttt', 'rr', 'ctoaskjhdfkjasknbdfkjasdhfiuaywehiuhfjkbasdfcjhgauyshdfihanwjkhfbiuatyweuiyhfijabsdfjbcausygdfuihaiwsfnkjasjlkfjkawirfopqayhwefkoahfokas', '2016-11-03 00:00:00', '1003', '3', 'pigFarmManagement'), ('3', 'rr', 'rr', 'fdgf', '2016-10-06 15:17:45', '56', '4', 'breedManagement'), ('4', 'gdff ', 'gdfg ', 'gdfgdgr', '2016-10-03 15:18:26', '33', '5', 'dailyManagement'), ('5', 'trrdg', 'grdgdr', 'rgdrgrg', '2016-10-18 15:19:12', '56', '6', 'breedManagement'), ('6', 'drgdrgr', 'terter', 'rr', '2016-10-11 15:19:37', '61', '7', 'pigFarmManagement'), ('7', 'e', 'ww', 'dff', '2016-10-04 15:20:04', '11', '8', 'dailyManagement'), ('8', 'dsa', 'dsa', 'wwww', '2016-10-21 15:20:26', '11', '9', 'feedManagement'), ('9', 'wew', 'fdf', 'wrew', '2016-02-05 15:20:50', '1', '10', 'dailyManagement'), ('10', 'fd', 'ccc', 'ddd', '2016-11-02 15:21:23', '0', '11', 'feedManagement');
 COMMIT;
 
 -- ----------------------------
@@ -315,6 +315,7 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 -- Records of corn
 -- ----------------------------
 BEGIN;
+INSERT INTO `corn` VALUES ('1', '1370217600000', '0.7495', '0.7495', '0.7495'), ('2', '1370304000000', '0.7455', '0.7455', '0.7455'), ('3', '1370476800000', '0.7635', '0.7635', '0.7635'), ('4', '1370563200000', '0.7655', '0.7655', '0.7655'), ('5', '1370736000000', '0.7395', '0.7395', '0.7395'), ('6', '1370822400000', '0.7595', '0.7595', '0.7595'), ('7', '1370908800000', '0.7295', '0.7295', '0.7295'), ('8', '1370995200000', '0.7595', '0.7595', '0.7595');
 COMMIT;
 
 -- ----------------------------
@@ -439,7 +440,7 @@ DEFAULT CHARACTER SET=utf8 COLLATE=utf8_general_ci
 -- Records of django_session
 -- ----------------------------
 BEGIN;
-INSERT INTO `django_session` VALUES ('cja3z6al81ayhyn1hvagdn3o315a1a7g', 'YjE0MGZmNjViNzNlYjNlNzY4ZmE3MGY4NzFlZjI0ZmUxOWU4Y2JjMDp7fQ==', '2016-11-13 06:57:41');
+INSERT INTO `django_session` VALUES ('cja3z6al81ayhyn1hvagdn3o315a1a7g', 'YjE0MGZmNjViNzNlYjNlNzY4ZmE3MGY4NzFlZjI0ZmUxOWU4Y2JjMDp7fQ==', '2016-11-13 06:57:41'), ('cminlr1xyldcovm50nxhaq21ah0q3xgs', 'NGU3NjAwMDNiYjFlOGEzNWRiMTI4YzQzNmRhYjYyNzY0ZmM4MDI0YTp7InRhYmxlMSI6W10sImFsaXN0IjpbeyJzcmNfaW1nIjoiMiIsInB1Ymxpc2hfdGltZSI6IjIwMTYtMTEtMDJUMDA6MDA6MDArMDA6MDAiLCJ0aXRsZSI6Inl5eSIsImNsaWNrX3RpbWVzIjoxMDAwLCJhYnN0cmFjdCI6Ind0dyIsImNvbnRlbnQiOiJzcyIsImJpX2lkIjoxLCJ0eXBlIjoicGlnRmFybU1hbmFnZW1lbnQifSx7InNyY19pbWciOiIzIiwicHVibGlzaF90aW1lIjoiMjAxNi0xMS0wM1QwMDowMDowMCswMDowMCIsInRpdGxlIjoidHR0IiwiY2xpY2tfdGltZXMiOjEwMDAsImFic3RyYWN0IjoicnIiLCJjb250ZW50IjoiY3RvIiwiYmlfaWQiOjIsInR5cGUiOiJwaWdGYXJtTWFuYWdlbWVudCJ9LHsic3JjX2ltZyI6IjciLCJwdWJsaXNoX3RpbWUiOiIyMDE2LTEwLTExVDE1OjE5OjM3KzAwOjAwIiwidGl0bGUiOiJkcmdkcmdyIiwiY2xpY2tfdGltZXMiOjU1LCJhYnN0cmFjdCI6InRlcnRlciIsImNvbnRlbnQiOiJyciIsImJpX2lkIjo3LCJ0eXBlIjoicGlnRmFybU1hbmFnZW1lbnQifV0sIlN0b3JlQXJ0aWNsZVR5cGUiOiJwaWdGYXJtTWFuYWdlbWVudCIsImxlbmd0aCI6MCwidGFibGUiOnsic3JjX2ltZyI6IjciLCJwdWJsaXNoX3RpbWUiOiIyMDE2LTEwLTExVDE1OjE5OjM3KzAwOjAwIiwidGl0bGUiOiJkcmdkcmdyIiwiYmlfaWQiOjcsImFic3RyYWN0IjoidGVydGVyIiwiY29udGVudCI6InJyIiwidHlwZSI6InBpZ0Zhcm1NYW5hZ2VtZW50IiwiY2xpY2tfdGltZXMiOjU1fSwidGFibGVpIjp7InNyY19pbWciOiI3IiwicHVibGlzaF90aW1lIjoiMjAxNi0xMC0xMVQxNToxOTozNyswMDowMCIsInRpdGxlIjoiZHJnZHJnciIsInR5cGUiOiJwaWdGYXJtTWFuYWdlbWVudCIsImFic3RyYWN0IjoidGVydGVyIiwiY2xpY2tfdGltZXMiOjU1LCJjb250ZW50IjoicnIiLCJiaV9pZCI6N30sInRhYmxlRGF0YSI6W3sic3JjX2ltZyI6IjIiLCJwdWJsaXNoX3RpbWUiOiIyMDE2LTExLTAyVDAwOjAwOjAwKzAwOjAwIiwidGl0bGUiOiJ5eXkiLCJiaV9pZCI6MSwiYWJzdHJhY3QiOiJ3dHciLCJjb250ZW50Ijoic3NcdTk2M2ZcdTg0MjhcdTVmYjdcdTUzZDFcdTU3MzBcdTY1YjlcdTY0OTJcdTU5N2RcdTRlNDVcdTcyMzFcdTY0MWNcdTgwMDNcdTg2NTFcdTViZjlcdTY1YjlcdTU1NGFcdTZkNzRcdTViYTRcdTY3ZGNcdTU5N2RcdTU5MjdcdTU5MmJcdTU0OGNcdTc3MGJcdTU0YzhcdTVjMzFcdTVmMDBcdTU5Y2JcdTRlMWNcdTY1YjlcdTk2ZThcdTg2NzkgVUlcdTcyMzFcdTY2MmZcdTZjMzhcdTYwNTJcdTc5OGZcdTU0MTNcdTZiN2IgYTh5dXdlaXIgXHU1NTRhVUlcdTU1MmZcdTY3MDlcdTY1ZTVcdTUzZDFcdTU1MmUgXHU1NTRhVUlcdTY1MzZcdTUyMzBcdTZjZDVcdTk2NjJoaVx1NTIwOCBcdTViNTB1XHU3MjMxXHU0ZTBhXHU4ZmQwXHU1MmE4XHU2NzBkXHU0ZTBiVVNcdTRmMWFcdTUzZDFcdTUyMzBcdTdhN2FcdTk1ZjR1XHU3MjMxXHU1YjllXHU2MjUzXHU1YjllXHU1NzMwXHU2NWI5IFx1OTYzZlx1NjVhZlx1ODQ4Mlx1ODJhY1x1NWU3MiBcdTk2M2ZcdTY1YWZcdTg0ODJcdTgyYWNcdTk2M2ZcdTY1YWZcdTg0ODJcdTgyYWNcdTY2OTdcdTViYTRcdTkwMjJcdTcwNmZcdTViODlcdTYyOWFcdTY2OTdcdTViYTRcdTkwMjJcdTcwNmZcdTk2M2ZcdTY1YWZcdTg0ODJcdTgyYWNcdTk2M2ZcdTY1YWZcdTg0ODJcdTgyYWNcdTY2OTdcdTViYTRcdTkwMjJcdTcwNmZcdTk2M2ZcdTY1YWZcdTg0ODJcdTgyYWNcdTk2M2ZcdTY1YWZcdTg0ODJcdTgyYWNcdTk2M2ZcdTY1YWZcdTg0ODJcdTgyYWNcdTY2OTdcdTViYTRcdTkwMjJcdTcwNmZcdTk2M2ZcdTY1YWZcdTg0ODJcdTgyYWNcdTk2M2ZcdTUzY2NcdTY1YjlcdTU0MDRcdTk2M2ZcdTVjMTRcdThiYTlcdTYyMTFcdTkwMDFcdTRlYmFcdTVlN2ZcdTUzZDFcdTViODlcdTYxNzBcdTU5NzlcdTgwYTFcdTRlZmR3ZWFuXHU2MzA5XHU2NWY2IiwidHlwZSI6InBpZ0Zhcm1NYW5hZ2VtZW50IiwiY2xpY2tfdGltZXMiOjEwMjF9LHsic3JjX2ltZyI6IjMiLCJwdWJsaXNoX3RpbWUiOiIyMDE2LTExLTAzVDAwOjAwOjAwKzAwOjAwIiwidGl0bGUiOiJ0dHQiLCJiaV9pZCI6MiwiYWJzdHJhY3QiOiJyciIsImNvbnRlbnQiOiJjdG9hc2tqaGRma2phc2tuYmRma2phc2RoZml1YXl3ZWhpdWhmamtiYXNkZmNqaGdhdXlzaGRmaWhhbndqa2hmYml1YXR5d2V1aXloZmlqYWJzZGZqYmNhdXN5Z2RmdWloYWl3c2Zua2phc2psa2Zqa2F3aXJmb3BxYXlod2Vma29haGZva2FzIiwidHlwZSI6InBpZ0Zhcm1NYW5hZ2VtZW50IiwiY2xpY2tfdGltZXMiOjEwMDN9LHsic3JjX2ltZyI6IjciLCJwdWJsaXNoX3RpbWUiOiIyMDE2LTEwLTExVDE1OjE5OjM3KzAwOjAwIiwidGl0bGUiOiJkcmdkcmdyIiwiYmlfaWQiOjYsImFic3RyYWN0IjoidGVydGVyIiwiY29udGVudCI6InJyIiwidHlwZSI6InBpZ0Zhcm1NYW5hZ2VtZW50IiwiY2xpY2tfdGltZXMiOjYxfV19', '2016-11-29 12:00:15');
 COMMIT;
 
 -- ----------------------------

@@ -613,3 +613,7 @@ ul li {
 .n_contact a{
     display: inline-block;
 }
+
+.art-content{
+    font-size: 14px;
+}

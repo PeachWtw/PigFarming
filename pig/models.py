@@ -104,7 +104,9 @@ class Corn(models.Model):
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
     production = models.FloatField(blank=True, null=True)
-
+    def res_dict(self):
+        return dict(corn_id=self.corn_id,timestp=self.timestp,price=self.price,\
+            scale=self.scale,production=self.production)
     class Meta:
         managed = False
         db_table = 'corn'
