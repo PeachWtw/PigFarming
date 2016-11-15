@@ -219,3 +219,35 @@ def func_getChartData(request):
             print "Error PlantType"
             d=None
     return HttpResponse(d)
+
+#返回猪价的数据函数
+def func_getPigReturnData(db_obj):
+    temp_obj=db_obj.objects.all()
+    priceList=[]  #生成dict对象
+    for iter in temp_obj:
+        priceList.append(PlantUtils.ret_timeOrderByPrice(iter))
+    return dict(price=priceList)
+
+#获取猪价系统数据画出k线图
+def func_getPigData(request):
+    PigType=request.GET['pigName']
+    for case in switch(PigType):
+        if case('feed_corn'): #分饲玉米
+            d=json.dumps(func_getPigReturnData(FeedCorn))
+            break
+        if case('soybean_meal'): #豆粕
+            d=json.dumps(func_getPigReturnData(SoybeanMeal))
+            break
+        if case('outside_pig'): #外三元猪
+            d=json.dumps(func_getPigReturnData(OutsidePig))
+            break
+        if case('inside_pig'): #内三元猪
+            d=json.dumps(func_getPigReturnData(InsidePig))
+            break
+        if case('mixed_pig'): #土杂猪
+            d=json.dumps(func_getPigReturnData(MixedPig))
+            break
+        if case(): # 默认
+            print "Error PigtType"
+            d=None
+    return HttpResponse(d)
