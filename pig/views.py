@@ -10,7 +10,8 @@ from django.http import HttpResponse
 
 #引入model中的全部数据库模块
 from pig.models import *
-
+#引入util中的ObjectOrDictFormatter模块
+from mysite.utils import ObjectOrDictFormatter
 
 #作为pig的主页显示
 def first_page(request):
@@ -52,12 +53,12 @@ class ArticleHandleCls(object):
     @classmethod
     def func_handle_artList(cls,request,db_obj, page, art_type):
         try:
-            temp_list = db_obj.objects.filter(bi_id__gte=1,type=art_type)   #获取元组总个数
-            num = map(str, temp_list)
+            temp_obj = db_obj.objects.filter(bi_id__gte=1,type=art_type)   #获取元组总个数
+            num = map(str, temp_obj)
             page_total=int(math.ceil(len(num) / 10.0))  #计算总页数
             index_low = (page - 1) * 10
             index_high = page * 10
-            filter_list=temp_list.all()[index_low:index_high]
+            filter_list=temp_obj.all()[index_low:index_high]
             L = []  #生成dict对象
             for iter in filter_list:
                 L.append(iter.res_dict())
@@ -97,6 +98,7 @@ class ArticleHandleCls(object):
         index_id = request.GET['articleId']  #从request获取所需参数
         art_type=request.session['StoreArticleType']    #利用Session文章类型
         L=request.session.get('tableData')  #从Session获取表中的数据
+        #bre_obj=ObjectOrDictFormatter.dict2obj(L[0])
         cls.func_handle_artDetail(art_type,index_id)
         for k in L:
             if int(k['bi_id'])==int(index_id):
@@ -106,30 +108,10 @@ class ArticleHandleCls(object):
         #pass    #文章点击次数加1
         return None
 
-#测试文章数据
-def func_getArticle(request):
-    L = func_handle_database(BreedImprovement)
-    return HttpResponse(json.dumps(L))
-
-#需求1
-    #功能:获取养殖的文章的标题，摘要等字段
-    #输入：page,articleType
-    #输出：L(文章列表)，cnt(总页数)
-        #养猪 pig
-        #养鸡 chicken
-        #养鱼 fish
-
-#需求6,7,9,10
-    #功能：获取文章列表:
-
-     #生产管理，动保防疫模块:
-         #猪场管理 pigFarmManagement
-         #繁育管理 breedManagement
-         #饲养管理 feedManagement
-         #日常管理 dailyManagement
-
+#-----解决需求6,7,9,10--------
 #获取文章列表的url函数
 def func_getArtList(request):
+    d=func_getPlantData(Corn)
     L,page_total=ArticleHandleCls.wrap_articleList_method(request)   #调用工具类方法
     d = dict(allList=L, page=page_total)   #进行json串行化处理
     s = json.dumps(d)
@@ -143,3 +125,30 @@ def func_getArtById(request):
     return HttpResponse(json.dumps(d))
 
 
+#物种工具类
+class PlantUtils(object):
+    @classmethod
+    def ret_timeOrderByPrice(self,db_obj):
+        return [db_obj.timestp,db_obj.price]
+    @classmethod
+    def ret_timeOrderByScale(self,db_obj):
+        return [db_obj.timestp,db_obj.scale]
+    @classmethod
+    def ret_timeOrderByProduction(self,db_obj):
+        return [db_obj.timestp,db_obj.production]
+
+#返回物种的数据函数
+def func_getPlantData(db_obj):
+    temp_obj=db_obj.objects.all()
+    priceList=[]; scaleList=[]; productionList=[] #生成dict对象
+    for iter in temp_obj:
+        priceList.append(PlantUtils.ret_timeOrderByPrice(iter))
+        scaleList.append(PlantUtils.ret_timeOrderByScale(iter))
+        productionList.append(PlantUtils.ret_timeOrderByProduction(iter))
+    return dict(price=priceList,scale=scaleList,production=productionList)
+#获取物种类型画出k线图
+def func_getChartData(request):
+    plantType=request.GET['plantName']
+    d=func_getPlantData(plantType)
+    s=json.dumps(d)
+    return HttpResponse(json.dumps(d))
