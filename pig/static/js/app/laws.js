@@ -61,22 +61,22 @@ app
 		function($routeProvider) {
 			$routeProvider
 				.when(
-					'/laws', {
+					'/lawsEnvironment', {
 						templateUrl: '/static/html/laws/articleList.html',
 						controller: 'lawsController'
 					})
 				.when(
-					'/project', {
+					'/projectEnvironment', {
 						templateUrl: '/static/html/laws/articleList.html',
 						controller: 'lawsController'
 					})
 				.when(
-					'/facility', {
+					'/facilityEnvironment', {
 						templateUrl: '/static/html/laws/articleList.html',
 						controller: 'lawsController'
 					})
 				.when(
-					'/articleDetail', {
+					'/articleDetailEnvironment', {
 						templateUrl: '/static/html/laws/articleDetail.html',
 						controller: 'lawsController'
 					})
@@ -166,13 +166,13 @@ app.controller('lawsController', [
 		// 初始化页面信息
 		function initData() {
 			console.log("初始化页面信息");
-			if($location.path().indexOf('/laws') == 0) { //养殖排污法规
-                getArticleList("laws");
-			} else if($location.path().indexOf('/project') == 0) {//先进治污方案
-				getArticleList("project");
-			} else if($location.path().indexOf('/facility') == 0) {//设施工艺
-				getArticleList("facility");
-			} else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
+			if($location.path().indexOf('/lawsEnvironment') == 0) { //养殖排污法规
+                getArticleList("lawsEnvironment");
+			} else if($location.path().indexOf('/projectEnvironment') == 0) {//先进治污方案
+				getArticleList("projectEnvironment");
+			} else if($location.path().indexOf('/facilityEnvironment') == 0) {//设施工艺
+				getArticleList("facilityEnvironment");
+			} else if ($location.path().indexOf('/articleDetailEnvironment') == 0) {//文章内容详情
                 var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({
                     'articleId': articleId
