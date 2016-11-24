@@ -125,26 +125,11 @@ app.controller('ProduceController', [
 		// 养殖
 		var produce = $scope;
 
-        //获取文章列表分页
-        produce.getArtList = function(page,artType) {
-				services.getArtList({
-                    //'articleType':artType,
-					page : page
-				}).success(function(data) {
-					produce.articles = data.allList;
-					produce.totalPage = data.page;
-				});
-			};
-
         //获取文章详细内容
         produce.getArticleDetail = function() {
             var articleId = this.art.bi_id;
-            console.log("获取文章id："+articleId)
-			services.getArtById({
-                'articleId':articleId
-            }).success(function(data) {
-				produce.article = data;
-			});
+            window.sessionStorage.setItem('artId', articleId);
+            console.log("获取文章id：" + articleId)
 		};
         //页面初始化时获取文章列表，含分页
         function getArticleList(articleType){
@@ -175,12 +160,19 @@ app.controller('ProduceController', [
 			console.log("初始化页面信息");
 
 			if($location.path().indexOf('/pig') == 0) { // 如果是合同列表页
-				getArticleList("pig");
+				getArticleList("pigBreeding");
 			} else if($location.path().indexOf('/chicken') == 0) {
-				getArticleList("chicken");
+				getArticleList("chickenBreeding");
 			} else if($location.path().indexOf('/fish') == 0) {
-				getArticleList("fish");
+				getArticleList("fishBreeding");
 			} else if($location.path().indexOf('/articleDetail') == 0) {
+                var articleId = window.sessionStorage.getItem('artId');
+                services.getArtById({
+                    'articleId': articleId
+                }).success(function (data) {
+                    console.log(data);
+                    productionControl.article = data;
+                });
 			}
 		}
 
