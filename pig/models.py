@@ -43,6 +43,9 @@ class BreedImprovement(models.Model):
     # def __unicode__(self):
     #     return "%s %s %s %s %s %s %s %s" % (self.bi_id,self.title,self.abstract,self.content,\
     #             json_serial(self.publish_timem),self.click_times,self.src_img,self.type)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(bi_id=id)
     class Meta:
         managed = False
         db_table = 'breed_improvement'
@@ -56,7 +59,13 @@ class Breeding(models.Model):
     production_scale = models.TextField(blank=True, null=True)
     scaleindustry_situation = models.TextField(blank=True, null=True)
     type = models.CharField(max_length=20, blank=True, null=True)
-
+    def res_dict(self):
+        return dict(production_status=self.production_status,\
+                    production_scale=self.production_scale,\
+                    scaleindustry_situation=self.scaleindustry_situation)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(breed_id=id)
     class Meta:
         managed = False
         db_table = 'breeding'
@@ -179,6 +188,9 @@ class Environment(models.Model):
     def res_dict(self):
         return dict(env_id=self.env_id,title=self.title,abstract=self.abstract,content=self.content,\
              publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(env_id=id)
     class Meta:
         managed = False
         db_table = 'environment'

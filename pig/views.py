@@ -85,13 +85,8 @@ class ArticleHandleCls(object):
         return  L,cnt
     # 处理点击次数加1的方法
     @classmethod
-    def func_handle_artDetail_clicktimesAdd(cls,d_obj,art_type,id,index_id,L):
-        if index_id=='bi_id':
-            temp_obj=d_obj.objects.get(bi_id=id)
-        elif index_id=='env_id':
-            temp_obj=d_obj.objects.get(env_id=id)
-        else:
-            pass
+    def func_handle_artDetail_clicktimesAdd(cls,d_obj,id,index_id,L):
+        temp_obj=d_obj.res_idObj(id)#这个是每个类获取的特定id项的值
         temp_obj.click_times=temp_obj.click_times+1
         temp_obj.save()
         for k in L:
@@ -107,9 +102,11 @@ class ArticleHandleCls(object):
         art_type=request.session['StoreArticleType']    #利用Session文章类型
         L=request.session.get('tableData')  #从Session获取表中的数据
         if "Management" in art_type:  #进行不同的数据库表匹配
-            return cls.func_handle_artDetail_clicktimesAdd(BreedImprovement,art_type,index_id,"bi_id",L)
+            return cls.func_handle_artDetail_clicktimesAdd(BreedImprovement,index_id,"bi_id",L)
         elif "Environment" in art_type:
-            return  cls.func_handle_artDetail_clicktimesAdd(Environment,art_type,index_id,"env_id",L)
+            return  cls.func_handle_artDetail_clicktimesAdd(Environment,index_id,"env_id",L)
+        elif "Breaing" in art_type:
+             return  cls.func_handle_artDetail_clicktimesAdd(Breeding,index_id,"breed_id",L)
         elif "其他接口" in art_type:
             pass
         else:
@@ -128,7 +125,6 @@ def func_getArtList(request):
 def func_getArtById(request):
     d=ArticleHandleCls.wrap_articleDetail_method(request)
     s=json.dumps(d)
-    print s
     return HttpResponse(json.dumps(d))
 
 
