@@ -76,7 +76,7 @@ app
 						controller: 'lawsController'
 					})
 				.when(
-					'/articleDetailEnvironment', {
+					'/articleDetail', {
 						templateUrl: '/static/html/laws/articleDetail.html',
 						controller: 'lawsController'
 					})
@@ -135,7 +135,7 @@ app.controller('lawsController', [
 
         //获取文章详细内容
         productionControl.getArticleDetail = function () {
-            var articleId = this.art.bi_id;
+            var articleId = this.art.env_id;
             window.sessionStorage.setItem('artId', articleId);
             console.log("获取文章id：" + articleId)
 
@@ -172,7 +172,7 @@ app.controller('lawsController', [
 				getArticleList("projectEnvironment");
 			} else if($location.path().indexOf('/facilityEnvironment') == 0) {//设施工艺
 				getArticleList("facilityEnvironment");
-			} else if ($location.path().indexOf('/articleDetailEnvironment') == 0) {//文章内容详情
+			} else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
                 var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({
                     'articleId': articleId

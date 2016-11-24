@@ -176,7 +176,9 @@ class Environment(models.Model):
     click_times = models.IntegerField(blank=True, null=True)
     src_img = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=20, blank=True, null=True)
-
+    def res_dict(self):
+        return dict(env_id=self.env_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
     class Meta:
         managed = False
         db_table = 'environment'

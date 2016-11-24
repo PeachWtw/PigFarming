@@ -53,7 +53,7 @@ class ArticleHandleCls(object):
     @classmethod
     def func_handle_artList(cls,request,db_obj, page, art_type):
         try:
-            temp_obj = db_obj.objects.filter(bi_id__gte=1,type=art_type)   #获取元组总个数
+            temp_obj = db_obj.objects.filter(type=art_type)   #获取元组总个数
             num = map(str, temp_obj)
             page_total=int(math.ceil(len(num) / 10.0))  #计算总页数
             index_low = (page - 1) * 10
@@ -74,39 +74,46 @@ class ArticleHandleCls(object):
     def wrap_articleList_method(cls,request):
         page = request.GET['page']  #从request获取所需参数
         article_type=request.GET['articleType']
-        if string.find(article_type,"Management"):  #进行不同的数据库表匹配
+        if  "Management" in article_type: #进行不同的数据库表匹配
             L, cnt = cls.func_handle_artList(request,BreedImprovement,int(page),article_type)
-        elif string.find(article_type,"其他接口"):
+        elif "Environment" in article_type:
+            L, cnt = cls.func_handle_artList(request,Environment, int(page),article_type)
+        elif "其他接口" in article_type:
             L, cnt = cls.func_handle_artList(request,BreedImprovement, int(page),article_type)
         else:
             L,cnt=None,None
         return  L,cnt
     # 处理点击次数加1的方法
     @classmethod
-    def func_handle_artDetail(cls,article_type,id):
-        if string.find(article_type,"Management"):  #进行不同的数据库表匹配
-            brd_obj=BreedImprovement.objects.get(bi_id=id)
-            brd_obj.click_times=brd_obj.click_times+1
-            brd_obj.save()
-        elif string.find(article_type,"其他接口"):
-            pass
+    def func_handle_artDetail_clicktimesAdd(cls,d_obj,art_type,id,index_id,L):
+        if index_id=='bi_id':
+            temp_obj=d_obj.objects.get(bi_id=id)
+        elif index_id=='env_id':
+            temp_obj=d_obj.objects.get(env_id=id)
         else:
             pass
+        temp_obj.click_times=temp_obj.click_times+1
+        temp_obj.save()
+        for k in L:
+            if int(k[index_id])==int(id):
+                return k
+            else:
+                continue
+        return  None
     # #获取文章详情的方法
     @classmethod
     def wrap_articleDetail_method(cls,request):
         index_id = request.GET['articleId']  #从request获取所需参数
         art_type=request.session['StoreArticleType']    #利用Session文章类型
         L=request.session.get('tableData')  #从Session获取表中的数据
-        #bre_obj=ObjectOrDictFormatter.dict2obj(L[0])
-        cls.func_handle_artDetail(art_type,index_id)
-        for k in L:
-            if int(k['bi_id'])==int(index_id):
-                return k
-            else:
-                continue
-        #pass    #文章点击次数加1
-        return None
+        if "Management" in art_type:  #进行不同的数据库表匹配
+            return cls.func_handle_artDetail_clicktimesAdd(BreedImprovement,art_type,index_id,"bi_id",L)
+        elif "Environment" in art_type:
+            return  cls.func_handle_artDetail_clicktimesAdd(Environment,art_type,index_id,"env_id",L)
+        elif "其他接口" in art_type:
+            pass
+        else:
+            return  None
 
 #-----解决需求6,7,9,10--------
 #获取文章列表的url函数
