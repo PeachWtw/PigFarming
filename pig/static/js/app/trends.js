@@ -149,7 +149,7 @@ app.controller('trendsController', [
 
         //获取文章详细内容
         productionControl.getArticleDetail = function () {
-            var articleId = this.art.bi_id;
+            var articleId = this.art.tr_id;
             window.sessionStorage.setItem('artId', articleId);
             console.log("获取文章id：" + articleId)
 
@@ -181,13 +181,13 @@ app.controller('trendsController', [
 		function initData() {
 			console.log("初始化页面信息");
 			if($location.path().indexOf('/current') == 0) { //国际同行现状
-                getArticleList("current");
+                getArticleList("currentInternational");
 			} else if($location.path().indexOf('/tendency') == 0) {//前沿趋势
-				getArticleList("tendency");
+				getArticleList("trendInternational");
 			} else if($location.path().indexOf('/feedstuff') == 0) {//饲料原料行情走势
-				getArticleList("feedstuff");
+				getArticleList("feedInternational");
 			} else if($location.path().indexOf('/futures') == 0) {//玉米大豆期货走势
-				getArticleList("futures");
+				getArticleList("futuresInternational");
 			} else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
                 var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({

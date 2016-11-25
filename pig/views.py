@@ -114,7 +114,7 @@ class ArticleHandleCls(object):
         elif "Breeding" in art_type: #养殖
             return  cls.func_handle_artDetail_clicktimesAdd(Breeding,index_id,"breed_id",L)
         elif "International" in art_type:  #国际动态，行情趋势
-            return  cls.func_handle_artDetail_clicktimesAdd(Breeding,index_id,"tr_id",L)
+            return  cls.func_handle_artDetail_clicktimesAdd(Trend,index_id,"tr_id",L)
         elif "其他接口" in art_type:
             pass
         else:

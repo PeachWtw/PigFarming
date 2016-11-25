@@ -420,7 +420,7 @@ class Trend(models.Model):
     src_img = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=20, blank=True, null=True)
     def res_dict(self):
-        return dict(tr_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
+        return dict(tr_id=self.tr_id,title=self.title,abstract=self.abstract,content=self.content,\
              publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
     @classmethod
     def res_idObj(self,id):
