@@ -38,11 +38,6 @@ class BreedImprovement(models.Model):
     def res_dict(self):
         return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
              publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
-        # return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
-        #      click_times=self.click_times,src_img=self.src_img,type=self.type)
-    # def __unicode__(self):
-    #     return "%s %s %s %s %s %s %s %s" % (self.bi_id,self.title,self.abstract,self.content,\
-    #             json_serial(self.publish_timem),self.click_times,self.src_img,self.type)
     @classmethod
     def res_idObj(self,id):
         return  self.objects.get(bi_id=id)
@@ -424,7 +419,12 @@ class Trend(models.Model):
     click_times = models.IntegerField(blank=True, null=True)
     src_img = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=20, blank=True, null=True)
-
+    def res_dict(self):
+        return dict(tr_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(tr_id=id)
     class Meta:
         managed = False
         db_table = 'trend'

@@ -132,27 +132,28 @@ app.controller('ProduceController', [
             console.log("获取文章id：" + articleId)
 		};
         //页面初始化时获取文章列表，含分页
-        function getArticleList(articleType){
+        function getArticleList(articleType) {
             services.getArtList({
-                    //'articleType':'pigFarmManagement',
-                    'page':'1'
-                }).success(function(data) {
-                    produce.articles = data.allList;
-                    produce.totalPage = data.page;
-                    console.log("直接打印返回的数据："+produce.articles)
-                    console.log("直接打印返回的数据："+produce.totalPage)
-                    var $pages = $(".tcdPageCode");
-                    if ($pages.length != 0) {
-							$pages.createPage({
-								pageCount : produce.totalPage,
-								current : 1,
-								backFn : function(p) {
-									produce.getArtList(p,articleType);// 点击页码时获取第p页的数据
-								}
-							});
-						}
-                    //productionControl.articles = jsonParse.arrToJsons(data);
-                });
+                //'articleType':'pigFarmManagement',
+                //更改了这个部分！！！！
+                'articleType': articleType,
+                'page': '1'
+            }).success(function (data) {
+                console.log(data);
+                produce.articles = data.allList;
+                produce.totalPage = data.page;
+                var $pages = $(".tcdPageCode");
+                if ($pages.length != 0) {
+                    $pages.createPage({
+                        pageCount: produce.totalPage,
+                        current: 1,
+                        backFn: function (p) {
+                            produce.getArtList(p, articleType);// 点击页码时获取第p页的数据
+                        }
+                    });
+                }
+                //productionControl.articles = jsonParse.arrToJsons(data);
+            });
         }
 
 		// 初始化页面信息
@@ -171,7 +172,7 @@ app.controller('ProduceController', [
                     'articleId': articleId
                 }).success(function (data) {
                     console.log(data);
-                    productionControl.article = data;
+                    produce.article = data;
                 });
 			}
 		}
@@ -180,17 +181,3 @@ app.controller('ProduceController', [
 
 	}
 ]);
-
-// 合同状态过滤器
-app.filter('conState', function() {
-	return function(input) {
-		var state = "";
-		if(input == "0")
-			state = "在建";
-		else if(input == "1")
-			state = "竣工";
-		else if(input == "2")
-			state = "停建";
-		return state;
-	}
-});

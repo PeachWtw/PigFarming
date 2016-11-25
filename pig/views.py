@@ -74,12 +74,17 @@ class ArticleHandleCls(object):
     def wrap_articleList_method(cls,request):
         page = request.GET['page']  #从request获取所需参数
         article_type=request.GET['articleType']
-        if  "Management" in article_type: #进行不同的数据库表匹配
+        #*********进行不同的数据库表匹配*************
+        if  "Management" in article_type: #生产管理，动保防疫
             L, cnt = cls.func_handle_artList(request,BreedImprovement,int(page),article_type)
-        elif "Environment" in article_type:
+        elif "Environment" in article_type: #生态环境，排污处理
             L, cnt = cls.func_handle_artList(request,Environment, int(page),article_type)
+        elif "Breeding" in article_type: #养殖
+            L, cnt = cls.func_handle_artList(request,Breeding, int(page),article_type)
+        elif "International" in article_type: #国际动态，行情趋势
+            L, cnt = cls.func_handle_artList(request,Trend, int(page),article_type)
         elif "其他接口" in article_type:
-            L, cnt = cls.func_handle_artList(request,BreedImprovement, int(page),article_type)
+            pass
         else:
             L,cnt=None,None
         return  L,cnt
@@ -101,12 +106,15 @@ class ArticleHandleCls(object):
         index_id = request.GET['articleId']  #从request获取所需参数
         art_type=request.session['StoreArticleType']    #利用Session文章类型
         L=request.session.get('tableData')  #从Session获取表中的数据
-        if "Management" in art_type:  #进行不同的数据库表匹配
+        #*********进行不同的数据库表匹配**************
+        if "Management" in art_type:  #生产管理，动保防疫
             return cls.func_handle_artDetail_clicktimesAdd(BreedImprovement,index_id,"bi_id",L)
-        elif "Environment" in art_type:
+        elif "Environment" in art_type: #生态环境，排污处理
             return  cls.func_handle_artDetail_clicktimesAdd(Environment,index_id,"env_id",L)
-        elif "Breaing" in art_type:
-             return  cls.func_handle_artDetail_clicktimesAdd(Breeding,index_id,"breed_id",L)
+        elif "Breeding" in art_type: #养殖
+            return  cls.func_handle_artDetail_clicktimesAdd(Breeding,index_id,"breed_id",L)
+        elif "International" in art_type:  #国际动态，行情趋势
+            return  cls.func_handle_artDetail_clicktimesAdd(Breeding,index_id,"tr_id",L)
         elif "其他接口" in art_type:
             pass
         else:
@@ -115,7 +123,6 @@ class ArticleHandleCls(object):
 #-----解决需求6,7,9,10--------
 #获取文章列表的url函数
 def func_getArtList(request):
-    d=func_getPlantData(Corn)
     L,page_total=ArticleHandleCls.wrap_articleList_method(request)   #调用工具类方法
     d = dict(allList=L, page=page_total)   #进行json串行化处理
     s = json.dumps(d)
