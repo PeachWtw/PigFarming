@@ -1,140 +1,508 @@
 # -*- coding: utf-8 -*-
-from django.shortcuts import render
-# Create your views here.
-# 异常模块
-from pig.ExceptClass import *
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#   * Rearrange models' order
+#   * Make sure each model has one field with primary_key=True
+#   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
+# Feel free to rename the models, but don't rename db_table values or field names.
+#
+# Also note: You'll have to insert the output of 'django-admin sqlcustom [app_label]'
+# into your database.
+from __future__ import unicode_literals
+
+from django.db import models
+
+
+
 import json
-import math
-import string
-from django.http import HttpResponse
+#处理datetime问题使用的方法：http://stackoverflow.com/questions/11875770/how-to-overcome-datetime-datetime-not-json-serializable-in-python
+from datetime import datetime
+def json_serial(obj):
+    """JSON serializer for objects not serializable by default json code"""
 
-#引入model中的全部数据库模块
-from pig.models import *
-
-
-#作为pig的主页显示
-def first_page(request):
-    return HttpResponse("fdfdsfss")
+    if isinstance(obj, datetime):
+        serial = obj.isoformat()
+        return serial
+    raise TypeError ("Type not serializable")
 
 
-#测试示例函数
-# def example_func(request):
-#     num1=request.GET["a"]
-#     return HttpResponse(num1)
-#
-# #测试数据示例函数
-# def example_database_func(request):
-#     # staff_list = Test_Pig.objects.filter(kind="gold pig").exclude(number__gte=107)
-#     staff_list = Test_Pig.objects.filter(kind__startswith="black")
-#     staff_str  = map(str, staff_list)
-#     return HttpResponse("<p>" + ' '.join(staff_str) + "</p>")
-#
-# #测试k线图数据
-# def example_getData(request):
-#     temp_list=Test_for_Plant.objects.all()
-#     str1=''
-#     for key in temp_list:
-#         str1=str1+' '+str(key)
-#     return HttpResponse(str1)
-
-#处理数据库数据的模块函数
-def func_handle_database(db_obj):
-    temp_list = db_obj.objects.all()
-    L = []
-    for val in temp_list:
-        L.append([str(val)])
-    return L
-
-
-#用来处理文章的工具类
-class ArticleHandleCls(object):
-    #处理文章列表的函数，准备把处理数据库数据的模块函数合并到这个函数
+class BreedImprovement(models.Model):
+    bi_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    def res_dict(self):
+        return dict(bi_id=self.bi_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
     @classmethod
-    def func_handle_artList(cls,request,db_obj, page, art_type):
-        try:
-            temp_list = db_obj.objects.filter(bi_id__gte=1,type=art_type)   #获取元组总个数
-            num = map(str, temp_list)
-            page_total=int(math.ceil(len(num) / 10.0))  #计算总页数
-            index_low = (page - 1) * 10
-            index_high = page * 10
-            filter_list=temp_list.all()[index_low:index_high]
-            L = []  #生成dict对象
-            for iter in filter_list:
-                L.append(iter.res_dict())
-            print '************'
-            request.session['alist']=L
-            print request.session['alist']
-            print '**************'
-            #--------------------------
-            # for iter in filter_list:
-            #     L.append(iter.res_dict())
-            # request.session['length']=len(num) #利用session保存元组总数
-            # for i in range(0,len(num)):
-            #     request.session['table'+'i']=L[i] #利用session保存表名
-            #---------------------------
-            return L, page_total
-        finally:
-            pass
-    #获取文章列表的类方法
-        #输入：page,articleType
-        #输出：L(文章列表)，cnt(总页数)
+    def res_idObj(self,id):
+        return  self.objects.get(bi_id=id)
+    class Meta:
+        managed = False
+        db_table = 'breed_improvement'
+    def serialize(self):
+        return self.__dict__
+
+
+# class Breeding(models.Model):
+#     breed_id = models.IntegerField(primary_key=True)
+#     production_status = models.TextField(blank=True, null=True)
+#     production_scale = models.TextField(blank=True, null=True)
+#     scaleindustry_situation = models.TextField(blank=True, null=True)
+#     type = models.CharField(max_length=20, blank=True, null=True)
+#     def res_dict(self):
+#         return dict(production_status=self.production_status,\
+#                     production_scale=self.production_scale,\
+#                     scaleindustry_situation=self.scaleindustry_situation)
+#     @classmethod
+#     def res_idObj(self,id):
+#         return  self.objects.get(breed_id=id)
+#     class Meta:
+#         managed = False
+#         db_table = 'breeding'
+
+
+class BreedChicken(models.Model):
+    bc_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    def res_dict(self):
+        return dict(bc_id=self.bc_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,\
+             src_img=self.src_img,type=self.type)
     @classmethod
-    def wrap_articleList_method(cls,request):
-        page = request.GET['page']  #从request获取所需参数
-        article_type=request.GET['articleType']
-        if string.find(article_type,"Management"):  #进行不同的数据库表匹配
-            L, cnt = cls.func_handle_artList(request,BreedImprovement,int(page),article_type)
-        elif string.find(article_type,"其他接口"):
-            L, cnt = cls.func_handle_artList(request,BreedImprovement, int(page),article_type)
-        else:
-            L,cnt=None,None
-        return  L,cnt
-    # #获取文章详情的方法
+    def res_idObj(self,id):
+        return  self.objects.get(bc_id=id)
+    class Meta:
+        managed = False
+        db_table = 'BreedChicken'
+    def serialize(self):
+        return self.__dict__
+
+class BreedPig(models.Model):
+    bp_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    def res_dict(self):
+        return dict(bp_id=self.bp_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,\
+             src_img=self.src_img,type=self.type)
     @classmethod
-    def wrap_articleDetail_method(cls,request):
-        indexusername = request.GET['articleId']  #从request获取所需参数
-        print '--------------'
-        L=request.session.get('alist')
-        print L
-        print '--------------'
-        #L=request.session.get('table')   #获取session存储的数据库表
-        #pass    #文章点击次数加1
-        return L
+    def res_idObj(self,id):
+        return  self.objects.get(bp_id=id)
+    class Meta:
+        managed = False
+        db_table = 'BreedPig'
+    def serialize(self):
+        return self.__dict__
 
-#测试文章数据
-def func_getArticle(request):
-    L = func_handle_database(BreedImprovement)
-    return HttpResponse(json.dumps(L))
+class BreedFish(models.Model):
+    bf_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    def res_dict(self):
+        return dict(bf_id=self.bf_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,\
+             src_img=self.src_img,type=self.type)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(bf_id=id)
+    class Meta:
+        managed = False
+        db_table = 'BreedFish'
+    def serialize(self):
+        return self.__dict__
 
-#需求1
-    #功能:获取养殖的文章的标题，摘要等字段
-    #输入：page,articleType
-    #输出：L(文章列表)，cnt(总页数)
-        #养猪 pig
-        #养鸡 chicken
-        #养鱼 fish
+class Camphor(models.Model):
+    camphort_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
 
-#需求6,7,9,10
-    #功能：获取文章列表:
-
-     #生产管理，动保防疫模块:
-         #猪场管理 pigFarmManagement
-         #繁育管理 breedManagement
-         #饲养管理 feedManagement
-         #日常管理 dailyManagement
-
-#获取文章列表的url函数
-def func_getArtList(request):
-    L,page_total=ArticleHandleCls.wrap_articleList_method(request)   #调用工具类方法
-    d = dict(allList=L, page=page_total)   #进行json串行化处理
-    s = json.dumps(d)
-    return HttpResponse(json.dumps(d))
-
-# #获取文章详情的url函数
-def func_getArtById(request):
-    d=ArticleHandleCls.wrap_articleDetail_method(request)
-    print d
-    s=json.dumps(d)
-    return HttpResponse(json.dumps(d))
+    class Meta:
+        managed = False
+        db_table = 'camphor'
 
 
+class Cedar(models.Model):
+    ced_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'cedar'
+
+
+class Climate(models.Model):
+    cli_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    temperature = models.FloatField(blank=True, null=True)
+    humid = models.FloatField(blank=True, null=True)
+    weather = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'climate'
+
+
+class Corn(models.Model):
+    corn_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    production = models.FloatField(blank=True, null=True)
+    def res_dict(self):
+        return dict(corn_id=self.corn_id,timestp=self.timestp,price=self.price,\
+            scale=self.scale,production=self.production)
+    class Meta:
+        managed = False
+        db_table = 'corn'
+
+
+class DayePrivet(models.Model):
+    day_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'daye_privet'
+
+
+class DjangoAdminLog(models.Model):
+    action_time = models.DateTimeField()
+    object_id = models.TextField(blank=True, null=True)
+    object_repr = models.CharField(max_length=200)
+    action_flag = models.SmallIntegerField()
+    change_message = models.TextField()
+    content_type = models.ForeignKey('DjangoContentType', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'django_admin_log'
+
+
+class DjangoContentType(models.Model):
+    app_label = models.CharField(max_length=100)
+    model = models.CharField(max_length=100)
+
+    class Meta:
+        managed = False
+        db_table = 'django_content_type'
+        unique_together = (('app_label', 'model'),)
+
+
+class DjangoMigrations(models.Model):
+    app = models.CharField(max_length=255)
+    name = models.CharField(max_length=255)
+    applied = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_migrations'
+
+
+class DjangoSession(models.Model):
+    session_key = models.CharField(primary_key=True, max_length=40)
+    session_data = models.TextField()
+    expire_date = models.DateTimeField()
+
+    class Meta:
+        managed = False
+        db_table = 'django_session'
+
+
+class Environment(models.Model):
+    env_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    def res_dict(self):
+        return dict(env_id=self.env_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(env_id=id)
+    class Meta:
+        managed = False
+        db_table = 'environment'
+
+
+class FeedCorn(models.Model):
+    fc_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'feed_corn'
+
+
+class FranceGreen(models.Model):
+    fg_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'france_green'
+
+
+class FranceGreen2(models.Model):
+    fg_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'france_green2'
+
+
+class Ginkgo(models.Model):
+    ginkgo_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ginkgo'
+
+
+class Hackberry(models.Model):
+    hac_id = models.IntegerField(db_column='Hac_id', primary_key=True)  # Field name made lowercase.
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'hackberry'
+
+
+class InsidePig(models.Model):
+    in_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'inside_pig'
+
+
+class LagerstroemiaIndica(models.Model):
+    lid = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'lagerstroemia_indica'
+
+
+class MixedPig(models.Model):
+    mp_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'mixed_pig'
+
+
+class NationalPolicy(models.Model):
+    np_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'national_policy'
+
+
+class Osmanthus(models.Model):
+    osmanthus_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'osmanthus'
+
+
+class OutsidePig(models.Model):
+    op_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'outside_pig'
+
+
+class Pea(models.Model):
+    pea_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    production = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pea'
+
+
+class PhotiniaFruticosa(models.Model):
+    pho_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'photinia_fruticosa'
+
+
+class Pittosporum(models.Model):
+    pit_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'pittosporum'
+
+
+class Podocarpus(models.Model):
+    pod_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'podocarpus'
+
+
+class PrivetOfKingson(models.Model):
+    pok_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'privet_of_kingson'
+
+
+class ProductionControl(models.Model):
+    pc_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'production_control'
+
+
+class Redwood(models.Model):
+    red_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    sales = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'redwood'
+
+
+class SoybeanMeal(models.Model):
+    soy_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'soybean_meal'
+
+
+class Trend(models.Model):
+    tr_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    def res_dict(self):
+        return dict(tr_id=self.tr_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(tr_id=id)
+    class Meta:
+        managed = False
+        db_table = 'trend'
+
+
+class Wheat(models.Model):
+    wheat_id = models.IntegerField(primary_key=True)
+    timestp = models.CharField(max_length=20, blank=True, null=True)
+    price = models.FloatField(blank=True, null=True)
+    scale = models.FloatField(blank=True, null=True)
+    production = models.FloatField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'wheat'

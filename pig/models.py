@@ -12,8 +12,6 @@ from __future__ import unicode_literals
 
 from django.db import models
 
-
-
 import json
 #处理datetime问题使用的方法：http://stackoverflow.com/questions/11875770/how-to-overcome-datetime-datetime-not-json-serializable-in-python
 from datetime import datetime
@@ -24,7 +22,6 @@ def json_serial(obj):
         serial = obj.isoformat()
         return serial
     raise TypeError ("Type not serializable")
-
 
 class BreedImprovement(models.Model):
     bi_id = models.IntegerField(primary_key=True)
@@ -48,23 +45,89 @@ class BreedImprovement(models.Model):
         return self.__dict__
 
 
-class Breeding(models.Model):
-    breed_id = models.IntegerField(primary_key=True)
-    production_status = models.TextField(blank=True, null=True)
-    production_scale = models.TextField(blank=True, null=True)
-    scaleindustry_situation = models.TextField(blank=True, null=True)
+# class Breeding(models.Model):
+#     breed_id = models.IntegerField(primary_key=True)
+#     production_status = models.TextField(blank=True, null=True)
+#     production_scale = models.TextField(blank=True, null=True)
+#     scaleindustry_situation = models.TextField(blank=True, null=True)
+#     type = models.CharField(max_length=20, blank=True, null=True)
+#     def res_dict(self):
+#         return dict(production_status=self.production_status,\
+#                     production_scale=self.production_scale,\
+#                     scaleindustry_situation=self.scaleindustry_situation)
+#     @classmethod
+#     def res_idObj(self,id):
+#         return  self.objects.get(breed_id=id)
+#     class Meta:
+#         managed = False
+#         db_table = 'breeding'
+
+
+class Breedchicken(models.Model):
+    bc_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=20, blank=True, null=True)
     def res_dict(self):
-        return dict(production_status=self.production_status,\
-                    production_scale=self.production_scale,\
-                    scaleindustry_situation=self.scaleindustry_situation)
+        return dict(bc_id=self.bc_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,\
+             src_img=self.src_img,type=self.type)
     @classmethod
     def res_idObj(self,id):
-        return  self.objects.get(breed_id=id)
+        return  self.objects.get(bc_id=id)
     class Meta:
         managed = False
-        db_table = 'breeding'
+        db_table = 'BreedChicken'
+    def serialize(self):
+        return self.__dict__
 
+class Breedpig(models.Model):
+    bp_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    def res_dict(self):
+        return dict(bp_id=self.bp_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,\
+             src_img=self.src_img,type=self.type)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(bp_id=id)
+    class Meta:
+        managed = False
+        db_table = 'BreedPig'
+    def serialize(self):
+        return self.__dict__
+
+class Breedfish(models.Model):
+    bf_id = models.IntegerField(primary_key=True)
+    title = models.CharField(max_length=50, blank=True, null=True)
+    abstract = models.CharField(max_length=255, blank=True, null=True)
+    content = models.TextField(blank=True, null=True)
+    publish_time = models.DateTimeField(blank=True, null=True)
+    click_times = models.IntegerField(blank=True, null=True)
+    src_img = models.CharField(max_length=255, blank=True, null=True)
+    type = models.CharField(max_length=20, blank=True, null=True)
+    def res_dict(self):
+        return dict(bf_id=self.bf_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,\
+             src_img=self.src_img,type=self.type)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(bf_id=id)
+    class Meta:
+        managed = False
+        db_table = 'BreedFish'
+    def serialize(self):
+        return self.__dict__
 
 class Camphor(models.Model):
     camphort_id = models.IntegerField(primary_key=True)
