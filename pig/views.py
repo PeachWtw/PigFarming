@@ -69,7 +69,6 @@ class ArticleHandleCls(object):
             request.session['tableData']=L  #利用Session存储表的数据
             return L, page_total
         finally:
-
             pass
     #获取文章列表的类方法
         #输入：page,articleType
@@ -122,11 +121,11 @@ class ArticleHandleCls(object):
         elif "International" in art_type:  #国际动态，行情趋势
             return  cls.func_handle_artDetail_clicktimesAdd(Trend,index_id,"tr_id",L)
         elif "pigBreeding" in art_type: #养殖-猪
-            return  cls.func_handle_artDetail_clicktimesAdd(Breedpig,index_id,"bp_id",L)
+            return  cls.func_handle_artDetail_clicktimesAdd(Breedpig,index_id,"id",L)
         elif "chickenBreeding" in art_type: #养殖-鸡
-            return  cls.func_handle_artDetail_clicktimesAdd(Breedchicken,index_id,"bc_id",L)
+            return  cls.func_handle_artDetail_clicktimesAdd(Breedchicken,index_id,"id",L)
         elif "fishBreeding" in art_type: #养殖-鱼
-            return  cls.func_handle_artDetail_clicktimesAdd(Breedfish,index_id,"bf_id",L)
+            return  cls.func_handle_artDetail_clicktimesAdd(Breedfish,index_id,"id",L)
         elif "其他接口" in art_type:
             pass
         else:
