@@ -5,7 +5,6 @@ Source Server         : wtw
 Source Server Version : 50624
 Source Host           : localhost:3306
 Source Database       : superpig
-
 Target Server Type    : MYSQL
 Target Server Version : 50599
 File Encoding         : 65001
