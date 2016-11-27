@@ -178,14 +178,46 @@ app.controller('productionControlController', [
         function initData() {
             console.log("初始化页面信息");
             if ($location.path().indexOf('/pigFarmManagement') == 0) { //猪场管理
+                $("#secUrl").html("猪场管理");
                 getArticleList("pigFarmManagement");
+                sessionStorage.setItem("secondary","pigFarmManagement");
             } else if ($location.path().indexOf('/breedManagement') == 0) {//繁育管理
+                $("#secUrl").html("繁育管理");
                 getArticleList("breedManagement");
+                sessionStorage.setItem("secondary","breedManagement");
             } else if ($location.path().indexOf('/feedManagement') == 0) {//饲养管理
+                $("#secUrl").html("饲养管理");
                 getArticleList("feedManagement");
+                sessionStorage.setItem("secondary","feedManagement");
             } else if ($location.path().indexOf('/dailyManagement') == 0) {//日常管理
+                $("#secUrl").html("日常管理");
                 getArticleList("dailyManagement");
+                sessionStorage.setItem("secondary","dailyManagement");
             } else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
+                var secondaryUrl = sessionStorage.getItem("secondary");
+                var secondaryUrlA = $("#secondaryUrl");
+                switch (secondaryUrl){
+                    case "pigFarmManagement":{
+                        secondaryUrlA.attr("href","/static/html/productionControl/index.html#/pigFarmManagement");
+                        secondaryUrlA.html("猪场管理");
+                        break;
+                    }
+                    case "breedManagement":{
+                        secondaryUrlA.attr("href","/static/html/productionControl/index.html#/breedManagement");
+                        secondaryUrlA.html("繁育管理");
+                        break;
+                    }
+                    case "feedManagement":{
+                        secondaryUrlA.attr("href","/static/html/productionControl/index.html#/feedManagement");
+                        secondaryUrlA.html("饲养管理");
+                        break;
+                    }
+                    case "dailyManagement":{
+                        secondaryUrlA.attr("href","/static/html/productionControl/index.html#/dailyManagement");
+                        secondaryUrlA.html("日常管理");
+                        break;
+                    }
+                }
                 var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({
                     'articleId': articleId
