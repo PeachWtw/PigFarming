@@ -139,6 +139,9 @@ app.controller('productionControlController', [
                 page: page
             }).success(function (data) {
                 productionControl.articles = data.allList;
+                for(var i=0;i<productionControl.articles.length;i++){
+                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                }
                 productionControl.totalPage = data.page;
             });
         };
@@ -159,6 +162,9 @@ app.controller('productionControlController', [
                 'page': '1'
             }).success(function (data) {
                 productionControl.articles = data.allList;
+                for(var i=0;i<productionControl.articles.length;i++){
+                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                }
                 productionControl.totalPage = data.page;
                 var $pages = $(".tcdPageCode");
                 if ($pages.length != 0) {
@@ -224,6 +230,7 @@ app.controller('productionControlController', [
                 }).success(function (data) {
                     productionControl.article = data;
                     productionControl.article.content = decodeURIComponent(productionControl.article.content);
+                    productionControl.article.src_img = decodeURIComponent(productionControl.article.src_img);
                 });
             } else if ($location.path().indexOf('/chartPage') == 0) {
                 services.getData().success(function (data) {
