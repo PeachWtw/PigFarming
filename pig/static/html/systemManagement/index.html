@@ -53,20 +53,29 @@
                     <li><label>文章标题</label><input id="title" type="text" class="dfinput" /><i>标题不能超过20个字符</i></li>
                     <li><label>文章类型</label>
                         <select id="type1" class="dfinput short-input" />
-                            <option>呵呵</option>
-                            <option>哼哼</option>
-                            <option>哈哈</option>
+                            <option value="BreedPig">养殖-猪</option>
+                            <option value="BreedChicken">养殖-鸡</option>
+                            <option value="BreedFish">养殖-鱼</option>
+                            <option value="NationalPolicy">国家政策</option>
+                            <option value="ProductionControl">生产管理，动保防疫</option>
+                            <option value="BreedImprovement">育种改良</option>
+                            <option value="Environment">生态环境，排污处理</option>
+                            <option value="Trend">国际动态，行情走势</option>
                         </select>
                         <select id="type2" class="dfinput short-input" />
-                            <option>呵呵</option>
-                            <option>哼哼</option>
-                            <option>哈哈</option>
+                            <option value="status">生产现状</option>
+                            <option value="scale">生产规模</option>
+                            <option value="situation">行业状况</option>
                         </select>
                     </li>
-                     <li>
+                    <li>
                          <label>摘要</label>
                          <textarea id="abstract" class="textinput"></textarea>
-                     </li>
+                    </li>
+                    <li>
+                         <label>图片地址</label>
+                         <input id="imgUrl" type="text" class="dfinput" />
+                    </li>
                     <li>
                          <label>正文</label>
                          <textarea id="content" name="content" style="width:800px;height:250px;visibility:hidden;"></textarea>
