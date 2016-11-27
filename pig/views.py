@@ -5,6 +5,9 @@ from django.shortcuts import render
 from pig.ExceptClass import *
 import json
 import math
+import datetime
+from django.utils import timezone
+
 import string
 from django.http import HttpResponse
 
@@ -175,7 +178,7 @@ class PlantUtils(object):
         return [float(db_obj.timestp),db_obj.humid]
     @classmethod #这里添加处理气候的返回函数
     def ret_timeOrderweather(self,db_obj):#天气
-        return [float(db_obj.timestp),db_obj.weather]
+        return [float(db_obj.timestp),float(db_obj.weather)]
 #Switch工具类
 class switch(object):
 	def __init__(self, value):
@@ -297,7 +300,69 @@ def func_getClimateData(request):
     temp_obj=Climate.objects.all()
     temperatureList=[]; humidList=[]; weatherList=[] #生成dict对象
     for iter in temp_obj:
-        temperatureList.append(PlantUtils.ret_timeOrderByPrice(iter))
-        humidList.append(PlantUtils.ret_timeOrderByScale(iter))
-        weatherList.append(PlantUtils.ret_timeOrderByProduction(iter))
-    return json.dumps(dict(temperature=temperatureList, humid=humidList,weather=weatherList))
+        temperatureList.append(PlantUtils.ret_timeOrderBytemperature(iter))
+        humidList.append(PlantUtils.ret_timeOrderByhumid(iter))
+        weatherList.append(PlantUtils.ret_timeOrderweather(iter))
+    return HttpResponse(json.dumps(dict(temperature=temperatureList, humid=humidList,weather=weatherList)))
+
+
+#保存文章到数据中的函数
+def func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content):
+    p.save(force_insert=True)
+    p.title=title
+    p.abstract=abstract
+    p.content=content
+    p.publish_time=timezone.now()
+    p.click_times=0
+    p.src_img=src_img
+    p.type=art_type
+    p.save()
+#添加保存文章列表
+def func_addArticle(request): #添加保存文章列表
+    #title   type1     type2     abstract     imgUrl     content
+    #******从request获取所需参数**********
+    title = request.GET['title']    #标题
+    table=request.GET['type1']  #表名
+    art_type=request.GET['type2']   #文章类型
+    abstract=request.GET['abstract']   #文章摘要
+    src_img=request.GET['imgUrl']   #图片url
+    content=request.GET['content']   #文章内容
+    try:
+        for case in switch(table):
+            if case('BreedPig'): #养猪
+                p=Breedpig(id=len(Breedpig.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('BreedChicken'): #养鸡
+                p=Breedchicken(id=len(Breedchicken.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('BreedFish'): #养鱼
+                p=Breedfish(id=len(Breedfish.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('NationalPolicy'): #国家政策
+                p=NationalPolicy(np_id=len(NationalPolicy.objects.all())+1,title=title,content=content)
+                p.save(force_insert=True)
+                break
+            if case('ProductionControl'): #生产管理，动保防疫
+                p=ProductionControl(pc_id=len(ProductionControl.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('BreedImprovement'): #育种改良
+                p=BreedImprovement(bi_id=len(BreedImprovement.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('Environment'): #生态环境，排污处理
+                p=Environment(env_id=len(Environment.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('Trend'): #国际动态，行情走势
+                p=Trend(tr_id=len(Trend.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case(): # 默认
+                print "Error PlantType"
+        return HttpResponse("保存成功") #
+    except BaseException,e:
+        return HttpResponse("保存失败")
