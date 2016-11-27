@@ -147,16 +147,6 @@ class ArticleHandleCls(object):
 #-----解决需求6,7,9,10--------
 #获取文章列表的url函数
 def func_getArtList(request):
-    now = timezone.now()
-    title="title"
-    abstract="abstract"
-    content="content"
-    publish_time=now
-    click_times=0
-    src_img="src_img"
-    type="art_type"
-    p=Breedpig(id=len(Breedpig.objects.all())+1)
-    func_saveDataIntoArticle(p,title,type,abstract,src_img,content)
     L,page_total=ArticleHandleCls.wrap_articleList_method(request)   #调用工具类方法
     d = dict(allList=L, page=page_total)   #进行json串行化处理
     s = json.dumps(d)
@@ -319,13 +309,13 @@ def func_getClimateData(request):
 #保存文章到数据中的函数
 def func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content):
     p.save(force_insert=True)
-    p.title="title"
-    p.abstract="abstract"
-    p.content="content"
+    p.title=title
+    p.abstract=abstract
+    p.content=content
     p.publish_time=timezone.now()
     p.click_times=0
-    p.src_img="src_img"
-    p.type="art_type"
+    p.src_img=src_img
+    p.type=art_type
     p.save()
 #添加保存文章列表
 def func_addArticle(request): #添加保存文章列表
@@ -337,38 +327,42 @@ def func_addArticle(request): #添加保存文章列表
     abstract=request.GET['abstract']   #文章摘要
     src_img=request.GET['imgUrl']   #图片url
     content=request.GET['content']   #文章内容
-    for case in switch(table):
-        if case('Breedpig'): #养猪
-            p=Breedpig(id=len(Breedpig.objects.all())+1)
-            func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
-            break
-        if case('Breedchicken'): #养鸡
-            p=Breedchicken(id=len(Breedchicken.objects.all())+1)
-            func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
-            break
-        if case('Breedfish'): #养鱼
-            p=Breedfish(id=len(Breedfish.objects.all())+1)
-            func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
-            break
-        if case('NationalPolicy'): #国家政策
-            pass
-            break
-        if case('ProductionControl'): #生产管理，动保防疫
-            p=ProductionControl(pc_id=len(ProductionControl.objects.all())+1)
-            func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
-            break
-        if case('BreedImprovement'): #育种改良
-            p=BreedImprovement(bi_id=len(BreedImprovement.objects.all())+1)
-            func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
-            break
-        if case('Environment'): #生态环境，排污处理
-            p=Environment(env_id=len(Environment.objects.all())+1)
-            func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
-            break
-        if case('Trend'): #国际动态，行情走势
-            p=Trend(tr_id=len(Trend.objects.all())+1)
-            func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
-            break
-        if case(): # 默认
-            print "Error PlantType"
-        return HttpResponse("save ok!")
+    try:
+        for case in switch(table):
+            if case('BreedPig'): #养猪
+                p=Breedpig(id=len(Breedpig.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('BreedChicken'): #养鸡
+                p=Breedchicken(id=len(Breedchicken.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('BreedFish'): #养鱼
+                p=Breedfish(id=len(Breedfish.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('NationalPolicy'): #国家政策
+                p=NationalPolicy(np_id=len(NationalPolicy.objects.all())+1,title=title,content=content)
+                p.save(force_insert=True)
+                break
+            if case('ProductionControl'): #生产管理，动保防疫
+                p=ProductionControl(pc_id=len(ProductionControl.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('BreedImprovement'): #育种改良
+                p=BreedImprovement(bi_id=len(BreedImprovement.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('Environment'): #生态环境，排污处理
+                p=Environment(env_id=len(Environment.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case('Trend'): #国际动态，行情走势
+                p=Trend(tr_id=len(Trend.objects.all())+1)
+                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                break
+            if case(): # 默认
+                print "Error PlantType"
+        return HttpResponse("保存成功") #
+    except BaseException,e:
+        return HttpResponse("保存失败")
