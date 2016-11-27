@@ -143,6 +143,11 @@ app.controller('trendsController', [
 					page : page
 				}).success(function(data) {
 					productionControl.articles = data.allList;
+                    for(var i=0;i<productionControl.articles.length;i++){
+                    var time = productionControl.articles[i].publish_time;
+                    productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                }
 					productionControl.totalPage = data.page;
 				});
 			};
@@ -161,6 +166,11 @@ app.controller('trendsController', [
                     'page':'1'
                 }).success(function(data) {
                     productionControl.articles = data.allList;
+                for(var i=0;i<productionControl.articles.length;i++){
+                    var time = productionControl.articles[i].publish_time;
+                    productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                }
                     productionControl.totalPage = data.page;
                     console.log("直接打印返回的数据："+productionControl.articles)
                     console.log("直接打印返回的数据："+productionControl.totalPage)
@@ -193,8 +203,12 @@ app.controller('trendsController', [
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
-                    console.log(data);
                     productionControl.article = data;
+                    var time = productionControl.article.publish_time;
+                    productionControl.article.publish_time = time.substring(0,time.indexOf("T"));
+                    productionControl.article.content = decodeURIComponent(productionControl.article.content);
+                    productionControl.article.src_img = decodeURIComponent(productionControl.article.src_img);
+                    $("#art-content").html(productionControl.article.content);
                 });
             } else if ($location.path().indexOf('/chartPage') == 0) {
                 services.getData().success(function (data) {
