@@ -190,8 +190,8 @@ app.controller('productionControlController', [
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
-                    console.log(data);
                     productionControl.article = data;
+                    productionControl.article.content = decodeURIComponent(productionControl.article.content);
                 });
             } else if ($location.path().indexOf('/chartPage') == 0) {
                 services.getData().success(function (data) {
