@@ -172,7 +172,6 @@ app.controller('nationalPolicyController', [
                 });
             } else if ($location.path().indexOf('/climateKLine') == 0) {//气候k线
                 services.getClimateData().success(function (data) {
-                    console.log("从后台获取的气候K线数据："+data);
                     var temperature = data.temperature;//温度
                     var humidity = data.humid;//湿度
                     var weather = data.weather;//阴晴
@@ -198,6 +197,8 @@ app.controller('nationalPolicyController', [
                     }
                     var chart2 = new Chart(data2);
                     chart2.init();
+                    console.log(humidity);
+                    console.log(weather);
                     var data3 = {
                         elementId: '#chart3',
                         title: '湖北襄阳市每日天气K线图',
