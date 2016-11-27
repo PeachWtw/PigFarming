@@ -576,7 +576,8 @@ ul li {
 
 .div-policy{
     border-bottom: 1px dotted #888;
-    padding-top: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
 }
 
 .div-img{

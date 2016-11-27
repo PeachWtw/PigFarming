@@ -7,7 +7,8 @@ $(function () {
     $('#addArticleBtn').click(function (e) {
         preventDefault(e);
         var $title    = encodeURIComponent($('#title').val().trim()),
-            $type     = encodeURIComponent($('#type').val().trim()),
+            $type1    = encodeURIComponent($('#type1').val().trim()),
+            $type2    = encodeURIComponent($('#type2').val().trim()),
             $abstract = encodeURIComponent($('#abstract').val().trim()),
             $content  = encodeURIComponent(editor.html());
 
@@ -17,7 +18,8 @@ $(function () {
         } else{
             var params = {
                 title   : $title,
-                type    : $type,
+                type1   : $type1,
+                type2   : $type2,
                 abstract: $abstract,
                 content : $content
             }
