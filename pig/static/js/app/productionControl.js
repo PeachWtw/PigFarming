@@ -191,7 +191,10 @@ app.controller('productionControlController', [
                     'articleId': articleId
                 }).success(function (data) {
                     productionControl.article = data;
+                    console.log("反编码之前："+productionControl.article.content )
                     productionControl.article.content = decodeURIComponent(productionControl.article.content);
+                    console.log("反编码之后："+productionControl.article.content )
+                    $("#art-content").html(productionControl.article.content);
                 });
             } else if ($location.path().indexOf('/chartPage') == 0) {
                 services.getData().success(function (data) {
