@@ -139,6 +139,11 @@ app.controller('productionControlController', [
                 page: page
             }).success(function (data) {
                 productionControl.articles = data.allList;
+                for(var i=0;i<productionControl.articles.length;i++){
+                    var time = productionControl.articles[i].publish_time;
+                    productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                }
                 productionControl.totalPage = data.page;
             });
         };
@@ -159,6 +164,11 @@ app.controller('productionControlController', [
                 'page': '1'
             }).success(function (data) {
                 productionControl.articles = data.allList;
+                for(var i=0;i<productionControl.articles.length;i++){
+                    var time = productionControl.articles[i].publish_time;
+                    productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                }
                 productionControl.totalPage = data.page;
                 var $pages = $(".tcdPageCode");
                 if ($pages.length != 0) {
@@ -223,35 +233,12 @@ app.controller('productionControlController', [
                     'articleId': articleId
                 }).success(function (data) {
                     productionControl.article = data;
-                    console.log("反编码之前："+productionControl.article.content )
+                    var time = productionControl.article.publish_time;
+                    productionControl.article.publish_time = time.substring(0,time.indexOf("T"));
                     productionControl.article.content = decodeURIComponent(productionControl.article.content);
-                    console.log("反编码之后："+productionControl.article.content )
+                    productionControl.article.src_img = decodeURIComponent(productionControl.article.src_img);
                     $("#art-content").html(productionControl.article.content);
                 });
-            } else if ($location.path().indexOf('/chartPage') == 0) {
-                services.getData().success(function (data) {
-                    var arr = data.trim().split(" ");
-                    var dataArr = [];
-                    for (var i = 0; i < arr.length / 2; i++) {
-                        var temp = [];
-                        temp[0] = +arr[2 * i];
-                        temp[1] = +arr[2 * i + 1];
-                        dataArr[i] = temp;
-                    }
-                    console.log(dataArr);
-                    var initData = {
-                        title: '呵呵呵呵',
-                        subtitle: '网址: www.hehe.com',
-                        //xScale:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','lyy', 'Nov', 'Dec'],
-                        yTitle: '温度 (°C)',
-                        valueSuffix: '°C',
-                        series: {name: '北京', data: dataArr
-                        }
-                    }
-                    var chart = new Chart(initData);
-                    chart.init();
-                });
-
             }
         }
 
