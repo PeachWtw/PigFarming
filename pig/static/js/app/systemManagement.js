@@ -29,10 +29,10 @@ $(function () {
     //获取页面中输入的内容并发送添加文章请求
     $('#addArticleBtn').click(function (e) {
         preventDefault(e);
-        var $title    = encodeURIComponent($('#title').val().trim()),
-            $type1    = encodeURIComponent($('#type1').val().trim()),
-            $type2    = encodeURIComponent($('#type2').val().trim()),
-            $abstract = encodeURIComponent($('#abstract').val().trim()),
+        var $title    = $('#title').val().trim(),
+            $type1    = $('#type1').val().trim(),
+            $type2    = $('#type2').val().trim(),
+            $abstract = $('#abstract').val().trim(),
             $imgUrl = encodeURIComponent($('#imgUrl').val().trim()),
             $content  = encodeURIComponent(editor.html());
 
