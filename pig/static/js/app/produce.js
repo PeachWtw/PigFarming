@@ -125,6 +125,17 @@ app.controller('ProduceController', [
 		// 养殖
 		var produce = $scope;
 
+        //获取文章列表分页
+        produce.getArtList = function (page, articleType) {
+            services.getArtList({
+                //'articleType':artType,
+                articleType: articleType,
+                page: page
+            }).success(function (data) {
+                produce.articles = data.allList;
+                produce.totalPage = data.page;
+            });
+        };
         //获取文章详细内容
         produce.getArticleDetail = function() {
             var articleId = this.art.id;

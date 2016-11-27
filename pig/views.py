@@ -53,10 +53,11 @@ class ArticleHandleCls(object):
     @classmethod
     def func_handle_artList(cls,request,db_obj, page, art_type):
         try:
-            if "Breeding" not in art_type:
-                temp_obj = db_obj.objects.filter(type=art_type)   #获取元组总个数
+            if "Breeding"  in art_type or "breedImprovement" in art_type\
+                    or "nationalPolicy" in art_type:
+                temp_obj = db_obj.objects.all()   #养殖模块,育种改良,国家政策特殊处理
             else:
-                 temp_obj = db_obj.objects.all()   #养殖模块特殊处理
+                temp_obj = db_obj.objects.filter(type=art_type)   #获取元组总个数
             num = map(str, temp_obj)
             page_total=int(math.ceil(len(num) / 10.0))  #计算总页数
             index_low = (page - 1) * 10
@@ -69,7 +70,6 @@ class ArticleHandleCls(object):
             request.session['tableData']=L  #利用Session存储表的数据
             return L, page_total
         finally:
-
             pass
     #获取文章列表的类方法
         #输入：page,articleType
@@ -80,7 +80,7 @@ class ArticleHandleCls(object):
         article_type=request.GET['articleType']
         #*********进行不同的数据库表匹配*************
         if  "Management" in article_type: #生产管理，动保防疫
-            L, cnt = cls.func_handle_artList(request,BreedImprovement,int(page),article_type)
+            L, cnt = cls.func_handle_artList(request,ProductionControl,int(page),article_type)
         elif "Environment" in article_type: #生态环境，排污处理
             L, cnt = cls.func_handle_artList(request,Environment, int(page),article_type)
         elif "International" in article_type: #国际动态，行情趋势
@@ -91,6 +91,10 @@ class ArticleHandleCls(object):
             L, cnt = cls.func_handle_artList(request,Breedchicken, int(page),article_type)
         elif "fishBreeding" in article_type: #养殖-鱼
             L, cnt = cls.func_handle_artList(request,Breedfish, int(page),article_type)
+        elif "breedImprovement" in article_type: #育种改良
+            L, cnt = cls.func_handle_artList(request,BreedImprovement, int(page),article_type)
+        elif "nationalPolicy" in article_type: #国家政策
+            L, cnt = cls.func_handle_artList(request,NationalPolicy, int(page),article_type)
         elif "其他接口" in article_type:
             pass
         else:
@@ -116,17 +120,22 @@ class ArticleHandleCls(object):
         L=request.session.get('tableData')  #从Session获取表中的数据
         #*********进行不同的数据库表匹配**************
         if "Management" in art_type:  #生产管理，动保防疫
-            return cls.func_handle_artDetail_clicktimesAdd(BreedImprovement,index_id,"bi_id",L)
+            return cls.func_handle_artDetail_clicktimesAdd(ProductionControl,index_id,"pc_id",L)
         elif "Environment" in art_type: #生态环境，排污处理
             return  cls.func_handle_artDetail_clicktimesAdd(Environment,index_id,"env_id",L)
         elif "International" in art_type:  #国际动态，行情趋势
             return  cls.func_handle_artDetail_clicktimesAdd(Trend,index_id,"tr_id",L)
         elif "pigBreeding" in art_type: #养殖-猪
-            return  cls.func_handle_artDetail_clicktimesAdd(Breedpig,index_id,"bp_id",L)
+            return  cls.func_handle_artDetail_clicktimesAdd(Breedpig,index_id,"id",L)
         elif "chickenBreeding" in art_type: #养殖-鸡
-            return  cls.func_handle_artDetail_clicktimesAdd(Breedchicken,index_id,"bc_id",L)
+            return  cls.func_handle_artDetail_clicktimesAdd(Breedchicken,index_id,"id",L)
         elif "fishBreeding" in art_type: #养殖-鱼
-            return  cls.func_handle_artDetail_clicktimesAdd(Breedfish,index_id,"bf_id",L)
+            return  cls.func_handle_artDetail_clicktimesAdd(Breedfish,index_id,"id",L)
+        elif "breedImprovement" in art_type:
+            return  cls.func_handle_artDetail_clicktimesAdd(BreedImprovement,index_id,"bi_id",L)
+        elif "nationalPolicy" in art_type: #国家政策特殊处理
+              retList=[ k for k in L if int(k['np_id'])==int(index_id) ] #国家政策特殊处理
+              return retList[0]
         elif "其他接口" in art_type:
             pass
         else:

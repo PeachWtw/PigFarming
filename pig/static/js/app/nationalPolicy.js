@@ -131,7 +131,7 @@ app.controller('nationalPolicyController', [
 
         //获取文章详细内容
         nationalPolicy.getArticleDetail = function () {
-            var articleId = this.art.bi_id;
+            var articleId = this.art.np_id;
             window.sessionStorage.setItem('artId', articleId);
             console.log("获取文章id：" + articleId)
         };
@@ -163,7 +163,7 @@ app.controller('nationalPolicyController', [
             console.log("初始化页面信息");
             if ($location.path().indexOf('/nationalPolicy') == 0) { //国家政策
                 getArticleList("nationalPolicy");
-            } else if ($location.path().indexOf('/nationalPolicy') == 0) { //国家政策
+            } else if ($location.path().indexOf('/articleDetail') == 0) { //国家政策
                 var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({
                     'articleId': articleId

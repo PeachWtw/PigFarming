@@ -61,7 +61,7 @@ app
 		function($routeProvider) {
 			$routeProvider
 				.when(
-					'/', {
+					'/breedImprovement', {
 						templateUrl: '/static/html/breedImprovement/articleList.html',
 						controller: 'breedImprovementController'
 					})
@@ -125,7 +125,7 @@ app.controller('breedImprovementController', [
 
         //获取文章详细内容
         breedImprovement.getArticleDetail = function () {
-            var articleId = this.art.env_id;
+            var articleId = this.art.bi_id;
             window.sessionStorage.setItem('artId', articleId);
             console.log("获取文章id：" + articleId)
 
@@ -155,10 +155,11 @@ app.controller('breedImprovementController', [
 		// 初始化页面信息
 		function initData() {
 			console.log("初始化页面信息");
-            if($location.path().indexOf('/') == 0) {//育种改良
+            if($location.path().indexOf('/breedImprovement') == 0) {//育种改良
 				getArticleList("breedImprovement");
 			} else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
                 var articleId = window.sessionStorage.getItem('artId');
+                console.log("获取文章详情："+articleId)
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
