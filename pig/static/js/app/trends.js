@@ -135,25 +135,25 @@ app.controller('trendsController', [
 	'$location',
 	function($scope, services, $location) {
 		// 养殖
-		var productionControl = $scope;
+		var trendsController = $scope;
         //获取文章列表分页
-        productionControl.getArtList = function(page,articleType) {
+        trendsController.getArtList = function(page,articleType) {
 				services.getArtList({
                     articleType : articleType,
 					page : page
 				}).success(function(data) {
-					productionControl.articles = data.allList;
-                    for(var i=0;i<productionControl.articles.length;i++){
-                    var time = productionControl.articles[i].publish_time;
-                    productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
-                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+					trendsController.articles = data.allList;
+                    for(var i=0;i<trendsController.articles.length;i++){
+                    var time = trendsController.articles[i].publish_time;
+                    trendsController.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    trendsController.articles[i].src_img = decodeURIComponent(trendsController.articles[i].src_img);
                 }
-					productionControl.totalPage = data.page;
+					trendsController.totalPage = data.page;
 				});
 			};
 
         //获取文章详细内容
-        productionControl.getArticleDetail = function () {
+        trendsController.getArticleDetail = function () {
             var articleId = this.art.tr_id;
             window.sessionStorage.setItem('artId', articleId);
             console.log("获取文章id：" + articleId)
@@ -165,22 +165,22 @@ app.controller('trendsController', [
                     'articleType':articleType,
                     'page':'1'
                 }).success(function(data) {
-                    productionControl.articles = data.allList;
-                for(var i=0;i<productionControl.articles.length;i++){
-                    var time = productionControl.articles[i].publish_time;
-                    productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
-                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                    trendsController.articles = data.allList;
+                for(var i=0;i<trendsController.articles.length;i++){
+                    var time = trendsController.articles[i].publish_time;
+                    trendsController.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    trendsController.articles[i].src_img = decodeURIComponent(trendsController.articles[i].src_img);
                 }
-                    productionControl.totalPage = data.page;
-                    console.log("直接打印返回的数据："+productionControl.articles)
-                    console.log("直接打印返回的数据："+productionControl.totalPage)
+                    trendsController.totalPage = data.page;
+                    console.log("直接打印返回的数据："+trendsController.articles)
+                    console.log("直接打印返回的数据："+trendsController.totalPage)
                     var $pages = $(".tcdPageCode");
                     if ($pages.length != 0) {
 							$pages.createPage({
-								pageCount : productionControl.totalPage,
+								pageCount : trendsController.totalPage,
 								current : 1,
 								backFn : function(p) {
-                                    productionControl.getArtList(p,articleType);// 点击页码时获取第p页的数据
+                                    trendsController.getArtList(p,articleType);// 点击页码时获取第p页的数据
 								}
 							});
 						}
@@ -191,24 +191,56 @@ app.controller('trendsController', [
 		function initData() {
 			console.log("初始化页面信息");
 			if($location.path().indexOf('/current') == 0) { //国际同行现状
+                $("#secUrl").html("国际同行现状");
                 getArticleList("currentInternational");
+                sessionStorage.setItem("secondary","current");
 			} else if($location.path().indexOf('/tendency') == 0) {//前沿趋势
-				getArticleList("trendInternational");
+				$("#secUrl").html("前沿趋势");
+                getArticleList("trendInternational");
+                sessionStorage.setItem("secondary","tendency");
 			} else if($location.path().indexOf('/feedstuff') == 0) {//饲料原料行情走势
-				getArticleList("feedInternational");
+				$("#secUrl").html("饲料原料行情走势");
+                getArticleList("feedInternational");
+                sessionStorage.setItem("secondary","feedstuff");
 			} else if($location.path().indexOf('/futures') == 0) {//玉米大豆期货走势
-				getArticleList("futuresInternational");
+				$("#secUrl").html("玉米大豆期货走势");
+                getArticleList("futuresInternational");
+                sessionStorage.setItem("secondary","futures");
 			} else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
+                var secondaryUrl = sessionStorage.getItem("secondary");
+                var secondaryUrlA = $("#secondaryUrl");
+                switch (secondaryUrl){
+                    case "current":{
+                        secondaryUrlA.attr("href","/static/html/trends/index.html#/current");
+                        secondaryUrlA.html("国际同行现状");
+                        break;
+                    }
+                    case "tendency":{
+                        secondaryUrlA.attr("href","/static/html/trends/index.html#/tendency");
+                        secondaryUrlA.html("前沿趋势");
+                        break;
+                    }
+                    case "tendency":{
+                        secondaryUrlA.attr("href","/static/html/trends/index.html#/tendency");
+                        secondaryUrlA.html("饲料原料行情走势");
+                        break;
+                    }
+                    case "feedstuff":{
+                        secondaryUrlA.attr("href","/static/html/trends/index.html#/feedstuff");
+                        secondaryUrlA.html("玉米大豆期货走势");
+                        break;
+                    }
+                }
                 var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
-                    productionControl.article = data;
-                    var time = productionControl.article.publish_time;
-                    productionControl.article.publish_time = time.substring(0,time.indexOf("T"));
-                    productionControl.article.content = decodeURIComponent(productionControl.article.content);
-                    productionControl.article.src_img = decodeURIComponent(productionControl.article.src_img);
-                    $("#art-content").html(productionControl.article.content);
+                    trendsController.article = data;
+                    var time = trendsController.article.publish_time;
+                    trendsController.article.publish_time = time.substring(0,time.indexOf("T"));
+                    trendsController.article.content = decodeURIComponent(trendsController.article.content);
+                    trendsController.article.src_img = decodeURIComponent(trendsController.article.src_img);
+                    $("#art-content").html(trendsController.article.content);
                 });
             } else if ($location.path().indexOf('/chartPage') == 0) {
                 services.getData().success(function (data) {
