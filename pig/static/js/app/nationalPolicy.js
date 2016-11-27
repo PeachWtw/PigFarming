@@ -162,13 +162,29 @@ app.controller('nationalPolicyController', [
         function initData() {
             console.log("初始化页面信息");
             if ($location.path().indexOf('/nationalPolicy') == 0) { //国家政策
+                $("#secUrl").html("国家政策");
                 getArticleList("nationalPolicy");
+                sessionStorage.setItem("secondary","nationalPolicy");
             } else if ($location.path().indexOf('/articleDetail') == 0) { //国家政策
-                var articleId = window.sessionStorage.getItem('artId');
+                var secondaryUrl = sessionStorage.getItem("secondary");
+                var secondaryUrlA = $("#secondaryUrl");
+                switch (secondaryUrl) {
+                    case "nationalPolicy":
+                    {
+                        secondaryUrlA.attr("href", "/static/html/nationalPolicy/index.html#/nationalPolicy");
+                        secondaryUrlA.html("国家政策");
+                        break;
+                    }
+                }
+               var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
                     nationalPolicy.article = data;
+                    console.log("反编码之前："+nationalPolicy.article.content )
+                    nationalPolicy.article.content = decodeURIComponent(nationalPolicy.article.content);
+                    console.log("反编码之后："+nationalPolicy.article.content )
+                    $("#art-content").html(nationalPolicy.article.content);
                 });
             } else if ($location.path().indexOf('/climateKLine') == 0) {//气候k线
                 services.getClimateData().success(function (data) {
