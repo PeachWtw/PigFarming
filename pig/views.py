@@ -167,6 +167,15 @@ class PlantUtils(object):
     @classmethod
     def ret_timeOrderByProduction(self,db_obj):
         return [float(db_obj.timestp),db_obj.production]
+    @classmethod #这里添加处理气候的返回函数
+    def ret_timeOrderBytemperature(self,db_obj):#温度
+        return [float(db_obj.timestp),db_obj.temperature]
+    @classmethod #这里添加处理气候的返回函数
+    def ret_timeOrderByhumid(self,db_obj):#湿度
+        return [float(db_obj.timestp),db_obj.humid]
+    @classmethod #这里添加处理气候的返回函数
+    def ret_timeOrderweather(self,db_obj):#天气
+        return [float(db_obj.timestp),db_obj.weather]
 #Switch工具类
 class switch(object):
 	def __init__(self, value):
@@ -282,3 +291,13 @@ def func_getPigPriceChartData(request):
             print "Error PigtType"
             d=None
     return HttpResponse(d)
+
+#处理气候的函数
+def func_getClimateData(request):
+    temp_obj=Climate.objects.all()
+    temperatureList=[]; humidList=[]; weatherList=[] #生成dict对象
+    for iter in temp_obj:
+        temperatureList.append(PlantUtils.ret_timeOrderByPrice(iter))
+        humidList.append(PlantUtils.ret_timeOrderByScale(iter))
+        weatherList.append(PlantUtils.ret_timeOrderByProduction(iter))
+    return json.dumps(dict(temperature=temperatureList, humid=humidList,weather=weatherList))
