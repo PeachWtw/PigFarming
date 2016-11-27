@@ -27,7 +27,7 @@
 				<div class="navList">
 					<ul>
 						<li>
-							<a href="#/current">国际同行现状</a>
+							<a id="firstPage" href="#/current">国际同行现状</a>
 						</li>
 						<li>
 							<a href="#/tendency">前沿趋势</a>
@@ -70,6 +70,11 @@
 		<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
         <script type="text/javascript" src="../../js/lib/pageTurn.js"></script>
 		<script type="text/javascript" src="../../js/app/trends.js"></script>
+        <script>
+            $(function(){
+                document.getElementById("firstPage").click();
+            })
+        </script>
 	</body>
 
 </html>

@@ -75,7 +75,7 @@ app
                 '/articleDetail', {
                     templateUrl: '/static/html/nationalPolicy/articleDetail.html',
                     controller: 'nationalPolicyController'
-                })
+                });
         }
     ]);
 app.constant('baseUrl', '/static/');
@@ -163,6 +163,7 @@ app.controller('nationalPolicyController', [
         // 初始化页面信息
         function initData() {
             console.log("初始化页面信息");
+            location.href = "/static/html/nationalPolicy/articleList.html#/nationalPolicy";
             if ($location.path().indexOf('/nationalPolicy') == 0) { //国家政策
                 getArticleList("nationalPolicy");
             } else if ($location.path().indexOf('/articleDetail') == 0) { //国家政策

@@ -28,7 +28,7 @@
 				<div class="navList">
 					<ul>
 						<li>
-							<a href="#/pigFarmManagement">猪场管理</a>
+							<a id="firstPage" href="#/pigFarmManagement">猪场管理</a>
 						</li>
 						<li>
 							<a href="#/breedManagement">繁育管理</a>
@@ -74,6 +74,11 @@
 		<script type="text/javascript" src="../../js/app/chart.js" ></script>
         <script type="text/javascript" src="../../js/app/jsonParse.js" ></script>
 		<script type="text/javascript" src="../../js/app/productionControl.js"></script>
+        <script>
+            $(function(){
+                document.getElementById("firstPage").click();
+            })
+        </script>
 	</body>
 
 </html>

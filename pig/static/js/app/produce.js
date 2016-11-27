@@ -133,6 +133,11 @@ app.controller('ProduceController', [
                 page: page
             }).success(function (data) {
                 produce.articles = data.allList;
+                for(var i=0;i<produce.articles.length;i++){
+                    var time = produce.articles[i].publish_time;
+                    produce.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    produce.articles[i].src_img = decodeURIComponent(produce.articles[i].src_img);
+                }
                 produce.totalPage = data.page;
             });
         };
@@ -152,6 +157,11 @@ app.controller('ProduceController', [
             }).success(function (data) {
                 console.log(data);
                 produce.articles = data.allList;
+                for(var i=0;i<produce.articles.length;i++){
+                    var time = produce.articles[i].publish_time;
+                    produce.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    produce.articles[i].src_img = decodeURIComponent(produce.articles[i].src_img);
+                }
                 produce.totalPage = data.page;
                 var $pages = $(".tcdPageCode");
                 if ($pages.length != 0) {
@@ -171,19 +181,49 @@ app.controller('ProduceController', [
 		function initData() {
 			console.log("初始化页面信息");
 
-			if($location.path().indexOf('/pig') == 0) { // 如果是合同列表页
+			if($location.path().indexOf('/pig') == 0) { //
+                $("#secUrl").html("养猪");
 				getArticleList("pigBreeding");
+                sessionStorage.setItem("secondary","pig");
 			} else if($location.path().indexOf('/chicken') == 0) {
+                $("#secUrl").html("养鸡");
 				getArticleList("chickenBreeding");
+                sessionStorage.setItem("secondary","chicken");
 			} else if($location.path().indexOf('/fish') == 0) {
+                $("#secUrl").html("养鱼");
 				getArticleList("fishBreeding");
+                sessionStorage.setItem("secondary","fish");
 			} else if($location.path().indexOf('/articleDetail') == 0) {
                 var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
-                    console.log(data);
+                    var secondaryUrl = sessionStorage.getItem("secondary");
+                    var secondaryUrlA = $("#secondaryUrl");
+                    switch (secondaryUrl){
+                    case "pig":{
+                        secondaryUrlA.attr("href","/static/html/produce/index.html#/pig");
+                        secondaryUrlA.html("养猪");
+                        break;
+                    }
+                    case "chicken":{
+                        secondaryUrlA.attr("href","/static/html/produce/index.html#/chicken");
+                        secondaryUrlA.html("养鸡");
+                        break;
+                    }
+                    case "fish":
+                    {
+                        secondaryUrlA.attr("href", "/static/html/produce/index.html#/fish");
+                        secondaryUrlA.html("养鱼");
+                        break;
+                    }
+                }
                     produce.article = data;
+                    var time = produce.article.publish_time;
+                    produce.article.publish_time = time.substring(0,time.indexOf("T"));
+                    produce.article.content = decodeURIComponent(produce.article.content);
+                    produce.article.src_img = decodeURIComponent(produce.article.src_img);
+                    $("#art-content").html(produce.article.content);
                 });
 			}
 		}

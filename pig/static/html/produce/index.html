@@ -27,7 +27,7 @@
 				<div class="navList">
 					<ul>
 						<li>
-							<a href="#/pig">养猪</a>
+							<a id="firstPage" href="#/pig">养猪</a>
 						</li>
 						<li>
 							<a href="#/chicken">养鸡</a>
@@ -67,6 +67,11 @@
 		<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
         <script type="text/javascript" src="../../js/lib/pageTurn.js"></script>
 		<script type="text/javascript" src="../../js/app/produce.js"></script>
+        <script>
+            $(function(){
+                document.getElementById("firstPage").click();
+            })
+        </script>
 	</body>
 
 </html>

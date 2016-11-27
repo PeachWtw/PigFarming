@@ -33,7 +33,6 @@ $(function () {
             $type1    = $('#type1').val().trim(),
             $type2    = "",
             $abstract = $('#abstract').val().trim(),
-            $imgUrl = encodeURIComponent($('#imgUrl').val().trim()),
             $content  = encodeURIComponent(editor.html());
 
         if($('#type2').val()){
@@ -49,12 +48,17 @@ $(function () {
                 type1   : $type1,
                 type2   : $type2,
                 abstract: $abstract,
-                imgUrl  : $imgUrl,
+                imgUrl  : "hehe",
                 content : $content
             }
             $.get("http://127.0.0.1:8000/pig/article/addArticle/", params,
                 function(data){
-                alert(data);
+                    //上传图片
+                    var form = $("<form action='http://127.0.0.1:8000/pig/article/uploadPic' enctype='multipart/form-data' method='post'></form>");
+                    var picLi = $("#pic-li");
+                    form.append(picLi);
+                    form.submit();
+                    alert(data);
             });
         }
     });

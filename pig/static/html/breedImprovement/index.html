@@ -28,7 +28,7 @@
 				<div class="navList">
 					<ul>
                         <li>
-							<a href="#/breedImprovement">育种改良</a>
+							<a id="firstPage" href="#/breedImprovement">育种改良</a>
 						</li>
 					</ul>
 				</div>
@@ -61,6 +61,11 @@
 		<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
         <script type="text/javascript" src="../../js/lib/pageTurn.js"></script>
 		<script type="text/javascript" src="../../js/app/breedImprovement.js"></script>
+        <script>
+            $(function(){
+                document.getElementById("firstPage").click();
+            })
+        </script>
 	</body>
 
 </html>

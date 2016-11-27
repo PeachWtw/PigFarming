@@ -27,7 +27,7 @@
 				<div class="navList">
 					<ul>
 						<li>
-							<a href="#/lawsEnvironment">养殖排污法规</a>
+							<a id="firstPage" href="#/lawsEnvironment">养殖排污法规</a>
 						</li>
 						<li>
 							<a href="#/projectEnvironment">先进治污方案</a>
@@ -67,6 +67,11 @@
 		<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
         <script type="text/javascript" src="../../js/lib/pageTurn.js"></script>
 		<script type="text/javascript" src="../../js/app/laws.js"></script>
+        <script>
+            $(function(){
+                document.getElementById("firstPage").click();
+            })
+        </script>
 	</body>
 
 </html>

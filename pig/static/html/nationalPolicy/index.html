@@ -28,7 +28,7 @@
 				<div class="navList">
 					<ul>
 						<li>
-							<a href="#/nationalPolicy">国家政策</a>
+							<a id="firstPage" href="#/nationalPolicy">国家政策</a>
 						</li>
                         <li>
 							<a href="#/climateKLine">气候K线</a>
@@ -68,6 +68,11 @@
 		<script type="text/javascript" src="../../js/app/chart.js" ></script>
         <script type="text/javascript" src="../../js/app/jsonParse.js" ></script>
 		<script type="text/javascript" src="../../js/app/nationalPolicy.js"></script>
+        <script>
+            $(function(){
+                document.getElementById("firstPage").click();
+            })
+        </script>
 	</body>
 
 </html>

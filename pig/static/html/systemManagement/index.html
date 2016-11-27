@@ -48,7 +48,7 @@
 		</div>
 		<!--导航结束-->
 		<div class="container">
-            <form id="addArticle" class="forminfo">
+            <form id="addArticle" class="forminfo"  enctype="multipart/form-data" method="post">
                 <ul class="forminfo">
                     <li><label>文章标题</label><input id="title" type="text" class="dfinput" /><i>标题不能超过20个字符</i></li>
                     <li><label>文章类型</label>
@@ -72,9 +72,9 @@
                          <label>摘要</label>
                          <textarea id="abstract" class="textinput"></textarea>
                     </li>
-                    <li>
-                         <label>图片地址</label>
-                         <input id="imgUrl" type="text" class="dfinput" />
+                    <li id="pic-li">
+                         <label>上传图片</label>
+                         <input type="file" name = "picfile">
                     </li>
                     <li>
                          <label>正文</label>
