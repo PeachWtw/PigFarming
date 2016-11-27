@@ -1,20 +1,11 @@
 var app = angular
 	.module(
-		'produce', ['ngRoute'],
+		'breedImprovement', ['ngRoute'],
 		function($httpProvider) { // ngRoute引入路由依赖
 			$httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
 			$httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-			// Override $http service's default transformRequest
 			$httpProvider.defaults.transformRequest = [function(data) {
-				/**
-				 * The workhorse; converts an object to
-				 * x-www-form-urlencoded serialization.
-				 * 
-				 * @param {Object}
-				 *            obj
-				 * @return {String}
-				 */
 				var param = function(obj) {
 					var query = '';
 					var name, value, fullSubName, subName, subValue, innerObj, i;
@@ -70,29 +61,19 @@ app
 		function($routeProvider) {
 			$routeProvider
 				.when(
-					'/pig', {
-						templateUrl: '/static/html/produce/article.html',
-						controller: 'ProduceController'
-					})
-				.when(
-					'/chicken', {
-						templateUrl: '/static/html/produce/article.html',
-						controller: 'ProduceController'
-					})
-				.when(
-					'/fish', {
-						templateUrl: '/static/html/produce/article.html',
-						controller: 'ProduceController'
+					'/breedImprovement', {
+						templateUrl: '/static/html/breedImprovement/articleList.html',
+						controller: 'breedImprovementController'
 					})
 				.when(
 					'/articleDetail', {
-						templateUrl: '/static/html/produce/articleDetail.html',
-						controller: 'ProduceController'
+						templateUrl: '/static/html/breedImprovement/articleDetail.html',
+						controller: 'breedImprovementController'
 					})
 
 		}
 	]);
-app.constant('baseUrl', '/CIMS/');
+app.constant('baseUrl', '/static/');
 app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
     //根据文章类型获取文章列表
@@ -113,82 +94,81 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 			params: data
 		});
 	};
+    //获取K线图所需的数据
+	services.getData = function(){
+		return $http({
+			method: 'get',
+			url: '/pig/getData/'
+		});
+	}
 
 	return services;
 }]);
 
-app.controller('ProduceController', [
+app.controller('breedImprovementController', [
 	'$scope',
 	'services',
 	'$location',
 	function($scope, services, $location) {
 		// 养殖
-		var produce = $scope;
-
+		var breedImprovement = $scope;
         //获取文章列表分页
-        produce.getArtList = function (page, articleType) {
-            services.getArtList({
-                //'articleType':artType,
-                articleType: articleType,
-                page: page
-            }).success(function (data) {
-                produce.articles = data.allList;
-                produce.totalPage = data.page;
-            });
-        };
+        breedImprovement.getArtList = function(page,articleType) {
+				services.getArtList({
+                    articleType : articleType,
+					page : page
+				}).success(function(data) {
+					breedImprovement.articles = data.allList;
+					breedImprovement.totalPage = data.page;
+				});
+			};
+
         //获取文章详细内容
-        produce.getArticleDetail = function() {
-            var articleId = this.art.id;
+        breedImprovement.getArticleDetail = function () {
+            var articleId = this.art.bi_id;
             window.sessionStorage.setItem('artId', articleId);
             console.log("获取文章id：" + articleId)
-		};
-        //页面初始化时获取文章列表，含分页
-        function getArticleList(articleType) {
-            services.getArtList({
-                //'articleType':'pigFarmManagement',
-                //更改了这个部分！！！！
-                'articleType': articleType,
-                'page': '1'
-            }).success(function (data) {
-                console.log(data);
-                produce.articles = data.allList;
-                produce.totalPage = data.page;
-                var $pages = $(".tcdPageCode");
-                if ($pages.length != 0) {
-                    $pages.createPage({
-                        pageCount: produce.totalPage,
-                        current: 1,
-                        backFn: function (p) {
-                            produce.getArtList(p, articleType);// 点击页码时获取第p页的数据
-                        }
-                    });
-                }
-                //productionControl.articles = jsonParse.arrToJsons(data);
-            });
-        }
 
+        };
+        //页面初始化时获取文章列表，含分页
+        function getArticleList(articleType){
+            services.getArtList({
+                    'articleType':articleType,
+                    'page':'1'
+                }).success(function(data) {
+                    breedImprovement.articles = data.allList;
+                    breedImprovement.totalPage = data.page;
+                    console.log("直接打印返回的数据："+breedImprovement.articles)
+                    console.log("直接打印返回的数据："+breedImprovement.totalPage)
+                    var $pages = $(".tcdPageCode");
+                    if ($pages.length != 0) {
+							$pages.createPage({
+								pageCount : breedImprovement.totalPage,
+								current : 1,
+								backFn : function(p) {
+                                 	breedImprovement.getArtList(p,articleType);// 点击页码时获取第p页的数据
+								}
+							});
+						}
+                });
+        }
 		// 初始化页面信息
 		function initData() {
 			console.log("初始化页面信息");
-
-			if($location.path().indexOf('/pig') == 0) { // 如果是合同列表页
-				getArticleList("pigBreeding");
-			} else if($location.path().indexOf('/chicken') == 0) {
-				getArticleList("chickenBreeding");
-			} else if($location.path().indexOf('/fish') == 0) {
-				getArticleList("fishBreeding");
-			} else if($location.path().indexOf('/articleDetail') == 0) {
+            if($location.path().indexOf('/breedImprovement') == 0) {//育种改良
+				getArticleList("breedImprovement");
+			} else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
                 var articleId = window.sessionStorage.getItem('artId');
+                console.log("获取文章详情："+articleId)
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
                     console.log(data);
-                    produce.article = data;
+                    breedImprovement.article = data;
                 });
-			}
-		}
+            }
+        }
 
-		initData();
-
-	}
+        initData();
+    }
 ]);

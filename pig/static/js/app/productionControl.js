@@ -145,7 +145,7 @@ app.controller('productionControlController', [
 
         //获取文章详细内容
         productionControl.getArticleDetail = function () {
-            var articleId = this.art.bi_id;
+            var articleId = this.art.pc_id;
             window.sessionStorage.setItem('artId', articleId);
             console.log("获取文章id：" + articleId)
 

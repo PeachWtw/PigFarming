@@ -1,0 +1,16 @@
+<div class="article">
+	<div class="location">
+		当前所在位置：首页 >> 育种改良
+	</div>
+	<section class="article-list">
+		<div class="div-article"  ng-repeat="art in articles">
+			<div class="div-inf">
+				<h3><a ng-click="getArticleDetail()" href="#/articleDetail">{{art.title}}</a></h3>
+				<div class="abstract"><p>{{art.abstract}}</p></div>
+				<div class="releasetime">发布时间：{{art.publish_time}}</div>
+			</div>
+			<div class="div-img"><img src={{art.src_img}} alt="图片未找到" class="img-list" /></div>
+		</div>
+	</section>
+    <div class="tcdPageCode"></div><!--页码容器 -->
+</div>

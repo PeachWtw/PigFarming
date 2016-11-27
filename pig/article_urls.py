@@ -8,4 +8,5 @@ urlpatterns = patterns('',
     url(r'^getArtById/','pig.views.func_getArtById'),#文章详情
     url(r'^getChartData/','pig.views.func_getChartData'),#物种系统
     url(r'^getPigPriceChartData/','pig.views.func_getPigPriceChartData'),#猪价系统
+    url(r'^getClimateData/','pig.views.func_getClimateData'),#气候k线图
 )

@@ -574,6 +574,11 @@ ul li {
 	/*position: absolute;*/
 }
 
+.div-policy{
+    border-bottom: 1px dotted #888;
+    padding-top: 8px;
+}
+
 .div-img{
 	width:200px;
 	float: left;

@@ -348,7 +348,10 @@ class NationalPolicy(models.Model):
     np_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
-
+    def res_dict(self):
+        return dict(np_id=self.np_id,title=self.title,content=self.content)
+    def res_idObj(self,id):
+        return self.objects.get(np_id=id)
     class Meta:
         managed = False
         db_table = 'national_policy'
@@ -445,7 +448,12 @@ class ProductionControl(models.Model):
     click_times = models.IntegerField(blank=True, null=True)
     src_img = models.CharField(max_length=255, blank=True, null=True)
     type = models.CharField(max_length=20, blank=True, null=True)
-
+    def res_dict(self):
+        return dict(pc_id=self.pc_id,title=self.title,abstract=self.abstract,content=self.content,\
+             publish_time=json_serial(self.publish_time),click_times=self.click_times,src_img=self.src_img,type=self.type)
+    @classmethod
+    def res_idObj(self,id):
+        return  self.objects.get(pc_id=id)
     class Meta:
         managed = False
         db_table = 'production_control'
