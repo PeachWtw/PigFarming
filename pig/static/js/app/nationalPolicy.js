@@ -168,15 +168,14 @@ app.controller('nationalPolicyController', [
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
-                    console.log(data);
                     nationalPolicy.article = data;
                 });
             } else if ($location.path().indexOf('/climateKLine') == 0) {//气候k线
                 services.getClimateData().success(function (data) {
                     console.log("从后台获取的气候K线数据："+data);
-                    var temperature;//温度
-                    var humidity;//湿度
-                    var sunny;//阴晴
+                    var temperature = data.temperature;//温度
+                    var humidity = data.humid;//湿度
+                    var weather = data.weather;//阴晴
                     var data1 = {
                         elementId: '#chart1',
                         title: '湖北襄阳市每日温度K线图',
@@ -206,7 +205,7 @@ app.controller('nationalPolicyController', [
                         //xScale:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','lyy', 'Nov', 'Dec'],
                         yTitle: '天气',
                         valueSuffix: '',
-                        series: {name: '湖北襄阳', data: sunny}
+                        series: {name: '湖北襄阳', data: weather}
                     }
                     var chart3 = new Chart(data3);
                     chart3.init();
