@@ -10,6 +10,10 @@
     text-indent: 10px;
 }
 
+.short-input{
+    width: 158px;
+}
+
 .forminfo{
     width: 1002px;
     margin-top: 32px;

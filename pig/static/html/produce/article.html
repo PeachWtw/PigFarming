@@ -4,7 +4,7 @@
 	</div>
 	<section class="article-list">
         <h4>生产现状</h4>
-		<div class="div-article"  ng-repeat="art in articles | filter{type:status}">
+		<div class="div-article"  ng-repeat="art in articles | filter:{type:'status'}">
 			<div class="div-inf">
 				<h3><a ng-click="getArticleDetail()" href="#/articleDetail">{{art.title}}</a></h3>
 				<div class="abstract"><p>{{art.abstract}}</p></div>
@@ -15,7 +15,7 @@
 	</section>
     <section class="article-list">
         <h4>生产规模</h4>
-		<div class="div-article"  ng-repeat="art in articles | filter{type:scale}">
+		<div class="div-article"  ng-repeat="art in articles | filter:{type:'scale'}">
 			<div class="div-inf">
 				<h3><a ng-click="getArticleDetail()" href="#/articleDetail">{{art.title}}</a></h3>
 				<div class="abstract"><p>{{art.abstract}}</p></div>
@@ -26,7 +26,7 @@
 	</section>
     <section class="article-list">
         <h4>行业状况</h4>
-		<div class="div-article"  ng-repeat="art in articles | filter{type:situation}">
+		<div class="div-article"  ng-repeat="art in articles | filter:{type:'situation'}">
 			<div class="div-inf">
 				<h3><a ng-click="getArticleDetail()" href="#/articleDetail">{{art.title}}</a></h3>
 				<div class="abstract"><p>{{art.abstract}}</p></div>

@@ -103,7 +103,7 @@ app.factory('services', ['$http', 'baseUrl', function ($http, baseUrl) {
     services.getClimateData = function () {
         return $http({
             method: 'get',
-            url: '/pig/getClimateData/'
+            url: '/pig/climate/getClimateData/'
         });
     }
 
