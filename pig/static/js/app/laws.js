@@ -129,6 +129,11 @@ app.controller('lawsController', [
 					page : page
 				}).success(function(data) {
 					lawsController.articles = data.allList;
+                    for(var i=0;i<lawsController.articles.length;i++){
+                        var time = lawsController.articles[i].publish_time;
+                        lawsController.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                        lawsController.articles[i].src_img = decodeURIComponent(lawsController.articles[i].src_img);
+                    }
 					lawsController.totalPage = data.page;
 				});
 			};
@@ -147,9 +152,12 @@ app.controller('lawsController', [
                     'page':'1'
                 }).success(function(data) {
                     lawsController.articles = data.allList;
+                    for(var i=0;i<lawsController.articles.length;i++){
+                        var time = lawsController.articles[i].publish_time;
+                        lawsController.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                        lawsController.articles[i].src_img = decodeURIComponent(lawsController.articles[i].src_img);
+                    }
                     lawsController.totalPage = data.page;
-                    console.log("直接打印返回的数据："+lawsController.articles)
-                    console.log("直接打印返回的数据："+lawsController.totalPage)
                     var $pages = $(".tcdPageCode");
                     if ($pages.length != 0) {
 							$pages.createPage({
@@ -203,36 +211,14 @@ app.controller('lawsController', [
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
+                    console.log(data);
                     lawsController.article = data;
-                    console.log("反编码之前："+lawsController.article.content )
+                    var time = lawsController.article.publish_time;
+                    lawsController.article.publish_time = time.substring(0,time.indexOf("T"));
                     lawsController.article.content = decodeURIComponent(lawsController.article.content);
-                    console.log("反编码之后："+lawsController.article.content )
+                    lawsController.article.src_img = decodeURIComponent(lawsController.article.src_img);
                     $("#art-content").html(lawsController.article.content);
                 });
-            } else if ($location.path().indexOf('/chartPage') == 0) {
-                services.getData().success(function (data) {
-                    var arr = data.trim().split(" ");
-                    var dataArr = [];
-                    for (var i = 0; i < arr.length / 2; i++) {
-                        var temp = [];
-                        temp[0] = +arr[2 * i];
-                        temp[1] = +arr[2 * i + 1];
-                        dataArr[i] = temp;
-                    }
-                    console.log(dataArr);
-                    var initData = {
-                        title: '呵呵呵呵',
-                        subtitle: '网址: www.hehe.com',
-                        //xScale:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','lyy', 'Nov', 'Dec'],
-                        yTitle: '温度 (°C)',
-                        valueSuffix: '°C',
-                        series: {name: '北京', data: dataArr
-                        }
-                    }
-                    var chart = new Chart(initData);
-                    chart.init();
-                });
-
             }
         }
 

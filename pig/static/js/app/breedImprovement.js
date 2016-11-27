@@ -119,6 +119,11 @@ app.controller('breedImprovementController', [
 					page : page
 				}).success(function(data) {
 					breedImprovement.articles = data.allList;
+                    for(var i=0;i<breedImprovement.articles.length;i++){
+                        var time = breedImprovement.articles[i].publish_time;
+                        breedImprovement.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                        breedImprovement.articles[i].src_img = decodeURIComponent(breedImprovement.articles[i].src_img);
+                    }
 					breedImprovement.totalPage = data.page;
 				});
 			};
@@ -137,6 +142,11 @@ app.controller('breedImprovementController', [
                     'page':'1'
                 }).success(function(data) {
                     breedImprovement.articles = data.allList;
+                    for(var i=0;i<breedImprovement.articles.length;i++){
+                        var time = breedImprovement.articles[i].publish_time;
+                        breedImprovement.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                        breedImprovement.articles[i].src_img = decodeURIComponent(breedImprovement.articles[i].src_img);
+                    }
                     breedImprovement.totalPage = data.page;
                     console.log("直接打印返回的数据："+breedImprovement.articles)
                     console.log("直接打印返回的数据："+breedImprovement.totalPage)
@@ -165,6 +175,11 @@ app.controller('breedImprovementController', [
                 }).success(function (data) {
                     console.log(data);
                     breedImprovement.article = data;
+                    var time = breedImprovement.article.publish_time;
+                    breedImprovement.article.publish_time = time.substring(0,time.indexOf("T"));
+                    breedImprovement.article.content = decodeURIComponent(breedImprovement.article.content);
+                    breedImprovement.article.src_img = decodeURIComponent(breedImprovement.article.src_img);
+                    $("#art-content").html(breedImprovement.article.content);
                 });
             }
         }

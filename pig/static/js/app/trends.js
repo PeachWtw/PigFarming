@@ -143,6 +143,11 @@ app.controller('trendsController', [
 					page : page
 				}).success(function(data) {
 					trendsController.articles = data.allList;
+                    for(var i=0;i<trendsController.articles.length;i++){
+                    var time = trendsController.articles[i].publish_time;
+                    trendsController.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    trendsController.articles[i].src_img = decodeURIComponent(trendsController.articles[i].src_img);
+                }
 					trendsController.totalPage = data.page;
 				});
 			};
@@ -161,6 +166,11 @@ app.controller('trendsController', [
                     'page':'1'
                 }).success(function(data) {
                     trendsController.articles = data.allList;
+                for(var i=0;i<trendsController.articles.length;i++){
+                    var time = trendsController.articles[i].publish_time;
+                    trendsController.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    trendsController.articles[i].src_img = decodeURIComponent(trendsController.articles[i].src_img);
+                }
                     trendsController.totalPage = data.page;
                     console.log("直接打印返回的数据："+trendsController.articles)
                     console.log("直接打印返回的数据："+trendsController.totalPage)
@@ -226,9 +236,10 @@ app.controller('trendsController', [
                     'articleId': articleId
                 }).success(function (data) {
                     trendsController.article = data;
-                    console.log("反编码之前："+trendsController.article.content )
+                    var time = trendsController.article.publish_time;
+                    trendsController.article.publish_time = time.substring(0,time.indexOf("T"));
                     trendsController.article.content = decodeURIComponent(trendsController.article.content);
-                    console.log("反编码之后："+trendsController.article.content )
+                    trendsController.article.src_img = decodeURIComponent(trendsController.article.src_img);
                     $("#art-content").html(trendsController.article.content);
                 });
             } else if ($location.path().indexOf('/chartPage') == 0) {

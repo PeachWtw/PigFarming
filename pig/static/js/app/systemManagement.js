@@ -11,7 +11,7 @@ $(function () {
         ProductionControl:{pigFarmManagement:'猪场建设',breedManagement:'繁育管理',feedManagement:'饲养管理',dailyManagement:'日常管理'},
         BreedImprovement :{},
         Environment      :{lawsEnvironment:'养殖排污法规',projectEnvironment:'先进治污方案',facilityEnvironment:'设施工艺'},
-        Trend            :{current:'国际同行现状',tendency:'前沿趋势模',feedstuff:'饲料行情走势',futures:'大豆、期货走势'}
+        Trend            :{currentInternational:'国际同行现状',trendInternational:'前沿趋势模',feedInternational:'饲料行情走势',futuresInternational:'大豆、期货走势'}
     }
     //第一个下拉框值变化时第二个下拉框联动
     $("#type1").change(function(){

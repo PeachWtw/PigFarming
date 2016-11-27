@@ -125,6 +125,7 @@ app.controller('nationalPolicyController', [
                 page: page
             }).success(function (data) {
                 nationalPolicy.articles = data.allList;
+
                 nationalPolicy.totalPage = data.page;
             });
         };
@@ -144,6 +145,7 @@ app.controller('nationalPolicyController', [
                 'page': '1'
             }).success(function (data) {
                 nationalPolicy.articles = data.allList;
+
                 nationalPolicy.totalPage = data.page;
                 var $pages = $(".tcdPageCode");
                 if ($pages.length != 0) {
@@ -181,9 +183,8 @@ app.controller('nationalPolicyController', [
                     'articleId': articleId
                 }).success(function (data) {
                     nationalPolicy.article = data;
-                    console.log("反编码之前："+nationalPolicy.article.content )
+                     var time = nationalPolicy.article.publish_time;
                     nationalPolicy.article.content = decodeURIComponent(nationalPolicy.article.content);
-                    console.log("反编码之后："+nationalPolicy.article.content )
                     $("#art-content").html(nationalPolicy.article.content);
                 });
             } else if ($location.path().indexOf('/climateKLine') == 0) {//气候k线
