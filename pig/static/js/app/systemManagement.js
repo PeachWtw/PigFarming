@@ -31,13 +31,17 @@ $(function () {
         preventDefault(e);
         var $title    = $('#title').val().trim(),
             $type1    = $('#type1').val().trim(),
-            $type2    = $('#type2').val().trim(),
+            $type2    = "",
             $abstract = $('#abstract').val().trim(),
             $imgUrl = encodeURIComponent($('#imgUrl').val().trim()),
             $content  = encodeURIComponent(editor.html());
 
-        if ($title==""||$abstract==""||$content==""){
-            alert("输入框不能为空！");
+        if($('#type2').val()){
+            $type2 = $('#type2').val().trim();
+        }
+
+        if ($title==""||$content==""){
+            alert("标题或内容不能为空！");
             return false;
         } else{
             var params = {
@@ -50,7 +54,7 @@ $(function () {
             }
             $.get("http://127.0.0.1:8000/pig/article/addArticle/", params,
                 function(data){
-                alert("添加文章成功！");
+                alert(data);
             });
         }
     });
