@@ -63,7 +63,7 @@ $(function () {
                 imgUrl  : "hehe",
                 content : $content
             }
-            $.get("http://127.0.0.1:8000/pig/article/addArticle/", params,
+            $.get("/pig/article/addArticle/", params,
                 function(data){
                     //上传图片
                     var form = $("<form action='/pig/article/uploadPic/' enctype='multipart/form-data' method='post'></form>");
