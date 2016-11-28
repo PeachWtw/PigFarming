@@ -121,25 +121,25 @@ app.controller('lawsController', [
 	'$location',
 	function($scope, services, $location) {
 		// 养殖
-		var productionControl = $scope;
+		var lawsController = $scope;
         //获取文章列表分页
-        productionControl.getArtList = function(page,articleType) {
+        lawsController.getArtList = function(page,articleType) {
 				services.getArtList({
                     articleType : articleType,
 					page : page
 				}).success(function(data) {
-					productionControl.articles = data.allList;
-                    for(var i=0;i<productionControl.articles.length;i++){
-                        var time = productionControl.articles[i].publish_time;
-                        productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
-                        productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+					lawsController.articles = data.allList;
+                    for(var i=0;i<lawsController.articles.length;i++){
+                        var time = lawsController.articles[i].publish_time;
+                        lawsController.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                        lawsController.articles[i].src_img = decodeURIComponent(lawsController.articles[i].src_img);
                     }
-					productionControl.totalPage = data.page;
+					lawsController.totalPage = data.page;
 				});
 			};
 
         //获取文章详细内容
-        productionControl.getArticleDetail = function () {
+        lawsController.getArticleDetail = function () {
             var articleId = this.art.env_id;
             window.sessionStorage.setItem('artId', articleId);
             console.log("获取文章id：" + articleId)
@@ -151,22 +151,20 @@ app.controller('lawsController', [
                     'articleType':articleType,
                     'page':'1'
                 }).success(function(data) {
-                    productionControl.articles = data.allList;
-                    for(var i=0;i<productionControl.articles.length;i++){
-                        var time = productionControl.articles[i].publish_time;
-                        productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
-                        productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                    lawsController.articles = data.allList;
+                    for(var i=0;i<lawsController.articles.length;i++){
+                        var time = lawsController.articles[i].publish_time;
+                        lawsController.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                        lawsController.articles[i].src_img = decodeURIComponent(lawsController.articles[i].src_img);
                     }
-                    productionControl.totalPage = data.page;
-                    console.log("直接打印返回的数据："+productionControl.articles)
-                    console.log("直接打印返回的数据："+productionControl.totalPage)
+                    lawsController.totalPage = data.page;
                     var $pages = $(".tcdPageCode");
                     if ($pages.length != 0) {
 							$pages.createPage({
-								pageCount : productionControl.totalPage,
+								pageCount : lawsController.totalPage,
 								current : 1,
 								backFn : function(p) {
-                                 	productionControl.getArtList(p,articleType);// 点击页码时获取第p页的数据
+                                 	lawsController.getArtList(p,articleType);// 点击页码时获取第p页的数据
 								}
 							});
 						}
@@ -177,23 +175,49 @@ app.controller('lawsController', [
 		function initData() {
 			console.log("初始化页面信息");
 			if($location.path().indexOf('/lawsEnvironment') == 0) { //养殖排污法规
+                $("#secUrl").html("养殖排污法规");
                 getArticleList("lawsEnvironment");
+                sessionStorage.setItem("secondary","lawsEnvironment");
 			} else if($location.path().indexOf('/projectEnvironment') == 0) {//先进治污方案
-				getArticleList("projectEnvironment");
+				$("#secUrl").html("先进治污方案");
+                getArticleList("projectEnvironment");
+                sessionStorage.setItem("secondary","projectEnvironment");
 			} else if($location.path().indexOf('/facilityEnvironment') == 0) {//设施工艺
-				getArticleList("facilityEnvironment");
+				$("#secUrl").html("设施工艺");
+                getArticleList("facilityEnvironment");
+                sessionStorage.setItem("secondary","facilityEnvironment");
 			} else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
+                var secondaryUrl = sessionStorage.getItem("secondary");
+                var secondaryUrlA = $("#secondaryUrl");
+                switch (secondaryUrl){
+                    case "lawsEnvironment":{
+                        secondaryUrlA.attr("href","/static/html/laws/index.html#/lawsEnvironment");
+                        secondaryUrlA.html("养殖排污法规");
+                        break;
+                    }
+                    case "projectEnvironment":{
+                        secondaryUrlA.attr("href","/static/html/laws/index.html#/projectEnvironment");
+                        secondaryUrlA.html("先进治污方案");
+                        break;
+                    }
+                    case "facilityEnvironment":{
+                        secondaryUrlA.attr("href","/static/html/laws/index.html#/facilityEnvironment");
+                        secondaryUrlA.html("设施工艺");
+                        break;
+                    }
+
+                }
                 var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
                     console.log(data);
-                    productionControl.article = data;
-                    var time = productionControl.article.publish_time;
-                    productionControl.article.publish_time = time.substring(0,time.indexOf("T"));
-                    productionControl.article.content = decodeURIComponent(productionControl.article.content);
-                    productionControl.article.src_img = decodeURIComponent(productionControl.article.src_img);
-                    $("#art-content").html(productionControl.article.content);
+                    lawsController.article = data;
+                    var time = lawsController.article.publish_time;
+                    lawsController.article.publish_time = time.substring(0,time.indexOf("T"));
+                    lawsController.article.content = decodeURIComponent(lawsController.article.content);
+                    lawsController.article.src_img = decodeURIComponent(lawsController.article.src_img);
+                    $("#art-content").html(lawsController.article.content);
                 });
             }
         }
