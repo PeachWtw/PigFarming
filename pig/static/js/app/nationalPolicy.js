@@ -75,7 +75,7 @@ app
                 '/articleDetail', {
                     templateUrl: '/static/html/nationalPolicy/articleDetail.html',
                     controller: 'nationalPolicyController'
-                })
+                });
         }
     ]);
 app.constant('baseUrl', '/static/');

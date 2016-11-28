@@ -4,6 +4,7 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>国际动态</title>
+        <link rel="shortcut icon" type="image/x-icon" href="../../images/pig.png" />
 		<link rel="stylesheet" href="../../css/global.css" />
 		<link rel="stylesheet" href="../../css/nei.css" />
 		<link rel="stylesheet" href="../../css/produce.css" />
@@ -27,7 +28,7 @@
 				<div class="navList">
 					<ul>
 						<li>
-							<a href="#/current">国际同行现状</a>
+							<a id="firstPage" href="#/current">国际同行现状</a>
 						</li>
 						<li>
 							<a href="#/tendency">前沿趋势</a>
@@ -70,6 +71,11 @@
 		<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
         <script type="text/javascript" src="../../js/lib/pageTurn.js"></script>
 		<script type="text/javascript" src="../../js/app/trends.js"></script>
+        <script>
+            $(function(){
+                document.getElementById("firstPage").click();
+            })
+        </script>
 	</body>
 
 </html>

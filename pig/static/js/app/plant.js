@@ -1,6 +1,7 @@
 $(function () {
     //定义左侧栏各个a标签的点击事件
     $("#food").delegate("a", "click", function (event) {
+        $("#secUrl").html(">>"+$(this).html());
         //获取被点击a标签的href
         var index = this.href;
         var path = index.substring(index.lastIndexOf("/") + 1, index.length);
@@ -13,6 +14,7 @@ $(function () {
         getFoodData(path, chartTitle);
     });
     $("#trees").delegate("a", "click", function (event) {
+        $("#secUrl").html(">>"+$(this).html());
         //获取被点击a标签的href
         var index = this.href;
         var path = index.substring(index.lastIndexOf("/") + 1, index.length);

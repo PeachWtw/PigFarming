@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>种植页面</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../images/pig.png" />
     <link rel="stylesheet" href="../../css/global.css"/>
     <link rel="stylesheet" href="../../css/nei.css"/>
     <link rel="stylesheet" href="../../css/plant.css"/>
@@ -46,6 +47,9 @@
 <!--导航结束-->
 <div class="container">
     <section class="main">
+        <div class="location">
+            当前所在位置：<a href="/static/index.html">首页</a> <span id="secUrl"></span>
+        </div>
         <div id="chart1" style="width:100%;height:200px"></div>
         <div class="message1"></div>
         <div id="chart2" style="width:100%;height:200px"></div>
@@ -61,7 +65,7 @@
         <div class="n_contact">
             <div id="food">
                 <span>粮食作物</span>
-                <a href="#/corn">玉米</a>
+                <a id="firstPage" href="#/corn">玉米</a>
                 <a href="#/pea">黄豆</a>
                 <a href="#/wheat">小麦</a>
             </div>
@@ -93,6 +97,11 @@
 <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
 <script type="text/javascript" src="../../js/app/chart.js" ></script>
 <script type="text/javascript" src="../../js/app/plant.js"></script>
+    <script>
+        $(function(){
+            document.getElementById("firstPage").click();
+        })
+    </script>
 </body>
 
 </html>

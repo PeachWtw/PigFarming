@@ -174,6 +174,9 @@ app.controller('breedImprovementController', [
                     'articleId': articleId
                 }).success(function (data) {
                     console.log(data);
+                    var secondaryUrlA = $("#secondaryUrl");
+                    secondaryUrlA.attr("href","/static/html/breedImprovement/index.html#/breedImprovement");
+                    secondaryUrlA.html("育种改良");
                     breedImprovement.article = data;
                     var time = breedImprovement.article.publish_time;
                     breedImprovement.article.publish_time = time.substring(0,time.indexOf("T"));

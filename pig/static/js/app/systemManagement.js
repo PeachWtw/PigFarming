@@ -26,6 +26,18 @@ $(function () {
         }
 
     });
+
+    $("#picInput").change(function(){
+        var picName = $(this).val();
+        var fileType = (picName.substring(picName.lastIndexOf(".") + 1, picName.length)).toLowerCase();
+        if(fileType!="png"&&fileType!="jpg"&&fileType!="gif"&&fileType!="jpeg"){
+            alert("图片格式不正确！");
+            $("#addArticleBtn").css("visibility","hidden");
+        }
+    });
+    $("#picInput").click(function(){
+            $("#addArticleBtn").css("visibility","visible ");
+    });
     //获取页面中输入的内容并发送添加文章请求
     $('#addArticleBtn').click(function (e) {
         preventDefault(e);
@@ -33,15 +45,14 @@ $(function () {
             $type1    = $('#type1').val().trim(),
             $type2    = "",
             $abstract = $('#abstract').val().trim(),
-            $imgUrl = encodeURIComponent($('#imgUrl').val().trim()),
             $content  = encodeURIComponent(editor.html());
 
         if($('#type2').val()){
             $type2 = $('#type2').val().trim();
         }
 
-        if ($title==""||$content==""){
-            alert("标题或内容不能为空！");
+        if ($title==""||$content==""||$("#picInput").val()==""){
+            alert("标题或内容或上传图片不能为空！");
             return false;
         } else{
             var params = {
@@ -49,12 +60,17 @@ $(function () {
                 type1   : $type1,
                 type2   : $type2,
                 abstract: $abstract,
-                imgUrl  : $imgUrl,
+                imgUrl  : "hehe",
                 content : $content
             }
-            $.get("http://127.0.0.1:8000/pig/article/addArticle/", params,
+            $.get("/pig/article/addArticle/", params,
                 function(data){
-                alert(data);
+                    //上传图片
+                    var form = $("<form action='/pig/article/uploadPic/' enctype='multipart/form-data' method='post'></form>");
+                    var picLi = $("#pic-li");
+                    form.append(picLi);
+                    form.submit();
+                    alert(data);
             });
         }
     });
