@@ -21,7 +21,7 @@
 		<a id="plant" href="/static/html/plant/index.html">种植</a>
         <!--<a href="/static/html/systemManagement/index.html">系统管理</a>-->
         <p id="footer">
-            访问次数：<span id="visits">10000</span></br>
+            访问次数：<span id="visits"></span></br>
             襄阳举义鑫数据服务公司</br>电话07103523823，17001812888
         </p>
     </div>
@@ -29,7 +29,7 @@
     <script type="text/javascript">
         $(function(){
             $.get("/pig/getVisits/",function(data){
-
+                $("#visits").html(data);
             });
         })
     </script>

@@ -70,7 +70,7 @@ $(function () {
                     var picLi = $("#pic-li");
                     form.append(picLi);
                     form.submit();
-                    alert(data);
+                    //alert(data);
             });
         }
     });

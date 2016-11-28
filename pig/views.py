@@ -4,6 +4,7 @@ from django.shortcuts import render
 # 异常模块
 from pig.ExceptClass import *
 import json
+import  os
 import math
 import datetime
 from django.utils import timezone
@@ -327,7 +328,25 @@ def func_addArticle(request): #添加保存文章列表
     abstract=request.GET['abstract']   #文章摘要
     src_img=request.GET['imgUrl']   #图片url
     content=request.GET['content']   #文章内容
+    request.session['table_data']=[title,table,art_type,\
+                                   abstract,src_img,content]#保存给后面的uploadPic函数使用
+    return  HttpResponse("aaaaaaa")
+
+
+#获取站点的访问次数
+def func_getVisits(request):
+    pass
+    return HttpResponse('1')
+
+
+
+
+
+def func_uploadPic(request):
+    title,table,art_type,abstract,src_img,content=request.session['table_data']#取出各项表的数据
     try:
+        if request.method=='POST':
+            src_img=upload(request.FILES['picfile'],str(request.FILES['picfile']))
         for case in switch(table):
             if case('BreedPig'): #养猪
                 p=Breedpig(id=len(Breedpig.objects.all())+1)
@@ -366,3 +385,14 @@ def func_addArticle(request): #添加保存文章列表
         return HttpResponse("保存成功") #
     except BaseException,e:
         return HttpResponse("保存失败")
+
+
+def upload(file,filename):
+    if not os.path.exists('pig/static/upload/'):
+        os.mkdir('pig/static/upload/')
+    path='../../upload/'+filename
+    with open('pig/static/upload/'+filename,'wb+') as destination:
+        for chunk in file.chunks():
+            destination.write(chunk)
+    return path
+

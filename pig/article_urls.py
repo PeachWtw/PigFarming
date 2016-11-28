@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^getChartData/','pig.views.func_getChartData'),#物种系统
     url(r'^getPigPriceChartData/','pig.views.func_getPigPriceChartData'),#猪价系统
     url(r'^getClimateData/','pig.views.func_getClimateData'),#气候k线图
+    url(r'^uploadPic/','pig.views.func_uploadPic'),#上传图片
 )
