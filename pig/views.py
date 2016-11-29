@@ -346,6 +346,8 @@ def func_uploadPic(request):
     title,table,art_type,abstract,src_img,content=request.session['table_data']#取出各项表的数据
     try:
         if request.method=='POST':
+            f=request.FILES['picfile'];
+            n=str(request.FILES['picfile']);
             src_img=upload(request.FILES['picfile'],str(request.FILES['picfile']))
         for case in switch(table):
             if case('BreedPig'): #养猪
