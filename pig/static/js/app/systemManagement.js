@@ -63,7 +63,7 @@ $(function () {
                 imgUrl  : "hehe",
                 content : $content
             }
-            $.get("/pig/article/addArticle/", params,
+            $.post("/pig/article/addArticle/", params,
                 function(data){
                     //上传图片
                     var form = $("<form action='/pig/article/uploadPic/' enctype='multipart/form-data' method='post'></form>");

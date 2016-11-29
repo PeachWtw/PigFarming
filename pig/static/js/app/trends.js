@@ -58,7 +58,7 @@ var app = angular
 
 app.run(['$rootScope', '$location', function($rootScope, $location) {
 	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
-		console.log('路由跳转成功');
+		//console.log('路由跳转成功');
 		$rootScope.$broadcast('reGetData');
 	});
 }]);
@@ -102,7 +102,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
     //根据文章类型获取文章列表
     services.getArtList = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtList/',
@@ -111,7 +111,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	};
     //根据文章id获取文章的详细内容
     services.getArtById = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtById/',
@@ -156,7 +156,7 @@ app.controller('trendsController', [
         trendsController.getArticleDetail = function () {
             var articleId = this.art.tr_id;
             window.sessionStorage.setItem('artId', articleId);
-            console.log("获取文章id：" + articleId)
+            //console.log("获取文章id：" + articleId)
 
         };
         //页面初始化时获取文章列表，含分页
@@ -172,8 +172,8 @@ app.controller('trendsController', [
                     trendsController.articles[i].src_img = decodeURIComponent(trendsController.articles[i].src_img);
                 }
                     trendsController.totalPage = data.page;
-                    console.log("直接打印返回的数据："+trendsController.articles)
-                    console.log("直接打印返回的数据："+trendsController.totalPage)
+                    //console.log("直接打印返回的数据："+trendsController.articles)
+                    //console.log("直接打印返回的数据："+trendsController.totalPage)
                     var $pages = $(".tcdPageCode");
                     if ($pages.length != 0) {
 							$pages.createPage({
@@ -189,7 +189,7 @@ app.controller('trendsController', [
         }
 		// 初始化页面信息
 		function initData() {
-			console.log("初始化页面信息");
+			//console.log("初始化页面信息");
 			if($location.path().indexOf('/current') == 0) { //国际同行现状
                 $("#secUrl").html("国际同行现状");
                 getArticleList("currentInternational");
@@ -252,7 +252,7 @@ app.controller('trendsController', [
                         temp[1] = +arr[2 * i + 1];
                         dataArr[i] = temp;
                     }
-                    console.log(dataArr);
+                    //console.log(dataArr);
                     var initData = {
                         title: '呵呵呵呵',
                         subtitle: '网址: www.hehe.com',

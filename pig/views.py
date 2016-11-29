@@ -62,8 +62,10 @@ class ArticleHandleCls(object):
                 temp_obj = db_obj.objects.all()   #养殖模块,育种改良,国家政策特殊处理
             else:
                 temp_obj = db_obj.objects.filter(type=art_type)   #获取元组总个数
-            num = map(str, temp_obj)
-            page_total=int(math.ceil(len(num) / 10.0))  #计算总页数
+            # num = map(str, temp_obj)
+            # page_total=int(math.ceil(len(num) / 10.0))  #计算总页数
+            num=len(temp_obj)
+            page_total=int(math.ceil(num / 10.0))  #计算总页数
             index_low = (page - 1) * 10
             index_high = page * 10
             filter_list=temp_obj.all()[index_low:index_high]
@@ -322,12 +324,12 @@ def func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content):
 def func_addArticle(request): #添加保存文章列表
     #title   type1     type2     abstract     imgUrl     content
     #******从request获取所需参数**********
-    title = request.GET['title']    #标题
-    table=request.GET['type1']  #表名
-    art_type=request.GET['type2']   #文章类型
-    abstract=request.GET['abstract']   #文章摘要
-    src_img=request.GET['imgUrl']   #图片url
-    content=request.GET['content']   #文章内容
+    title = request.POST['title']    #标题
+    table=request.POST['type1']  #表名
+    art_type=request.POST['type2']   #文章类型
+    abstract=request.POST['abstract']   #文章摘要
+    src_img=request.POST['imgUrl']   #图片url
+    content=request.POST['content']   #文章内容
     request.session['table_data']=[title,table,art_type,\
                                    abstract,src_img,content]#保存给后面的uploadPic函数使用
     return  HttpResponse("aaaaaaa")

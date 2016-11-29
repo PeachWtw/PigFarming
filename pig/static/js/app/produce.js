@@ -58,7 +58,7 @@ var app = angular
 
 app.run(['$rootScope', '$location', function($rootScope, $location) {
 	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
-		console.log('路由跳转成功');
+		//console.log('路由跳转成功');
 		$rootScope.$broadcast('reGetData');
 	});
 }]);
@@ -97,7 +97,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
     //根据文章类型获取文章列表
     services.getArtList = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtList/',
@@ -106,7 +106,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	};
     //根据文章id获取文章的详细内容
     services.getArtById = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtById/',
@@ -145,7 +145,7 @@ app.controller('ProduceController', [
         produce.getArticleDetail = function() {
             var articleId = this.art.id;
             window.sessionStorage.setItem('artId', articleId);
-            console.log("获取文章id：" + articleId)
+            //console.log("获取文章id：" + articleId)
 		};
         //页面初始化时获取文章列表，含分页
         function getArticleList(articleType) {
@@ -155,7 +155,7 @@ app.controller('ProduceController', [
                 'articleType': articleType,
                 'page': '1'
             }).success(function (data) {
-                console.log(data);
+                //console.log(data);
                 produce.articles = data.allList;
                 for(var i=0;i<produce.articles.length;i++){
                     var time = produce.articles[i].publish_time;
@@ -179,7 +179,7 @@ app.controller('ProduceController', [
 
 		// 初始化页面信息
 		function initData() {
-			console.log("初始化页面信息");
+			//console.log("初始化页面信息");
 
 			if($location.path().indexOf('/pig') == 0) { //
                 $("#secUrl").html("养猪");
@@ -198,6 +198,13 @@ app.controller('ProduceController', [
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
+                    produce.article = data;
+                    var time = produce.article.publish_time;
+                    produce.article.publish_time = time.substring(0,time.indexOf("T"));
+                    produce.article.content = decodeURIComponent(produce.article.content);
+                    produce.article.src_img = decodeURIComponent(produce.article.src_img);
+                    //console.log(produce.article.content)
+                    $("#art-content").html(produce.article.content);
                     var secondaryUrl = sessionStorage.getItem("secondary");
                     var secondaryUrlA = $("#secondaryUrl");
                     switch (secondaryUrl){
@@ -218,12 +225,7 @@ app.controller('ProduceController', [
                         break;
                     }
                 }
-                    produce.article = data;
-                    var time = produce.article.publish_time;
-                    produce.article.publish_time = time.substring(0,time.indexOf("T"));
-                    produce.article.content = decodeURIComponent(produce.article.content);
-                    produce.article.src_img = decodeURIComponent(produce.article.src_img);
-                    $("#art-content").html(produce.article.content);
+
                 });
 			}
 		}
