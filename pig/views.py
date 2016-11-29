@@ -62,8 +62,10 @@ class ArticleHandleCls(object):
                 temp_obj = db_obj.objects.all()   #养殖模块,育种改良,国家政策特殊处理
             else:
                 temp_obj = db_obj.objects.filter(type=art_type)   #获取元组总个数
-            num = map(str, temp_obj)
-            page_total=int(math.ceil(len(num) / 10.0))  #计算总页数
+            # num = map(str, temp_obj)
+            # page_total=int(math.ceil(len(num) / 10.0))  #计算总页数
+            num=len(temp_obj)
+            page_total=int(math.ceil(num / 10.0))  #计算总页数
             index_low = (page - 1) * 10
             index_high = page * 10
             filter_list=temp_obj.all()[index_low:index_high]

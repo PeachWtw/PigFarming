@@ -81,7 +81,7 @@ class Breedchicken(models.Model):
         return  self.objects.get(id=id)
     class Meta:
         managed = False
-        db_table = 'BreedChicken'
+        db_table = 'breedchicken'
     def serialize(self):
         return self.__dict__
 
@@ -103,7 +103,7 @@ class Breedpig(models.Model):
         return  self.objects.get(id=id)
     class Meta:
         managed = False
-        db_table = 'BreedPig'
+        db_table = 'breedpig'
     def serialize(self):
         return self.__dict__
 
@@ -125,7 +125,7 @@ class Breedfish(models.Model):
         return  self.objects.get(id=id)
     class Meta:
         managed = False
-        db_table = 'BreedFish'
+        db_table = 'breedfish'
     def serialize(self):
         return self.__dict__
 
