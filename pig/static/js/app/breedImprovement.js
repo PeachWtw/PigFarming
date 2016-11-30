@@ -49,7 +49,7 @@ var app = angular
 
 app.run(['$rootScope', '$location', function($rootScope, $location) {
 	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
-		console.log('路由跳转成功');
+		//console.log('路由跳转成功');
 		$rootScope.$broadcast('reGetData');
 	});
 }]);
@@ -78,7 +78,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
     //根据文章类型获取文章列表
     services.getArtList = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtList/',
@@ -87,7 +87,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	};
     //根据文章id获取文章的详细内容
     services.getArtById = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtById/',
@@ -132,7 +132,7 @@ app.controller('breedImprovementController', [
         breedImprovement.getArticleDetail = function () {
             var articleId = this.art.bi_id;
             window.sessionStorage.setItem('artId', articleId);
-            console.log("获取文章id：" + articleId)
+            //console.log("获取文章id：" + articleId)
 
         };
         //页面初始化时获取文章列表，含分页
@@ -148,8 +148,8 @@ app.controller('breedImprovementController', [
                         breedImprovement.articles[i].src_img = decodeURIComponent(breedImprovement.articles[i].src_img);
                     }
                     breedImprovement.totalPage = data.page;
-                    console.log("直接打印返回的数据："+breedImprovement.articles)
-                    console.log("直接打印返回的数据："+breedImprovement.totalPage)
+                    //console.log("直接打印返回的数据："+breedImprovement.articles)
+                    //console.log("直接打印返回的数据："+breedImprovement.totalPage)
                     var $pages = $(".tcdPageCode");
                     if ($pages.length != 0) {
 							$pages.createPage({
@@ -164,16 +164,16 @@ app.controller('breedImprovementController', [
         }
 		// 初始化页面信息
 		function initData() {
-			console.log("初始化页面信息");
+			//console.log("初始化页面信息");
             if($location.path().indexOf('/breedImprovement') == 0) {//育种改良
 				getArticleList("breedImprovement");
 			} else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
                 var articleId = window.sessionStorage.getItem('artId');
-                console.log("获取文章详情："+articleId)
+                //console.log("获取文章详情："+articleId)
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
-                    console.log(data);
+                    //console.log(data);
                     var secondaryUrlA = $("#secondaryUrl");
                     secondaryUrlA.attr("href","/static/html/breedImprovement/index.html#/breedImprovement");
                     secondaryUrlA.html("育种改良");

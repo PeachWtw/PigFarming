@@ -38,9 +38,11 @@ class BreedImprovement(models.Model):
     @classmethod
     def res_idObj(self,id):
         return  self.objects.get(bi_id=id)
-    class Meta:
-        managed = False
-        db_table = 'breed_improvement'
+    def ret_idVal(self):
+        return  self.bi_id
+    # class Meta:
+    #     managed = False
+    #     db_table = 'breed_improvement'
     def serialize(self):
         return self.__dict__
 
@@ -79,9 +81,11 @@ class Breedchicken(models.Model):
     @classmethod
     def res_idObj(self,id):
         return  self.objects.get(id=id)
-    class Meta:
-        managed = False
-        db_table = 'breedchicken'
+    def ret_idVal(self):
+        return  self.id
+    # class Meta:
+    #     managed = False
+    #     db_table = 'breedchicken'
     def serialize(self):
         return self.__dict__
 
@@ -101,9 +105,11 @@ class Breedpig(models.Model):
     @classmethod
     def res_idObj(self,id):
         return  self.objects.get(id=id)
-    class Meta:
-        managed = False
-        db_table = 'breedpig'
+    def ret_idVal(self):
+        return  self.id
+    # class Meta:
+    #     managed = False
+    #     db_table = 'breedpig'
     def serialize(self):
         return self.__dict__
 
@@ -123,9 +129,13 @@ class Breedfish(models.Model):
     @classmethod
     def res_idObj(self,id):
         return  self.objects.get(id=id)
-    class Meta:
-        managed = False
-        db_table = 'breedfish'
+    def ret_idVal(self):
+        return  self.id
+    def ret_idVal(self):
+        return  self.id
+    # class Meta:
+    #     managed = False
+    #     db_table = 'breedfish'
     def serialize(self):
         return self.__dict__
 
@@ -136,9 +146,9 @@ class Camphor(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'camphor'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'camphor'
 
 
 class Cedar(models.Model):
@@ -148,9 +158,9 @@ class Cedar(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'cedar'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'cedar'
 
 
 class Climate(models.Model):
@@ -160,9 +170,9 @@ class Climate(models.Model):
     humid = models.FloatField(blank=True, null=True)
     weather = models.CharField(max_length=50, blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'climate'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'climate'
 
 
 class Corn(models.Model):
@@ -174,9 +184,9 @@ class Corn(models.Model):
     def res_dict(self):
         return dict(corn_id=self.corn_id,timestp=self.timestp,price=self.price,\
             scale=self.scale,production=self.production)
-    class Meta:
-        managed = False
-        db_table = 'corn'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'corn'
 
 
 class DayePrivet(models.Model):
@@ -186,9 +196,9 @@ class DayePrivet(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'daye_privet'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'daye_privet'
 
 
 class DjangoAdminLog(models.Model):
@@ -249,9 +259,11 @@ class Environment(models.Model):
     @classmethod
     def res_idObj(self,id):
         return  self.objects.get(env_id=id)
-    class Meta:
-        managed = False
-        db_table = 'environment'
+    def ret_idVal(self):
+        return  self.env_id
+    # class Meta:
+    #     managed = False
+    #     db_table = 'environment'
 
 
 class FeedCorn(models.Model):
@@ -259,9 +271,9 @@ class FeedCorn(models.Model):
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'feed_corn'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'feed_corn'
 
 
 class FranceGreen(models.Model):
@@ -271,9 +283,9 @@ class FranceGreen(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'france_green'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'france_green'
 
 
 class FranceGreen2(models.Model):
@@ -283,9 +295,9 @@ class FranceGreen2(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'france_green2'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'france_green2'
 
 
 class Ginkgo(models.Model):
@@ -295,9 +307,9 @@ class Ginkgo(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'ginkgo'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'ginkgo'
 
 
 class Hackberry(models.Model):
@@ -307,9 +319,9 @@ class Hackberry(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'hackberry'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'hackberry'
 
 
 class InsidePig(models.Model):
@@ -317,9 +329,9 @@ class InsidePig(models.Model):
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'inside_pig'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'inside_pig'
 
 
 class LagerstroemiaIndica(models.Model):
@@ -329,9 +341,9 @@ class LagerstroemiaIndica(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'lagerstroemia_indica'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'lagerstroemia_indica'
 
 
 class MixedPig(models.Model):
@@ -339,9 +351,9 @@ class MixedPig(models.Model):
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'mixed_pig'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'mixed_pig'
 
 
 class NationalPolicy(models.Model):
@@ -352,9 +364,11 @@ class NationalPolicy(models.Model):
         return dict(np_id=self.np_id,title=self.title,content=self.content)
     def res_idObj(self,id):
         return self.objects.get(np_id=id)
-    class Meta:
-        managed = False
-        db_table = 'national_policy'
+    def ret_idVal(self):
+        return  self.np_id
+    # class Meta:
+    #     managed = False
+    #     db_table = 'national_policy'
 
 
 class Osmanthus(models.Model):
@@ -364,9 +378,9 @@ class Osmanthus(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'osmanthus'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'osmanthus'
 
 
 class OutsidePig(models.Model):
@@ -374,9 +388,9 @@ class OutsidePig(models.Model):
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'outside_pig'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'outside_pig'
 
 
 class Pea(models.Model):
@@ -386,9 +400,9 @@ class Pea(models.Model):
     scale = models.FloatField(blank=True, null=True)
     production = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'pea'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'pea'
 
 
 class PhotiniaFruticosa(models.Model):
@@ -398,9 +412,9 @@ class PhotiniaFruticosa(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'photinia_fruticosa'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'photinia_fruticosa'
 
 
 class Pittosporum(models.Model):
@@ -410,9 +424,9 @@ class Pittosporum(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'pittosporum'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'pittosporum'
 
 
 class Podocarpus(models.Model):
@@ -422,9 +436,9 @@ class Podocarpus(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'podocarpus'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'podocarpus'
 
 
 class PrivetOfKingson(models.Model):
@@ -434,9 +448,9 @@ class PrivetOfKingson(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'privet_of_kingson'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'privet_of_kingson'
 
 
 class ProductionControl(models.Model):
@@ -454,9 +468,11 @@ class ProductionControl(models.Model):
     @classmethod
     def res_idObj(self,id):
         return  self.objects.get(pc_id=id)
-    class Meta:
-        managed = False
-        db_table = 'production_control'
+    def ret_idVal(self):
+        return  self.pc_id
+    # class Meta:
+    #     managed = False
+    #     db_table = 'production_control'
 
 
 class Redwood(models.Model):
@@ -466,9 +482,9 @@ class Redwood(models.Model):
     scale = models.FloatField(blank=True, null=True)
     sales = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'redwood'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'redwood'
 
 
 class SoybeanMeal(models.Model):
@@ -476,9 +492,9 @@ class SoybeanMeal(models.Model):
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'soybean_meal'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'soybean_meal'
 
 
 class Trend(models.Model):
@@ -496,9 +512,11 @@ class Trend(models.Model):
     @classmethod
     def res_idObj(self,id):
         return  self.objects.get(tr_id=id)
-    class Meta:
-        managed = False
-        db_table = 'trend'
+    def ret_idVal(self):
+        return  self.tr_id
+    # class Meta:
+    #     managed = False
+    #     db_table = 'trend'
 
 
 class Wheat(models.Model):
@@ -508,6 +526,13 @@ class Wheat(models.Model):
     scale = models.FloatField(blank=True, null=True)
     production = models.FloatField(blank=True, null=True)
 
-    class Meta:
-        managed = False
-        db_table = 'wheat'
+    # class Meta:
+    #     managed = False
+    #     db_table = 'wheat'
+
+class Visits(models.Model):
+    id = models.IntegerField(primary_key=True)
+    times = models.IntegerField(blank=True, null=True)
+    # class Meta:
+    #     managed = False
+    #     db_table = 'visits'

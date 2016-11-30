@@ -19,8 +19,8 @@ $(function () {
         var index = this.href;
         var path = index.substring(index.lastIndexOf("/") + 1, index.length);
         var chartTitle = this.innerHTML;
-        console.log(path);
-        console.log(chartTitle);
+        //console.log(path);
+        //console.log(chartTitle);
         //改变被点击a标签的样式
         $(".n_contact a").css("background-color", "transparent");
         $(".n_contact a").css("color", "#666");

@@ -49,7 +49,7 @@ var app = angular
 
 app.run(['$rootScope', '$location', function($rootScope, $location) {
 	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
-		console.log('路由跳转成功');
+		//console.log('路由跳转成功');
 		$rootScope.$broadcast('reGetData');
 	});
 }]);
@@ -88,7 +88,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
     //根据文章类型获取文章列表
     services.getArtList = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtList/',
@@ -97,7 +97,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	};
     //根据文章id获取文章的详细内容
     services.getArtById = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtById/',
@@ -142,7 +142,7 @@ app.controller('lawsController', [
         lawsController.getArticleDetail = function () {
             var articleId = this.art.env_id;
             window.sessionStorage.setItem('artId', articleId);
-            console.log("获取文章id：" + articleId)
+            //console.log("获取文章id：" + articleId)
 
         };
         //页面初始化时获取文章列表，含分页
@@ -173,7 +173,7 @@ app.controller('lawsController', [
         }
 		// 初始化页面信息
 		function initData() {
-			console.log("初始化页面信息");
+			//console.log("初始化页面信息");
 			if($location.path().indexOf('/lawsEnvironment') == 0) { //养殖排污法规
                 $("#secUrl").html("养殖排污法规");
                 getArticleList("lawsEnvironment");
@@ -211,7 +211,7 @@ app.controller('lawsController', [
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
-                    console.log(data);
+                    //console.log(data);
                     lawsController.article = data;
                     var time = lawsController.article.publish_time;
                     lawsController.article.publish_time = time.substring(0,time.indexOf("T"));
