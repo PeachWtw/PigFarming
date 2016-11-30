@@ -324,12 +324,12 @@ def func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content):
 def func_addArticle(request): #添加保存文章列表
     #title   type1     type2     abstract     imgUrl     content
     #******从request获取所需参数**********
-    title = request.GET['title']    #标题
-    table=request.GET['type1']  #表名
-    art_type=request.GET['type2']   #文章类型
-    abstract=request.GET['abstract']   #文章摘要
-    src_img=request.GET['imgUrl']   #图片url
-    content=request.GET['content']   #文章内容
+    title = request.POST['title']    #标题
+    table=request.POST['type1']  #表名
+    art_type=request.POST['type2']   #文章类型
+    abstract=request.POST['abstract']   #文章摘要
+    src_img=request.POST['imgUrl']   #图片url
+    content=request.POST['content']   #文章内容
     request.session['table_data']=[title,table,art_type,\
                                    abstract,src_img,content]#保存给后面的uploadPic函数使用
     return  HttpResponse("aaaaaaa")
@@ -348,6 +348,8 @@ def func_uploadPic(request):
     title,table,art_type,abstract,src_img,content=request.session['table_data']#取出各项表的数据
     try:
         if request.method=='POST':
+            f=request.FILES['picfile'];
+            n=str(request.FILES['picfile']);
             src_img=upload(request.FILES['picfile'],str(request.FILES['picfile']))
         for case in switch(table):
             if case('BreedPig'): #养猪

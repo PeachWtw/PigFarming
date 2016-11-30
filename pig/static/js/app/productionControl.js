@@ -49,7 +49,7 @@ var app = angular
 
 app.run(['$rootScope', '$location', function ($rootScope, $location) {
     $rootScope.$on('$routeChangeSuccess', function (evt, next, previous) {
-        console.log('路由跳转成功');
+        //console.log('路由跳转成功');
         $rootScope.$broadcast('reGetData');
     });
 }]);
@@ -97,7 +97,7 @@ app.factory('services', ['$http', 'baseUrl', function ($http, baseUrl) {
     var services = {};
     //根据文章类型获取文章列表
     services.getArtList = function (data) {
-        console.log("请求数据" + JSON.stringify(data));
+        //console.log("请求数据" + JSON.stringify(data));
         return $http({
             method: 'get',
             url: '/pig/article/getArtList/',
@@ -106,7 +106,7 @@ app.factory('services', ['$http', 'baseUrl', function ($http, baseUrl) {
     };
     //根据文章id获取文章的详细内容
     services.getArtById = function (data) {
-        console.log("请求数据" + JSON.stringify(data));
+        //console.log("请求数据" + JSON.stringify(data));
         return $http({
             method: 'get',
             url: '/pig/article/getArtById/',
@@ -152,7 +152,7 @@ app.controller('productionControlController', [
         productionControl.getArticleDetail = function () {
             var articleId = this.art.pc_id;
             window.sessionStorage.setItem('artId', articleId);
-            console.log("获取文章id：" + articleId)
+            //console.log("获取文章id：" + articleId)
 
         };
         //页面初始化时获取文章列表，含分页
@@ -186,7 +186,7 @@ app.controller('productionControlController', [
 
         // 初始化页面信息
         function initData() {
-            console.log("初始化页面信息");
+            //console.log("初始化页面信息");
             if ($location.path().indexOf('/pigFarmManagement') == 0) { //猪场管理
                 $("#secUrl").html("猪场管理");
                 getArticleList("pigFarmManagement");
@@ -237,6 +237,7 @@ app.controller('productionControlController', [
                     productionControl.article.publish_time = time.substring(0,time.indexOf("T"));
                     productionControl.article.content = decodeURIComponent(productionControl.article.content);
                     productionControl.article.src_img = decodeURIComponent(productionControl.article.src_img);
+                    //console.log(productionControl.article.content)
                     $("#art-content").html(productionControl.article.content);
                 });
             }
