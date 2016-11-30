@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/pig.png" />
+    <link rel="stylesheet" href="css/index.css" />
+</head>
+<body>
+    <div id="container">
+        <img src="images/index.jpg" />
+        <a id="nationalPolicy" href="/static/html/nationalPolicy/index.html">国家政策，</br>气候K线</a>
+		<a id="trends" href="/static/html/trends/index.html">国际动态，</br>行情趋势</a>
+		<a id="laws" href="/static/html/laws/index.html">生态环境，</br>排污处理</a>
+		<a id="form" href="">生产知识，</br>论坛下载</a>
+		<a id="breedImprovement" href="/static/html/breedImprovement/index.html">育种改良</a>
+		<a id="productionControl" href="/static/html/productionControl/index.html">生产管理，</br>动保防疫</a>
+		<a id="materialsMarket" href="/static/html/materialsMarket/index.html">原料行情，</br>分类K线</a>
+		<a id="information" href="">供求信息，</br>赞助商家</a>
+		<a id="produce" href="/static/html/produce/index.html">养殖</a>
+		<a id="plant" href="/static/html/plant/index.html">种植</a>
+        <!--<a href="/static/html/systemManagement/index.html">系统管理</a>-->
+        <p id="footer">
+            访问次数：<span id="visits"></span></br>
+            襄阳举义鑫数据服务公司</br>电话07103523823，17001812888
+        </p>
+    </div>
+    <script type="text/javascript" src="js/lib/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $.get("/pig/getVisits/",function(data){
+                $("#visits").html(data);
+            });
+        })
+    </script>
+</body>
+</html>

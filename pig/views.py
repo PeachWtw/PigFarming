@@ -19,7 +19,7 @@ from mysite.utils import ObjectOrDictFormatter
 
 #作为pig的主页显示
 def first_page(request):
-    return HttpResponse("welcome to mysite")
+    return render(request,'index.html')
 
 
 #测试示例函数
