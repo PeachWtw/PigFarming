@@ -44,6 +44,10 @@ table {
 	border-spacing: 0;
 }
 
+.map img{
+    width: 240px;
+}
+
 img {
 	border: none
 }
