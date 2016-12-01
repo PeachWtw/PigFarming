@@ -31,10 +31,10 @@
 						<li>
 							<a href="/static/html/systemManagement/index.html">添加文章</a>
 						</li>
-						<!--<li>
-							<a href="#/BreedManagement">繁育管理</a>
-						</li>
 						<li>
+							<a href="#/updateInformation">供求信息</a>
+						</li>
+						<!--<li>
 							<a href="#/feedManagement">饲养管理</a>
 						</li>
 						<li>
@@ -49,46 +49,16 @@
 		</div>
 		<!--导航结束-->
 		<div class="container">
-            <form action="addAr" id="addArticle" class="forminfo"  enctype="multipart/form-data" method="post">
-                <ul class="forminfo">
-                    <li><label>文章标题</label><input id="title" type="text" class="dfinput" /><i>标题不能超过20个字符</i></li>
-                    <li><label>文章类型</label>
-                        <select id="type1" class="dfinput short-input" />
-                            <option value="BreedPig">养殖-猪</option>
-                            <option value="BreedChicken">养殖-鸡</option>
-                            <option value="BreedFish">养殖-鱼</option>
-                            <option value="NationalPolicy">国家政策</option>
-                            <option value="ProductionControl">生产管理，动保防疫</option>
-                            <option value="BreedImprovement">育种改良</option>
-                            <option value="Environment">生态环境，排污处理</option>
-                            <option value="Trend">国际动态，行情走势</option>
-                        </select>
-                        <select id="type2" class="dfinput short-input" />
-                            <option value="status">生产现状</option>
-                            <option value="scale">生产规模</option>
-                            <option value="situation">行业状况</option>
-                        </select>
-                    </li>
-                    <li>
-                         <label>摘要</label>
-                         <textarea id="abstract" class="textinput"></textarea>
-                    </li>
-                    <li id="pic-li">
-                         <label>上传图片</label>
-                         <input id="picInput" type="file" accept="image/*" name = "picfile">
-                    </li>
-                    <li>
-                         <label>正文</label>
-                         <textarea id="content" name="content" style="width:800px;height:250px;visibility:hidden;"></textarea>
-                    </li>
-                    <li><label>&nbsp;</label><input id="addArticleBtn" type="button" class="btn" value="确认保存"/></li>
-                </ul>
-            </form>
+            <section class="main" ng-app="updateInformationControl">
+				<div ng-view></div>
+			</section>
 		</div>
 		<footer></footer>
 		<script type="text/javascript" src="../../js/lib/jquery-1.9.1.min.js"></script>
-        <script type="text/javascript" src="../../js/lib/editor/kindeditor.js"></script>
-		<script type="text/javascript" src="../../js/app/systemManagement.js"></script>
+        <script type="text/javascript" src="../../js/lib/angular/angular.js"></script>
+		<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
+        <script type="text/javascript" src="../../js/lib/pageTurn.js"></script>
+		<script type="text/javascript" src="../../js/app/updateInformation.js"></script>
 	</body>
 
 </html>
