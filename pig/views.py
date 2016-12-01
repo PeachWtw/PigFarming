@@ -19,7 +19,7 @@ from mysite.utils import ObjectOrDictFormatter
 
 #作为pig的主页显示
 def first_page(request):
-    return HttpResponse("welcome to mysite")
+    return render(request,'index.html')
 
 
 #测试示例函数
@@ -332,18 +332,28 @@ def func_addArticle(request): #添加保存文章列表
     content=request.POST['content']   #文章内容
     request.session['table_data']=[title,table,art_type,\
                                    abstract,src_img,content]#保存给后面的uploadPic函数使用
-    return  HttpResponse("aaaaaaa")
+    return  HttpResponse("正在保存")
 
 
 #获取站点的访问次数
 def func_getVisits(request):
-    pass
-    return HttpResponse('1')
+    p=Visits.objects.get(id=1)
+    p.times=p.times+1
+    p.save()
+    return HttpResponse(str(p.times))
 
 
+#获取新的id号存入文章
+def func_getNewId(db_obj):
+    allObjList=db_obj.objects.all()
+    maxId=0
+    for temp in allObjList:
+        curId=temp.ret_idVal()
+        if curId>maxId:
+            maxId=curId
+    return maxId+1
 
-
-
+#上传图片
 def func_uploadPic(request):
     title,table,art_type,abstract,src_img,content=request.session['table_data']#取出各项表的数据
     try:
@@ -353,35 +363,35 @@ def func_uploadPic(request):
             src_img=upload(request.FILES['picfile'],str(request.FILES['picfile']))
         for case in switch(table):
             if case('BreedPig'): #养猪
-                p=Breedpig(id=len(Breedpig.objects.all())+1)
+                p=Breedpig(id=func_getNewId(Breedpig))
                 func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
                 break
             if case('BreedChicken'): #养鸡
-                p=Breedchicken(id=len(Breedchicken.objects.all())+1)
+                p=Breedchicken(id=func_getNewId(Breedchicken))
                 func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
                 break
             if case('BreedFish'): #养鱼
-                p=Breedfish(id=len(Breedfish.objects.all())+1)
+                p=Breedfish(id=func_getNewId(Breedfish))
                 func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
                 break
             if case('NationalPolicy'): #国家政策
-                p=NationalPolicy(np_id=len(NationalPolicy.objects.all())+1,title=title,content=content)
+                p=NationalPolicy(np_id=func_getNewId(NationalPolicy),title=title,content=content)
                 p.save(force_insert=True)
                 break
             if case('ProductionControl'): #生产管理，动保防疫
-                p=ProductionControl(pc_id=len(ProductionControl.objects.all())+1)
+                p=ProductionControl(pc_id=func_getNewId(ProductionControl))
                 func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
                 break
             if case('BreedImprovement'): #育种改良
-                p=BreedImprovement(bi_id=len(BreedImprovement.objects.all())+1)
+                p=BreedImprovement(bi_id=func_getNewId(BreedImprovement))
                 func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
                 break
             if case('Environment'): #生态环境，排污处理
-                p=Environment(env_id=len(Environment.objects.all())+1)
+                p=Environment(env_id=func_getNewId(Environment))
                 func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
                 break
             if case('Trend'): #国际动态，行情走势
-                p=Trend(tr_id=len(Trend.objects.all())+1)
+                p=Trend(tr_id=func_getNewId(Trend))
                 func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
                 break
             if case(): # 默认
