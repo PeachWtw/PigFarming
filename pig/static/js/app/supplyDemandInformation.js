@@ -61,8 +61,18 @@ app
         function ($routeProvider) {
             $routeProvider
                 .when(
-                '/updateInformation', {
-                    templateUrl: '/static/html/productionControl/articleList.html',
+                '/supplyInformation', {
+                    templateUrl: '/static/html/systemManagement/supplyInformation.html',
+                    controller: 'updateInformationController'
+                })
+                .when(
+                '/buyInformation', {
+                    templateUrl: '/static/html/systemManagement/supplyInformation.html',
+                    controller: 'updateInformationController'
+                })
+                .when(
+                '/businessInformation', {
+                    templateUrl: '/static/html/systemManagement/supplyInformation.html',
                     controller: 'updateInformationController'
                 })
 
@@ -71,6 +81,38 @@ app
 app.constant('baseUrl', '/static/');
 app.factory('services', ['$http', 'baseUrl', function ($http, baseUrl) {
     var services = {};
+    //根据title搜索信息
+    services.selectByTitle = function (data) {
+        return $http({
+            method: 'get',
+            url: '/pig/information/selectByTitle/',
+            params: data
+        });
+    };
+    //添加信息
+    services.addInformation = function (data) {
+        return $http({
+            method: 'get',
+            url: '/pig/information/addInformation/',
+            params: data
+        });
+    };
+    //根据id获取信息
+    services.getInfoById = function (data) {
+        return $http({
+            method: 'get',
+            url: '/pig/information/getInfoById/',
+            params: data
+        });
+    };
+    //根据id删除信息
+    services.deleteInfoById = function (data) {
+        return $http({
+            method: 'get',
+            url: '/pig/information/deleteInfoById/',
+            params: data
+        });
+    };
     //根据文章类型获取文章列表
     services.getArtList = function (data) {
         //console.log("请求数据" + JSON.stringify(data));
@@ -89,8 +131,64 @@ app.controller('updateInformationController', [
     'services',
     '$location',
     function ($scope, services, $location) {
-        // 养殖
         var updateInformation = $scope;
+
+        updateInformation.selectByTitle = function () {
+            services.selectByTitle({title: $("#titleInput").val()}).success(function (data) {
+                //updateInformation.information = data;
+            });
+        }
+
+        updateInformation.modify = function () {
+            var id = this.inf.id;
+            services.getInfoById({id: id}).success(function (data) {
+                updateInformation.information = data;
+            });
+            $(".overlayer").fadeIn(200);
+            $("#tipType").fadeIn(200);
+        }
+
+        $("#disModify").click(function () {
+            $(".overlayer").fadeOut(200);
+            $("#tipType").fadeOut(200);
+        });
+
+        $("#cancelModify").click(function () {
+            /* sessionStorage.setItem("conId", ""); */
+            $(".overlayer").fadeOut(100);
+            $("#tipType").fadeOut(100);
+        });
+
+        updateInformation.add = function () {
+            $(".overlayer").fadeIn(200);
+            $("#tipType1").fadeIn(200);
+        }
+
+        $("#disAdd").click(function () {
+            $(".overlayer").fadeOut(200);
+            $("#tipType1").fadeOut(200);
+        });
+
+        $("#cancleAdd").click(function () {
+            /* sessionStorage.setItem("conId", ""); */
+            $(".overlayer").fadeOut(100);
+            $("#tipType1").fadeOut(100);
+        });
+
+        updateInformation.addInformation = function () {
+            console.log(updateInformation.info);
+            services.addInformation(updateInformation.info).success(function () {
+                alert("添加信息成功！");
+            });
+        }
+
+        updateInformation.delete = function () {
+            var id = this.inf.id;
+            console.log(id);
+            services.deleteInfoById({id: id}).success(function () {
+                alert("删除信息成功！");
+            });
+        }
         //获取文章列表分页
         updateInformation.getArtList = function (page, articleType) {
             services.getArtList({
@@ -99,9 +197,9 @@ app.controller('updateInformationController', [
                 page: page
             }).success(function (data) {
                 updateInformation.articles = data.allList;
-                for(var i=0;i<updateInformation.articles.length;i++){
+                for (var i = 0; i < updateInformation.articles.length; i++) {
                     var time = updateInformation.articles[i].publish_time;
-                    updateInformation.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    updateInformation.articles[i].publish_time = time.substring(0, time.indexOf("T"));
                     updateInformation.articles[i].src_img = decodeURIComponent(updateInformation.articles[i].src_img);
                 }
                 updateInformation.totalPage = data.page;
@@ -124,9 +222,9 @@ app.controller('updateInformationController', [
                 'page': '1'
             }).success(function (data) {
                 updateInformation.articles = data.allList;
-                for(var i=0;i<updateInformation.articles.length;i++){
+                for (var i = 0; i < updateInformation.articles.length; i++) {
                     var time = updateInformation.articles[i].publish_time;
-                    updateInformation.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    updateInformation.articles[i].publish_time = time.substring(0, time.indexOf("T"));
                     updateInformation.articles[i].src_img = decodeURIComponent(updateInformation.articles[i].src_img);
                 }
                 updateInformation.totalPage = data.page;
@@ -147,15 +245,45 @@ app.controller('updateInformationController', [
         // 初始化页面信息
         function initData() {
             //console.log("初始化页面信息");
-            if ($location.path().indexOf('/pigFarmManagement') == 0) { //猪场管理
-                $("#secUrl").html("猪场管理");
-                getArticleList("pigFarmManagement");
-                sessionStorage.setItem("secondary","pigFarmManagement");
-            } /*else if ($location.path().indexOf('/breedManagement') == 0) {//繁育管理
-                $("#secUrl").html("繁育管理");
-                getArticleList("breedManagement");
-                sessionStorage.setItem("secondary","breedManagement");
-            } */
+            if ($location.path().indexOf('/supplyInformation') == 0) {//供应信息
+                updateInformation.informations = [
+                    {id: 1, title: "标题", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 2, title: "标题", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 3, title: "标题", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 4, title: "标题", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 5, title: "标题", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 6, title: "标题", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 7, title: "标题", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"}
+
+
+                ]
+            }
+            else if ($location.path().indexOf('/buyInformation') == 0) {//求购信息
+                updateInformation.informations = [
+                    {id: 1, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 2, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 3, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 4, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 5, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 6, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 7, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"}
+
+
+                ]
+            }
+            else if ($location.path().indexOf('/businessInformation') == 0) {//商家信息
+                updateInformation.informations = [
+                    {id: 1, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 2, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 3, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 4, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 5, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 6, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 7, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"}
+
+
+                ]
+            }
         }
 
         initData();

@@ -32,6 +32,10 @@ td {
 	word-wrap: break-word
 }
 
+html{
+    min-width: 1000px;
+}
+
 body,
 html,
 input {
@@ -106,7 +110,7 @@ ul li {
 }
 
 .topMain {
-	width: 100%;
+	width: 96%;
 	height: 27px;
 	color: #fff;
 	margin: 0 auto;
@@ -155,7 +159,7 @@ ul li {
 }
 
 .navList {
-	width: 560px;
+	width: 520px;
 	height: 90px;
 	float: right;
 }
