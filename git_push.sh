@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash  -xv
 $( git add --all)
 if [ $? -eq 0];then
 	echo "git add --all failed"
