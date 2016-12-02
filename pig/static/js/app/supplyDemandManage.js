@@ -157,7 +157,7 @@ app.controller('updateInformationController', [
             $("#tipType").fadeIn(200);
         }
         information.updateInformation = function () {
-                services.updateInfoById({information: JSON.stringify(information.information)}).success(function (data) {
+                services.updateInfoById({information: information.information}).success(function (data) {
             });
             $(".overlayer").fadeOut(200);
             $("#tipType").fadeOut(200);
