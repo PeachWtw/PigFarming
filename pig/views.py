@@ -468,9 +468,28 @@ def func_getInformationList(request):
         return HttpResponse('获取失败')
 
 #添加信息
+def func_wrap_addInformation(db_obj, info):
+    p=db_obj(title=info['title'],url=info['url'],priority=info['priority'],isDelete=0)
+    p.save(force_insert=True)
+
 def func_addInformation(request):
-    information=request.GET['information']
-    a=10
+    try:
+        information=request.GET['information']
+        infoDict=json.loads(information)   #利用Session供求类型
+        infoType=infoDict['type']
+        for case in switch(infoType):
+            if case('supplyInformation'): #供应信息
+                d=func_wrap_addInformation(supplyInformation,infoDict)
+                break
+            if case('buyInformation'): #求购信息
+                d=func_wrap_addInformation(buyInformation,infoDict)
+                break
+            if case('businessInformation'): #赞助商家信息
+                d=func_wrap_addInformation(businessInformation,infoDict)
+                break
+        return HttpResponse('1')
+    except BaseException,e:
+        return HttpResponse('0')
 
 
 def func_wrap_selectByTitle(db_obj,title):
@@ -489,10 +508,6 @@ def func_wrap_selectByTitle(db_obj,title):
     T=cursor.fetchall()
     cursor.close()
     conn.close()
-    #s = '''SELECT * FROM pig_supplyInformation WHERE title like '%ccapple%';'''
-    #temp_obj=db_obj.objects.raw(s)
-    # temp_obj=db_obj.objects.raw("SELECT * FROM pig_supplyInformation WHERE title like '\\%ccapple\\%';")
-    # temp_obj1=db_obj.objects.filter(title__istartswith=title)
     L = []  #生成dict对象
     for iter in T:
         L.append(dict(id=iter[0],title=iter[1],url=iter[2],priority=iter[3]))
@@ -506,15 +521,34 @@ def func_selectByTitle(request):
             d=func_wrap_selectByTitle(supplyInformation,title)
             break
         if case('buyInformation'): #求购信息
-
+            d=func_wrap_selectByTitle(buyInformation,title)
             break
         if case('businessInformation'): #赞助商家信息
-
+            d=func_wrap_selectByTitle(businessInformation,title)
             break
     return HttpResponse(json.dumps(d))
+
 #通过id删除信息
-def unc_deleteInfoById(request):
-    pass
+def func_wrap_deleteInfoById(db_obj, index):
+    db_obj.objects.filter(id=index).update(isDelete=1)
+
+def func_deleteInfoById(request):
+    try:
+        deleteId=int(request.GET['id'])
+        infoType=request.session['StoreInfoType']    #利用Session供求类型
+        for case in switch(infoType):
+            if case('supplyInformation'): #供应信息
+                d=func_wrap_deleteInfoById(supplyInformation,deleteId)
+                break
+            if case('buyInformation'): #求购信息
+                d=func_wrap_deleteInfoById(buyInformation,deleteId)
+                break
+            if case('businessInformation'): #赞助商家信息
+                d=func_wrap_deleteInfoById(businessInformation,deleteId)
+                break
+        return HttpResponse('删除成功')
+    except BaseException,e:
+        return HttpResponse('删除失败')
 
 #通过id更新信息
 def func_updateInfoById(request):
