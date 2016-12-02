@@ -9,13 +9,13 @@
     <article class="infoArticle">
         <section class="infoSection" ng-repeat="inf in informations">
             <ul>
-                <li>标题：{{ inf.title }}</li>
+                <li><span>标题：</span>{{ inf.title }}</li>
                 <li>
-                    摘要：{{ inf.abstract }}
+                    <span>摘要：</span>{{ inf.abstract }}
                 </li>
-                <li>URL：{{ inf.url }}</li>
-                <li>优先级：{{ inf.priority }}</li>
-                <li>操作：<a ng-click="delete()">删除</a><a ng-click="modify(id)">修改</a></li>
+                <li><span>URL：</span>{{ inf.url }}</li>
+                <li><span>优先级：</span>{{ inf.priority }}</li>
+                <li><span>操作：</span><a ng-click="delete()">删除</a><a ng-click="modify(id)">修改</a></li>
             </ul>
         </section>
     </article>
@@ -28,9 +28,12 @@
     </div>
     <!-- 具体内容 -->
     <div class="formbody">
-        <form id="updateForm" ng-submit="updateInformation()" class="hidden">
+        <form id="updateForm" ng-submit="updateInformation()">
             <ul class="forminfo">
-
+                <li class="hidden"><label>标号</label><input type="text"
+                                            ng-model="information.id" class="dfinput"/></li>
+                <li><label>类型</label><input type="text" readOnly
+                                            ng-model="information.type" class="dfinput"/></li>
                 <li><label>标题</label><input type="text"
                                             ng-model="information.title" class="dfinput"/></li>
 
@@ -57,9 +60,14 @@
     </div>
     <!-- 具体内容 -->
     <div class="formbody">
-        <form id="addForm" ng-submit="addInformation()" class="hidden">
+        <form id="addForm" ng-submit="addInformation()">
             <ul class="forminfo">
-
+                <li><label>类型</label>
+                    <select type="text" ng-model="info.type" class="dfinput">
+                        <option value="supplyInformation">供应信息</option>
+                        <option value="buyInformation">求购信息</option>
+                        <option value="businessInformation">赞助商家</option>
+                    </select></li>
                 <li><label>标题</label><input type="text"
                                             ng-model="info.title" class="dfinput"/></li>
 
