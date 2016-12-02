@@ -1,9 +1,32 @@
-<div class="artical">
+<div class="article">
 	<div class="location">
-		当前所在位置：首页 >> 养殖
+		当前所在位置：<a href="/static/index.html">首页</a> >> <span id="secUrl"></span>
 	</div>
 	<section class="article-list">
-		<div class="div-article"  ng-repeat="art in articles">
+        <!--<h4>生产现状</h4>-->
+		<div class="div-article"  ng-repeat="art in articles | filter:{type:'status'}">
+			<div class="div-inf">
+				<h3><a ng-click="getArticleDetail()" href="#/articleDetail">{{art.title}}</a></h3>
+				<div class="abstract"><p>{{art.abstract}}</p></div>
+				<div class="releasetime">发布时间：{{art.publish_time}}</div>
+			</div>
+			<div class="div-img"><img src={{art.src_img}} alt="图片未找到" class="img-list" /></div>
+		</div>
+	</section>
+    <section class="article-list">
+        <!--<h4>生产规模</h4>-->
+		<div class="div-article"  ng-repeat="art in articles | filter:{type:'scale'}">
+			<div class="div-inf">
+				<h3><a ng-click="getArticleDetail()" href="#/articleDetail">{{art.title}}</a></h3>
+				<div class="abstract"><p>{{art.abstract}}</p></div>
+				<div class="releasetime">发布时间：{{art.publish_time}}</div>
+			</div>
+			<div class="div-img"><img src={{art.src_img}} alt="图片未找到" class="img-list" /></div>
+		</div>
+	</section>
+    <section class="article-list">
+        <!--<h4>行业状况</h4>-->
+		<div class="div-article"  ng-repeat="art in articles | filter:{type:'situation'}">
 			<div class="div-inf">
 				<h3><a ng-click="getArticleDetail()" href="#/articleDetail">{{art.title}}</a></h3>
 				<div class="abstract"><p>{{art.abstract}}</p></div>

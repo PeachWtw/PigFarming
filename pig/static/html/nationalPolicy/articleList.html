@@ -1,0 +1,11 @@
+<div class="article">
+	<div class="location">
+		当前所在位置：<a href="/static/index.html">首页</a> >> <span id="secUrl"></span>
+	</div>
+	<section class="article-list">
+		<div class="div-policy"  ng-repeat="art in articles">
+				<a ng-click="getArticleDetail()" href="#/articleDetail">{{art.title}}</a>
+		</div>
+	</section>
+    <div class="tcdPageCode"></div><!--页码容器 -->
+</div>

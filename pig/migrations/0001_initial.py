@@ -11,6 +11,84 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
+            name='DjangoAdminLog',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('action_time', models.DateTimeField()),
+                ('object_id', models.TextField(null=True, blank=True)),
+                ('object_repr', models.CharField(max_length=200)),
+                ('action_flag', models.SmallIntegerField()),
+                ('change_message', models.TextField()),
+            ],
+            options={
+                'db_table': 'django_admin_log',
+                'managed': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='DjangoContentType',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('app_label', models.CharField(max_length=100)),
+                ('model', models.CharField(max_length=100)),
+            ],
+            options={
+                'db_table': 'django_content_type',
+                'managed': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='DjangoMigrations',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('app', models.CharField(max_length=255)),
+                ('name', models.CharField(max_length=255)),
+                ('applied', models.DateTimeField()),
+            ],
+            options={
+                'db_table': 'django_migrations',
+                'managed': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='DjangoSession',
+            fields=[
+                ('session_key', models.CharField(max_length=40, serialize=False, primary_key=True)),
+                ('session_data', models.TextField()),
+                ('expire_date', models.DateTimeField()),
+            ],
+            options={
+                'db_table': 'django_session',
+                'managed': False,
+            },
+        ),
+        migrations.CreateModel(
+            name='Breedchicken',
+            fields=[
+                ('id', models.IntegerField(serialize=False, primary_key=True)),
+                ('title', models.CharField(max_length=50, null=True, blank=True)),
+                ('abstract', models.CharField(max_length=255, null=True, blank=True)),
+                ('content', models.TextField(null=True, blank=True)),
+                ('publish_time', models.DateTimeField(null=True, blank=True)),
+                ('click_times', models.IntegerField(null=True, blank=True)),
+                ('src_img', models.CharField(max_length=255, null=True, blank=True)),
+                ('type', models.CharField(max_length=20, null=True, blank=True)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='Breedfish',
+            fields=[
+                ('id', models.IntegerField(serialize=False, primary_key=True)),
+                ('title', models.CharField(max_length=50, null=True, blank=True)),
+                ('abstract', models.CharField(max_length=255, null=True, blank=True)),
+                ('content', models.TextField(null=True, blank=True)),
+                ('publish_time', models.DateTimeField(null=True, blank=True)),
+                ('click_times', models.IntegerField(null=True, blank=True)),
+                ('src_img', models.CharField(max_length=255, null=True, blank=True)),
+                ('type', models.CharField(max_length=20, null=True, blank=True)),
+            ],
+        ),
+        migrations.CreateModel(
             name='BreedImprovement',
             fields=[
                 ('bi_id', models.IntegerField(serialize=False, primary_key=True)),
@@ -22,23 +100,19 @@ class Migration(migrations.Migration):
                 ('src_img', models.CharField(max_length=255, null=True, blank=True)),
                 ('type', models.CharField(max_length=20, null=True, blank=True)),
             ],
-            options={
-                'db_table': 'breed_improvement',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
-            name='Breeding',
+            name='Breedpig',
             fields=[
-                ('breed_id', models.BigIntegerField(serialize=False, primary_key=True)),
-                ('production_status', models.TextField(db_column='Production_status')),
-                ('production_scale', models.TextField(db_column='Production_scale')),
-                ('industry_situation', models.TextField(db_column='Industry_situation')),
+                ('id', models.IntegerField(serialize=False, primary_key=True)),
+                ('title', models.CharField(max_length=50, null=True, blank=True)),
+                ('abstract', models.CharField(max_length=255, null=True, blank=True)),
+                ('content', models.TextField(null=True, blank=True)),
+                ('publish_time', models.DateTimeField(null=True, blank=True)),
+                ('click_times', models.IntegerField(null=True, blank=True)),
+                ('src_img', models.CharField(max_length=255, null=True, blank=True)),
+                ('type', models.CharField(max_length=20, null=True, blank=True)),
             ],
-            options={
-                'db_table': 'breeding',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Camphor',
@@ -49,10 +123,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'camphor',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Cedar',
@@ -63,10 +133,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'cedar',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Climate',
@@ -77,10 +143,6 @@ class Migration(migrations.Migration):
                 ('humid', models.FloatField(null=True, blank=True)),
                 ('weather', models.CharField(max_length=50, null=True, blank=True)),
             ],
-            options={
-                'db_table': 'climate',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Corn',
@@ -91,10 +153,16 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('production', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'corn',
-                'managed': False,
-            },
+        ),
+        migrations.CreateModel(
+            name='DayePrivet',
+            fields=[
+                ('day_id', models.IntegerField(serialize=False, primary_key=True)),
+                ('timestp', models.CharField(max_length=20, null=True, blank=True)),
+                ('price', models.FloatField(null=True, blank=True)),
+                ('scale', models.FloatField(null=True, blank=True)),
+                ('sales', models.FloatField(null=True, blank=True)),
+            ],
         ),
         migrations.CreateModel(
             name='Environment',
@@ -108,10 +176,6 @@ class Migration(migrations.Migration):
                 ('src_img', models.CharField(max_length=255, null=True, blank=True)),
                 ('type', models.CharField(max_length=20, null=True, blank=True)),
             ],
-            options={
-                'db_table': 'environment',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='FeedCorn',
@@ -120,10 +184,6 @@ class Migration(migrations.Migration):
                 ('timestp', models.CharField(max_length=20, null=True, blank=True)),
                 ('price', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'feed_corn',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='FranceGreen',
@@ -134,10 +194,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'france_green',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='FranceGreen2',
@@ -148,10 +204,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'france_green2',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Ginkgo',
@@ -162,10 +214,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'ginkgo',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Hackberry',
@@ -176,10 +224,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'hackberry',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='InsidePig',
@@ -188,10 +232,6 @@ class Migration(migrations.Migration):
                 ('timestp', models.CharField(max_length=20, null=True, blank=True)),
                 ('price', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'inside_pig',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='LagerstroemiaIndica',
@@ -202,10 +242,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'lagerstroemia_indica',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='MixedPig',
@@ -214,10 +250,6 @@ class Migration(migrations.Migration):
                 ('timestp', models.CharField(max_length=20, null=True, blank=True)),
                 ('price', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'mixed_pig',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='NationalPolicy',
@@ -226,10 +258,6 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=50, null=True, blank=True)),
                 ('content', models.TextField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'national_policy',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Osmanthus',
@@ -240,10 +268,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'osmanthus',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='OutsidePig',
@@ -252,10 +276,6 @@ class Migration(migrations.Migration):
                 ('timestp', models.CharField(max_length=20, null=True, blank=True)),
                 ('price', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'outside_pig',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Pea',
@@ -266,10 +286,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('production', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'pea',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='PhotiniaFruticosa',
@@ -280,10 +296,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'photinia_fruticosa',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Pittosporum',
@@ -294,10 +306,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'pittosporum',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Podocarpus',
@@ -308,10 +316,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'podocarpus',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='PrivetOfKingson',
@@ -322,10 +326,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'privet_of_kingson',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='ProductionControl',
@@ -339,10 +339,6 @@ class Migration(migrations.Migration):
                 ('src_img', models.CharField(max_length=255, null=True, blank=True)),
                 ('type', models.CharField(max_length=20, null=True, blank=True)),
             ],
-            options={
-                'db_table': 'production_control',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Redwood',
@@ -353,10 +349,6 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('sales', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'redwood',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='SoybeanMeal',
@@ -365,10 +357,6 @@ class Migration(migrations.Migration):
                 ('timestp', models.CharField(max_length=20, null=True, blank=True)),
                 ('price', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'soybean_meal',
-                'managed': False,
-            },
         ),
         migrations.CreateModel(
             name='Trend',
@@ -382,10 +370,13 @@ class Migration(migrations.Migration):
                 ('src_img', models.CharField(max_length=255, null=True, blank=True)),
                 ('type', models.CharField(max_length=20, null=True, blank=True)),
             ],
-            options={
-                'db_table': 'trend',
-                'managed': False,
-            },
+        ),
+        migrations.CreateModel(
+            name='Visits',
+            fields=[
+                ('id', models.IntegerField(serialize=False, primary_key=True)),
+                ('times', models.IntegerField(null=True, blank=True)),
+            ],
         ),
         migrations.CreateModel(
             name='Wheat',
@@ -396,9 +387,5 @@ class Migration(migrations.Migration):
                 ('scale', models.FloatField(null=True, blank=True)),
                 ('production', models.FloatField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'wheat',
-                'managed': False,
-            },
         ),
     ]

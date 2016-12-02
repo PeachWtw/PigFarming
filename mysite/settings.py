@@ -43,7 +43,7 @@ INSTALLED_APPS = (
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -57,7 +57,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR,'/upload')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,16 +76,18 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
 
+# modified by chen_yanhao at 2016/12/02 22:12
 from utils import Properties
-dbProperties=Properties("db.properties").getProperties()
+db_properties = Properties("db.properties").get_properties()
+db_instance = db_properties['db_instance']
 DATABASES = {
     'default': {
-        'ENGINE': dbProperties['mysql']['engine'],
-        'NAME': dbProperties['mysql']['name'],
-        'USER': dbProperties['mysql']['user'],
-        'PASSWORD': dbProperties['mysql']['password'],
-        'HOST': dbProperties['mysql']['host'],
-        'PORT': dbProperties['mysql']['port'],
+        'ENGINE': db_properties[db_instance]['engine'],
+        'NAME': db_properties[db_instance]['name'],
+        'USER': db_properties[db_instance]['user'],
+        'PASSWORD': db_properties[db_instance]['password'],
+        'HOST': db_properties[db_instance]['host'],
+        'PORT': db_properties[db_instance]['port'],
     }
 }
 

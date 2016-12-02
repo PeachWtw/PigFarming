@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>系统管理页面</title>
+        <link rel="shortcut icon" type="image/x-icon" href="../../images/pig.png" />
+		<link rel="stylesheet" href="../../css/global.css" />
+		<link rel="stylesheet" href="../../css/nei.css" />
+        <link rel="stylesheet" href="../../css/edit.css" />
+        <link rel="stylesheet" href="../../css/produce.css" />
+	</head>
+
+	<body>
+		<!--顶部开始-->
+		<div class="top">
+			<div class="topMain">
+				<span>欢迎来到襄阳举义鑫数据服务公司官方网站</span>
+				<p>联系电话：17001812888</p>
+			</div>
+		</div>
+		<!--顶部结束-->
+		<!--导航开始-->
+		<div class="nav">
+			<div class="navMain">
+				<div class="logo">
+					<a href="/"><img src="../../images/logo.png" /></a>
+				</div>
+				<div class="navList">
+					<ul>
+						<li>
+							<a href="#/supplyInformation">供应信息</a>
+						</li>
+						<li>
+							<a href="#/buyInformation">求购信息</a>
+						</li>
+                        <li>
+							<a href="#/businessInformation">赞助商家</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--导航结束-->
+		<div class="container">
+            <section class="main" ng-app="updateInformationControl">
+				<div ng-view></div>
+			</section>
+            <div class="n_left">
+				<div class="map">
+					<img src="../../images/n_map.png" />
+				</div>
+				<div class="n_contact">
+					<img src="../../images/n_contact.jpg" />
+					<br/> 座机：0710-3523823
+					<br/> 手机：17001812888
+					<br/> 邮编：441000
+					<br/> 地址：湖北省襄阳市高新区邓城大道66号
+					<!--<br/> 网址：www.*****.com-->
+					<br/>
+				</div>
+			</div>
+		</div>
+		<footer></footer>
+		<script type="text/javascript" src="../../js/lib/jquery-1.9.1.min.js"></script>
+        <script type="text/javascript" src="../../js/lib/angular/angular.js"></script>
+		<script type="text/javascript" src="../../js/lib/angular/angular-route.js"></script>
+        <script type="text/javascript" src="../../js/lib/pageTurn.js"></script>
+		<script type="text/javascript" src="../../js/app/supplyDemandInformation.js"></script>
+	</body>
+
+</html>

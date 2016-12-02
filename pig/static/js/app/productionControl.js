@@ -49,7 +49,7 @@ var app = angular
 
 app.run(['$rootScope', '$location', function ($rootScope, $location) {
     $rootScope.$on('$routeChangeSuccess', function (evt, next, previous) {
-        console.log('路由跳转成功');
+        //console.log('路由跳转成功');
         $rootScope.$broadcast('reGetData');
     });
 }]);
@@ -97,7 +97,7 @@ app.factory('services', ['$http', 'baseUrl', function ($http, baseUrl) {
     var services = {};
     //根据文章类型获取文章列表
     services.getArtList = function (data) {
-        console.log("请求数据" + JSON.stringify(data));
+        //console.log("请求数据" + JSON.stringify(data));
         return $http({
             method: 'get',
             url: '/pig/article/getArtList/',
@@ -106,7 +106,7 @@ app.factory('services', ['$http', 'baseUrl', function ($http, baseUrl) {
     };
     //根据文章id获取文章的详细内容
     services.getArtById = function (data) {
-        console.log("请求数据" + JSON.stringify(data));
+        //console.log("请求数据" + JSON.stringify(data));
         return $http({
             method: 'get',
             url: '/pig/article/getArtById/',
@@ -139,15 +139,20 @@ app.controller('productionControlController', [
                 page: page
             }).success(function (data) {
                 productionControl.articles = data.allList;
+                for(var i=0;i<productionControl.articles.length;i++){
+                    var time = productionControl.articles[i].publish_time;
+                    productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                }
                 productionControl.totalPage = data.page;
             });
         };
 
         //获取文章详细内容
         productionControl.getArticleDetail = function () {
-            var articleId = this.art.bi_id;
+            var articleId = this.art.pc_id;
             window.sessionStorage.setItem('artId', articleId);
-            console.log("获取文章id：" + articleId)
+            //console.log("获取文章id：" + articleId)
 
         };
         //页面初始化时获取文章列表，含分页
@@ -159,6 +164,11 @@ app.controller('productionControlController', [
                 'page': '1'
             }).success(function (data) {
                 productionControl.articles = data.allList;
+                for(var i=0;i<productionControl.articles.length;i++){
+                    var time = productionControl.articles[i].publish_time;
+                    productionControl.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    productionControl.articles[i].src_img = decodeURIComponent(productionControl.articles[i].src_img);
+                }
                 productionControl.totalPage = data.page;
                 var $pages = $(".tcdPageCode");
                 if ($pages.length != 0) {
@@ -176,47 +186,60 @@ app.controller('productionControlController', [
 
         // 初始化页面信息
         function initData() {
-            console.log("初始化页面信息");
+            //console.log("初始化页面信息");
             if ($location.path().indexOf('/pigFarmManagement') == 0) { //猪场管理
+                $("#secUrl").html("猪场管理");
                 getArticleList("pigFarmManagement");
+                sessionStorage.setItem("secondary","pigFarmManagement");
             } else if ($location.path().indexOf('/breedManagement') == 0) {//繁育管理
+                $("#secUrl").html("繁育管理");
                 getArticleList("breedManagement");
+                sessionStorage.setItem("secondary","breedManagement");
             } else if ($location.path().indexOf('/feedManagement') == 0) {//饲养管理
+                $("#secUrl").html("饲养管理");
                 getArticleList("feedManagement");
+                sessionStorage.setItem("secondary","feedManagement");
             } else if ($location.path().indexOf('/dailyManagement') == 0) {//日常管理
+                $("#secUrl").html("日常管理");
                 getArticleList("dailyManagement");
+                sessionStorage.setItem("secondary","dailyManagement");
             } else if ($location.path().indexOf('/articleDetail') == 0) {//文章内容详情
+                var secondaryUrl = sessionStorage.getItem("secondary");
+                var secondaryUrlA = $("#secondaryUrl");
+                switch (secondaryUrl){
+                    case "pigFarmManagement":{
+                        secondaryUrlA.attr("href","/static/html/productionControl/index.html#/pigFarmManagement");
+                        secondaryUrlA.html("猪场管理");
+                        break;
+                    }
+                    case "breedManagement":{
+                        secondaryUrlA.attr("href","/static/html/productionControl/index.html#/breedManagement");
+                        secondaryUrlA.html("繁育管理");
+                        break;
+                    }
+                    case "feedManagement":{
+                        secondaryUrlA.attr("href","/static/html/productionControl/index.html#/feedManagement");
+                        secondaryUrlA.html("饲养管理");
+                        break;
+                    }
+                    case "dailyManagement":{
+                        secondaryUrlA.attr("href","/static/html/productionControl/index.html#/dailyManagement");
+                        secondaryUrlA.html("日常管理");
+                        break;
+                    }
+                }
                 var articleId = window.sessionStorage.getItem('artId');
                 services.getArtById({
                     'articleId': articleId
                 }).success(function (data) {
-                    console.log(data);
                     productionControl.article = data;
+                    var time = productionControl.article.publish_time;
+                    productionControl.article.publish_time = time.substring(0,time.indexOf("T"));
+                    productionControl.article.content = decodeURIComponent(productionControl.article.content);
+                    productionControl.article.src_img = decodeURIComponent(productionControl.article.src_img);
+                    //console.log(productionControl.article.content)
+                    $("#art-content").html(productionControl.article.content);
                 });
-            } else if ($location.path().indexOf('/chartPage') == 0) {
-                services.getData().success(function (data) {
-                    var arr = data.trim().split(" ");
-                    var dataArr = [];
-                    for (var i = 0; i < arr.length / 2; i++) {
-                        var temp = [];
-                        temp[0] = +arr[2 * i];
-                        temp[1] = +arr[2 * i + 1];
-                        dataArr[i] = temp;
-                    }
-                    console.log(dataArr);
-                    var initData = {
-                        title: '呵呵呵呵',
-                        subtitle: '网址: www.hehe.com',
-                        //xScale:['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun','Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec','lyy', 'Nov', 'Dec'],
-                        yTitle: '温度 (°C)',
-                        valueSuffix: '°C',
-                        series: {name: '北京', data: dataArr
-                        }
-                    }
-                    var chart = new Chart(initData);
-                    chart.init();
-                });
-
             }
         }
 

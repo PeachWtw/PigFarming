@@ -58,7 +58,7 @@ var app = angular
 
 app.run(['$rootScope', '$location', function($rootScope, $location) {
 	$rootScope.$on('$routeChangeSuccess', function(evt, next, previous) {
-		console.log('路由跳转成功');
+		//console.log('路由跳转成功');
 		$rootScope.$broadcast('reGetData');
 	});
 }]);
@@ -97,7 +97,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	var services = {};
     //根据文章类型获取文章列表
     services.getArtList = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtList/',
@@ -106,7 +106,7 @@ app.factory('services', ['$http', 'baseUrl', function($http, baseUrl) {
 	};
     //根据文章id获取文章的详细内容
     services.getArtById = function(data) {
-		console.log("请求数据"+JSON.stringify(data));
+		//console.log("请求数据"+JSON.stringify(data));
 		return $http({
 			method: 'get',
 			url: '/pig/article/getArtById/',
@@ -126,61 +126,107 @@ app.controller('ProduceController', [
 		var produce = $scope;
 
         //获取文章列表分页
-        produce.getArtList = function(page,artType) {
-				services.getArtList({
-                    //'articleType':artType,
-					page : page
-				}).success(function(data) {
-					produce.articles = data.allList;
-					produce.totalPage = data.page;
-				});
-			};
-
+        produce.getArtList = function (page, articleType) {
+            services.getArtList({
+                //'articleType':artType,
+                articleType: articleType,
+                page: page
+            }).success(function (data) {
+                produce.articles = data.allList;
+                for(var i=0;i<produce.articles.length;i++){
+                    var time = produce.articles[i].publish_time;
+                    produce.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    produce.articles[i].src_img = decodeURIComponent(produce.articles[i].src_img);
+                }
+                produce.totalPage = data.page;
+            });
+        };
         //获取文章详细内容
         produce.getArticleDetail = function() {
-            var articleId = this.art.bi_id;
-            console.log("获取文章id："+articleId)
-			services.getArtById({
-                'articleId':articleId
-            }).success(function(data) {
-				produce.article = data;
-			});
+            var articleId = this.art.id;
+            window.sessionStorage.setItem('artId', articleId);
+            //console.log("获取文章id：" + articleId)
 		};
         //页面初始化时获取文章列表，含分页
-        function getArticleList(articleType){
+        function getArticleList(articleType) {
             services.getArtList({
-                    //'articleType':'pigFarmManagement',
-                    'page':'1'
-                }).success(function(data) {
-                    produce.articles = data.allList;
-                    produce.totalPage = data.page;
-                    console.log("直接打印返回的数据："+produce.articles)
-                    console.log("直接打印返回的数据："+produce.totalPage)
-                    var $pages = $(".tcdPageCode");
-                    if ($pages.length != 0) {
-							$pages.createPage({
-								pageCount : produce.totalPage,
-								current : 1,
-								backFn : function(p) {
-									produce.getArtList(p,articleType);// 点击页码时获取第p页的数据
-								}
-							});
-						}
-                    //productionControl.articles = jsonParse.arrToJsons(data);
-                });
+                //'articleType':'pigFarmManagement',
+                //更改了这个部分！！！！
+                'articleType': articleType,
+                'page': '1'
+            }).success(function (data) {
+                //console.log(data);
+                produce.articles = data.allList;
+                for(var i=0;i<produce.articles.length;i++){
+                    var time = produce.articles[i].publish_time;
+                    produce.articles[i].publish_time = time.substring(0,time.indexOf("T"));
+                    produce.articles[i].src_img = decodeURIComponent(produce.articles[i].src_img);
+                }
+                produce.totalPage = data.page;
+                var $pages = $(".tcdPageCode");
+                if ($pages.length != 0) {
+                    $pages.createPage({
+                        pageCount: produce.totalPage,
+                        current: 1,
+                        backFn: function (p) {
+                            produce.getArtList(p, articleType);// 点击页码时获取第p页的数据
+                        }
+                    });
+                }
+                //productionControl.articles = jsonParse.arrToJsons(data);
+            });
         }
 
 		// 初始化页面信息
 		function initData() {
-			console.log("初始化页面信息");
+			//console.log("初始化页面信息");
 
-			if($location.path().indexOf('/pig') == 0) { // 如果是合同列表页
-				getArticleList("pig");
+			if($location.path().indexOf('/pig') == 0) { //
+                $("#secUrl").html("养猪");
+				getArticleList("pigBreeding");
+                sessionStorage.setItem("secondary","pig");
 			} else if($location.path().indexOf('/chicken') == 0) {
-				getArticleList("chicken");
+                $("#secUrl").html("养鸡");
+				getArticleList("chickenBreeding");
+                sessionStorage.setItem("secondary","chicken");
 			} else if($location.path().indexOf('/fish') == 0) {
-				getArticleList("fish");
+                $("#secUrl").html("养鱼");
+				getArticleList("fishBreeding");
+                sessionStorage.setItem("secondary","fish");
 			} else if($location.path().indexOf('/articleDetail') == 0) {
+                var articleId = window.sessionStorage.getItem('artId');
+                services.getArtById({
+                    'articleId': articleId
+                }).success(function (data) {
+                    produce.article = data;
+                    var time = produce.article.publish_time;
+                    produce.article.publish_time = time.substring(0,time.indexOf("T"));
+                    produce.article.content = decodeURIComponent(produce.article.content);
+                    produce.article.src_img = decodeURIComponent(produce.article.src_img);
+                    //console.log(produce.article.content)
+                    $("#art-content").html(produce.article.content);
+                    var secondaryUrl = sessionStorage.getItem("secondary");
+                    var secondaryUrlA = $("#secondaryUrl");
+                    switch (secondaryUrl){
+                    case "pig":{
+                        secondaryUrlA.attr("href","/static/html/produce/index.html#/pig");
+                        secondaryUrlA.html("养猪");
+                        break;
+                    }
+                    case "chicken":{
+                        secondaryUrlA.attr("href","/static/html/produce/index.html#/chicken");
+                        secondaryUrlA.html("养鸡");
+                        break;
+                    }
+                    case "fish":
+                    {
+                        secondaryUrlA.attr("href", "/static/html/produce/index.html#/fish");
+                        secondaryUrlA.html("养鱼");
+                        break;
+                    }
+                }
+
+                });
 			}
 		}
 
@@ -188,17 +234,3 @@ app.controller('ProduceController', [
 
 	}
 ]);
-
-// 合同状态过滤器
-app.filter('conState', function() {
-	return function(input) {
-		var state = "";
-		if(input == "0")
-			state = "在建";
-		else if(input == "1")
-			state = "竣工";
-		else if(input == "2")
-			state = "停建";
-		return state;
-	}
-});

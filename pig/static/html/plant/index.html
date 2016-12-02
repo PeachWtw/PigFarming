@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>种植页面</title>
+    <link rel="shortcut icon" type="image/x-icon" href="../../images/pig.png" />
     <link rel="stylesheet" href="../../css/global.css"/>
     <link rel="stylesheet" href="../../css/nei.css"/>
     <link rel="stylesheet" href="../../css/plant.css"/>
@@ -13,7 +14,7 @@
 <!--顶部开始-->
 <div class="top">
     <div class="topMain">
-        <span>欢迎来到半仙他哥的养猪官方网站</span>
+        <span>欢迎来到襄阳举义鑫数据服务公司官方网站</span>
 
         <p>联系电话：17001812888</p>
     </div>
@@ -23,7 +24,7 @@
 <div class="nav">
     <div class="navMain">
         <div class="logo">
-            <a href="/"><img src="../../images/logo.png"/></a>
+            <img src="../../images/logo.png"/>
         </div>
         <div class="navList">
             <!--
@@ -46,6 +47,9 @@
 <!--导航结束-->
 <div class="container">
     <section class="main">
+        <div class="location">
+            当前所在位置：<a href="/static/index.html">首页</a> <span id="secUrl"></span>
+        </div>
         <div id="chart1" style="width:100%;height:200px"></div>
         <div class="message1"></div>
         <div id="chart2" style="width:100%;height:200px"></div>
@@ -61,26 +65,26 @@
         <div class="n_contact">
             <div id="food">
                 <span>粮食作物</span>
-                <a href="#/corn">玉米</a>
-                <a href="#/soybean">黄豆</a>
+                <a id="firstPage" href="#/corn">玉米</a>
+                <a href="#/pea">黄豆</a>
                 <a href="#/wheat">小麦</a>
             </div>
             <!--<img src="../../images/n_contact.jpg" /> -->
             <div id="trees">
                 <span>绿化树种</span>
-                <a href="#/xiangzhang">香樟</a>
-                <a href="#/guihua">桂花</a>
-                <a href="#/yinxing">银杏</a>
-                <a href="#/ziwei">紫薇</a>
-                <a href="#/pushu">朴树</a>
-                <a href="#/xuesong">雪松</a>
-                <a href="#/dayenvzhen">大叶女贞</a>
-                <a href="#/luohansong">罗汉松</a>
-                <a href="#/hongyeshinan">红叶石楠</a>
-                <a href="#/hongjimu">红继木</a>
-                <a href="#/jinsennvzhen">金森女贞</a>
-                <a href="#/haitong">海桐</a>
-                <a href="#/faqing">法青</a>
+                <a href="#/camphor">香樟</a>
+                <a href="#/osmanthus">桂花</a>
+                <a href="#/ginkgo">银杏</a>
+                <a href="#/Lagerstroemia_indica">紫薇</a>
+                <a href="#/Hackberry">朴树</a>
+                <a href="#/cedar">雪松</a>
+                <a href="#/daye_privet">大叶女贞</a>
+                <a href="#/podocarpus">罗汉松</a>
+                <a href="#/Photinia_fruticosa">红叶石楠</a>
+                <a href="#/redwood">红继木</a>
+                <a href="#/Privet_of_Kingson">金森女贞</a>
+                <a href="#/pittosporum">海桐</a>
+                <a href="#/france_green">法青</a>
             </div>
 
         </div>
@@ -93,6 +97,11 @@
 <script type="text/javascript" src="http://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
 <script type="text/javascript" src="../../js/app/chart.js" ></script>
 <script type="text/javascript" src="../../js/app/plant.js"></script>
+    <script>
+        $(function(){
+            document.getElementById("firstPage").click();
+        })
+    </script>
 </body>
 
 </html>
