@@ -79,3 +79,178 @@
 	color: #636363;
 	cursor: pointer;
 }
+
+#infoList{
+    width: 88%;
+    margin: 0 auto;
+}
+
+.selectInput{
+    width: 280px;
+	height: 32px;
+	margin-right: 12px;
+	line-height: 32px;
+	border-top: solid 1px #a7b5bc;
+	border-left: solid 1px #a7b5bc;
+	border-right: solid 1px #ced9df;
+	border-bottom: solid 1px #ced9df;
+	text-indent: 10px;
+}
+
+.infoArticle{
+    width: 100%;
+    margin-top: 24px;
+    margin-bottom: 36px;
+    overflow: hidden;
+}
+
+.infoSection{
+    width: 320px;
+    margin-left: 16px;
+    margin-top: 16px;
+    border: 1px solid #BEBEBE;
+    float: left;
+}
+
+.infoSection:hover{
+    border: 1px solid #8B8878;
+    box-shadow: 3px;
+}
+
+.infoSection ul{
+    margin: 12px;
+}
+
+.infoSection ul li {
+    margin: 12px;
+}
+
+.infoSection ul li a {
+    margin-left: 16px;
+    cursor: pointer;
+}
+
+.toolbar1 {
+	float: right;
+    cursor: pointer;
+    margin-top: 24px;
+}
+
+.toolbar1 li {
+	background: url(../images/toolbg.gif) repeat-x;
+	line-height: 33px;
+	height: 33px;
+	border: solid 1px #d3dbde;
+	float: left;
+	padding-right: 10px;
+	margin-left: 5px;
+	border-radius: 3px;
+	behavior: url(js/pie.htc);
+}
+
+.toolbar1 li span {
+	float: left;
+	margin-left: 10px;
+	margin-right: 5px;
+	margin-top: 5px;
+}
+
+/*tip*/
+.overlayer {
+	/* width:100%;
+	height:100%; */
+	display: none;
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: #000;
+	opacity: 0.4;
+	filter: alpha(opacity = 40);
+	z-index: 1111;
+}
+
+.tip {
+	width: 520px;
+	height: 400px;
+	position: fixed;
+	top: 16%;
+	left: 50%;
+	margin-left: -270px;
+	background: #fff;
+	box-shadow: 1px 2px 2px 1px #9b9b9b;
+	border-radius: 1px;
+	display: none;
+	z-index: 111111;
+	opacity: 1;
+	filter: alpha(opacity = 100);
+}
+
+.formbody{
+    margin: 12px 24px;
+ }
+
+.tiptop {
+	height: 40px;
+	line-height: 40px;
+    background: url(../images/tcbg.gif) repeat-x;
+	cursor: pointer;
+}
+
+.tiptop span {
+	font-size: 14px;
+	font-weight: bold;
+	color: #fff;
+	float: left;
+	text-indent: 20px;
+}
+
+.tiptop a {
+	display: block;
+	background: url(../images/close.png) no-repeat;
+	width: 22px;
+	height: 22px;
+	float: right;
+	margin-right: 7px;
+	margin-top: 10px;
+	cursor: pointer;
+}
+
+.tiptop a:hover {
+	background: url(../images/close1.png) no-repeat;
+}
+
+.tipbtn {
+	/* margin-top: 25px; */
+	margin-left: 125px;
+}
+
+.sure, .cancel {
+	width: 96px;
+	height: 35px;
+	line-height: 35px;
+	color: #fff;
+	background: url(../images/btnbg1.png) repeat-x;
+	font-size: 14px;
+	font-weight: bold;
+	border-radius: 3px;
+	cursor: pointer;
+}
+
+.cancel {
+	background: url(../images/btnbg2.png) repeat-x;
+	color: #000;
+	font-weight: normal;
+}
+
+.textarea {
+	width: 320px;
+	height: 80px;
+	padding: 8px;
+	line-height: 16px;
+	border-top: solid 1px #a7b5bc;
+	border-left: solid 1px #a7b5bc;
+	border-right: solid 1px #ced9df;
+	border-bottom: solid 1px #ced9df;
+}
