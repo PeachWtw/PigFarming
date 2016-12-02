@@ -97,6 +97,10 @@ ul li {
 	display: block;
 }
 
+.hidden {
+    display: none;
+}
+
 
 /* End hide from IE-mac */
 
