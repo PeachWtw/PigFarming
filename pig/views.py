@@ -7,6 +7,8 @@ import json
 import  os
 import math
 import datetime
+import time
+import random
 from django.utils import timezone
 
 import string
@@ -309,17 +311,8 @@ def func_getClimateData(request):
     return HttpResponse(json.dumps(dict(temperature=temperatureList, humid=humidList,weather=weatherList)))
 
 
-#保存文章到数据中的函数
-def func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content):
-    p.save(force_insert=True)
-    p.title=title
-    p.abstract=abstract
-    p.content=content
-    p.publish_time=timezone.now()
-    p.click_times=0
-    p.src_img=src_img
-    p.type=art_type
-    p.save()
+
+
 #添加保存文章列表
 def func_addArticle(request): #添加保存文章列表
     #title   type1     type2     abstract     imgUrl     content
@@ -343,7 +336,7 @@ def func_getVisits(request):
     return HttpResponse(str(p.times))
 
 
-#获取新的id号存入文章
+#获取新的id号存入文章(废弃)
 def func_getNewId(db_obj):
     allObjList=db_obj.objects.all()
     maxId=0
@@ -352,6 +345,21 @@ def func_getNewId(db_obj):
         if curId>maxId:
             maxId=curId
     return maxId+1
+
+#保存文章到数据中的函数
+def func_saveDataIntoArticle(db_obj,title,art_type,abstract,src_img,content):
+    #p.save(force_insert=True)
+    p=db_obj(title=title,abstract=abstract,content=content,\
+             publish_time=timezone.now(),click_times=0,\
+             src_img=src_img,type=art_type)
+    p.save()
+    # p.title=title
+    # p.abstract=abstract
+    # p.content=content
+    # p.publish_time=timezone.now()
+    # p.click_times=0
+    # p.src_img=src_img
+    # p.type=art_type
 
 #上传图片
 def func_uploadPic(request):
@@ -363,36 +371,29 @@ def func_uploadPic(request):
             src_img=upload(request.FILES['picfile'],str(request.FILES['picfile']))
         for case in switch(table):
             if case('BreedPig'): #养猪
-                p=Breedpig(id=func_getNewId(Breedpig))
-                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                func_saveDataIntoArticle(Breedpig,title,art_type,abstract,src_img,content)
                 break
             if case('BreedChicken'): #养鸡
-                p=Breedchicken(id=func_getNewId(Breedchicken))
-                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                func_saveDataIntoArticle(Breedchicken,title,art_type,abstract,src_img,content)
                 break
             if case('BreedFish'): #养鱼
-                p=Breedfish(id=func_getNewId(Breedfish))
-                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                func_saveDataIntoArticle(Breedfish,title,art_type,abstract,src_img,content)
                 break
             if case('NationalPolicy'): #国家政策
-                p=NationalPolicy(np_id=func_getNewId(NationalPolicy),title=title,content=content)
+                p=NationalPolicy(title=title,content=content)
                 p.save(force_insert=True)
                 break
             if case('ProductionControl'): #生产管理，动保防疫
-                p=ProductionControl(pc_id=func_getNewId(ProductionControl))
-                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                func_saveDataIntoArticle(ProductionControl,title,art_type,abstract,src_img,content)
                 break
             if case('BreedImprovement'): #育种改良
-                p=BreedImprovement(bi_id=func_getNewId(BreedImprovement))
-                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                func_saveDataIntoArticle(BreedImprovement,title,art_type,abstract,src_img,content)
                 break
             if case('Environment'): #生态环境，排污处理
-                p=Environment(env_id=func_getNewId(Environment))
-                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                func_saveDataIntoArticle(Environment,title,art_type,abstract,src_img,content)
                 break
             if case('Trend'): #国际动态，行情走势
-                p=Trend(tr_id=func_getNewId(Trend))
-                func_saveDataIntoArticle(p,title,art_type,abstract,src_img,content)
+                func_saveDataIntoArticle(Trend,title,art_type,abstract,src_img,content)
                 break
             if case(): # 默认
                 print "Error PlantType"
@@ -410,3 +411,21 @@ def upload(file,filename):
             destination.write(chunk)
     return path
 
+#随机产生k线图数据（其中时间参数还不能按需设置）
+def generateTimestp(db_obj,priceFlag=False,scaleFlag=False,productionFlag=False,climateFlag=False):
+
+    for ti in range(1,31):
+        dateC1=datetime(2016,11,ti,15,55,00)
+        timestamp2=time.mktime(dateC1.timetuple())
+        if priceFlag:
+            p=db_obj(timestp=timestamp2,price=random.uniform(0,1))
+        if scaleFlag:
+            p.scale=random.uniform(0,1)
+        if productionFlag:
+            p.production=random.uniform(0,1)
+        if climateFlag:
+            p=db_obj(timestp=timestamp2,temperature=random.uniform(0,40),\
+                     humid=random.uniform(0,100),weather=random.uniform(0,1))
+        if priceFlag and scaleFlag and productionFlag and climateFlag:
+           return None
+        p.save()

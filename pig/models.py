@@ -24,7 +24,7 @@ def json_serial(obj):
     raise TypeError ("Type not serializable")
 
 class BreedImprovement(models.Model):
-    bi_id = models.IntegerField(primary_key=True)
+    bi_id =models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, null=True)
     abstract = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
@@ -66,7 +66,7 @@ class BreedImprovement(models.Model):
 
 
 class Breedchicken(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id =models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, null=True)
     abstract = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
@@ -90,7 +90,7 @@ class Breedchicken(models.Model):
         return self.__dict__
 
 class Breedpig(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id =models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, null=True)
     abstract = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
@@ -114,7 +114,7 @@ class Breedpig(models.Model):
         return self.__dict__
 
 class Breedfish(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id =models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, null=True)
     abstract = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
@@ -140,7 +140,7 @@ class Breedfish(models.Model):
         return self.__dict__
 
 class Camphor(models.Model):
-    camphort_id = models.IntegerField(primary_key=True)
+    camphort_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -152,7 +152,7 @@ class Camphor(models.Model):
 
 
 class Cedar(models.Model):
-    ced_id = models.IntegerField(primary_key=True)
+    ced_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -164,7 +164,7 @@ class Cedar(models.Model):
 
 
 class Climate(models.Model):
-    cli_id = models.IntegerField(primary_key=True)
+    cli_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     temperature = models.FloatField(blank=True, null=True)
     humid = models.FloatField(blank=True, null=True)
@@ -176,7 +176,7 @@ class Climate(models.Model):
 
 
 class Corn(models.Model):
-    corn_id = models.IntegerField(primary_key=True)
+    corn_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -190,7 +190,7 @@ class Corn(models.Model):
 
 
 class DayePrivet(models.Model):
-    day_id = models.IntegerField(primary_key=True)
+    day_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -245,7 +245,7 @@ class DjangoSession(models.Model):
 
 
 class Environment(models.Model):
-    env_id = models.IntegerField(primary_key=True)
+    env_id =models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, null=True)
     abstract = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
@@ -267,7 +267,7 @@ class Environment(models.Model):
 
 
 class FeedCorn(models.Model):
-    fc_id = models.IntegerField(primary_key=True)
+    fc_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
@@ -277,7 +277,7 @@ class FeedCorn(models.Model):
 
 
 class FranceGreen(models.Model):
-    fg_id = models.IntegerField(primary_key=True)
+    fg_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -289,7 +289,7 @@ class FranceGreen(models.Model):
 
 
 class FranceGreen2(models.Model):
-    fg_id = models.IntegerField(primary_key=True)
+    fg_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -301,7 +301,7 @@ class FranceGreen2(models.Model):
 
 
 class Ginkgo(models.Model):
-    ginkgo_id = models.IntegerField(primary_key=True)
+    ginkgo_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -313,7 +313,7 @@ class Ginkgo(models.Model):
 
 
 class Hackberry(models.Model):
-    hac_id = models.IntegerField(db_column='Hac_id', primary_key=True)  # Field name made lowercase.
+    hac_id =models.AutoField(primary_key=True) # Field name made lowercase.
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -325,7 +325,7 @@ class Hackberry(models.Model):
 
 
 class InsidePig(models.Model):
-    in_id = models.IntegerField(primary_key=True)
+    in_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
@@ -335,7 +335,7 @@ class InsidePig(models.Model):
 
 
 class LagerstroemiaIndica(models.Model):
-    lid = models.IntegerField(primary_key=True)
+    lid =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -347,7 +347,7 @@ class LagerstroemiaIndica(models.Model):
 
 
 class MixedPig(models.Model):
-    mp_id = models.IntegerField(primary_key=True)
+    mp_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
@@ -357,7 +357,7 @@ class MixedPig(models.Model):
 
 
 class NationalPolicy(models.Model):
-    np_id = models.IntegerField(primary_key=True)
+    np_id =models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
     def res_dict(self):
@@ -372,7 +372,7 @@ class NationalPolicy(models.Model):
 
 
 class Osmanthus(models.Model):
-    osmanthus_id = models.IntegerField(primary_key=True)
+    osmanthus_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -384,7 +384,7 @@ class Osmanthus(models.Model):
 
 
 class OutsidePig(models.Model):
-    op_id = models.IntegerField(primary_key=True)
+    op_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
@@ -394,7 +394,7 @@ class OutsidePig(models.Model):
 
 
 class Pea(models.Model):
-    pea_id = models.IntegerField(primary_key=True)
+    pea_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -406,7 +406,7 @@ class Pea(models.Model):
 
 
 class PhotiniaFruticosa(models.Model):
-    pho_id = models.IntegerField(primary_key=True)
+    pho_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -418,7 +418,7 @@ class PhotiniaFruticosa(models.Model):
 
 
 class Pittosporum(models.Model):
-    pit_id = models.IntegerField(primary_key=True)
+    pit_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -430,7 +430,7 @@ class Pittosporum(models.Model):
 
 
 class Podocarpus(models.Model):
-    pod_id = models.IntegerField(primary_key=True)
+    pod_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -442,7 +442,7 @@ class Podocarpus(models.Model):
 
 
 class PrivetOfKingson(models.Model):
-    pok_id = models.IntegerField(primary_key=True)
+    pok_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -454,7 +454,7 @@ class PrivetOfKingson(models.Model):
 
 
 class ProductionControl(models.Model):
-    pc_id = models.IntegerField(primary_key=True)
+    pc_id =models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, null=True)
     abstract = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
@@ -476,7 +476,7 @@ class ProductionControl(models.Model):
 
 
 class Redwood(models.Model):
-    red_id = models.IntegerField(primary_key=True)
+    red_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -488,7 +488,7 @@ class Redwood(models.Model):
 
 
 class SoybeanMeal(models.Model):
-    soy_id = models.IntegerField(primary_key=True)
+    soy_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
 
@@ -498,7 +498,7 @@ class SoybeanMeal(models.Model):
 
 
 class Trend(models.Model):
-    tr_id = models.IntegerField(primary_key=True)
+    tr_id =models.AutoField(primary_key=True)
     title = models.CharField(max_length=50, blank=True, null=True)
     abstract = models.CharField(max_length=255, blank=True, null=True)
     content = models.TextField(blank=True, null=True)
@@ -520,7 +520,7 @@ class Trend(models.Model):
 
 
 class Wheat(models.Model):
-    wheat_id = models.IntegerField(primary_key=True)
+    wheat_id =models.AutoField(primary_key=True)
     timestp = models.CharField(max_length=20, blank=True, null=True)
     price = models.FloatField(blank=True, null=True)
     scale = models.FloatField(blank=True, null=True)
@@ -531,8 +531,15 @@ class Wheat(models.Model):
     #     db_table = 'wheat'
 
 class Visits(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id =models.AutoField(primary_key=True)
     times = models.IntegerField(blank=True, null=True)
     # class Meta:
     #     managed = False
     #     db_table = 'visits'
+
+
+class SupplyInformation(models.Model):
+    id=models.AutoField(primary_key=True)
+    title = models.CharField(max_length=100, blank=True, null=True)
+    url=models.CharField(max_length=200, blank=True, null=True)
+    priority=models.IntegerField(blank=True, null=True)
