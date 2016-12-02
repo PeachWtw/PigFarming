@@ -1,0 +1,18 @@
+<div id="listConts">
+    <div class="location">
+		当前所在位置：<a href="/static/index.html">首页</a> >> <span id="secUrl"></span>
+	</div>
+    关键字：<input id="titleInput" type="text" class="selectInput">
+    <button ng-click="selectByTitle()" class="btn">查询</button>
+
+    <article class="infoArticle">
+        <section class="infoSection" ng-repeat="inf in informations">
+            <ul>
+                <li>标题：<a href="{{ inf.url }}">{{ inf.title }}</a></li>
+                <li>
+                    摘要：{{ inf.abstract }}
+                </li>
+            </ul>
+        </section>
+    </article>
+</div>
