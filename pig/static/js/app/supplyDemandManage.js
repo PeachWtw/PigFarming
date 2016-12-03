@@ -192,7 +192,7 @@ app.controller('updateInformationController', [
 
         information.addInformation = function () {
             console.log(information.info);
-            services.addInformation(information.info).success(function () {
+            services.addInformation({information:information.info}).success(function () {
                 alert("添加信息成功！");
             });
         }
