@@ -144,7 +144,7 @@ app.controller('updateInformationController', [
 
         information.selectByTitle = function () {
             services.selectByTitle({title: $("#titleInput").val()}).success(function (data) {
-                console.log("接到的数据："+data);
+                console.log("接到的数据：" + data);
                 information.informations = data;
             });
         }
@@ -158,10 +158,13 @@ app.controller('updateInformationController', [
             $("#tipType").fadeIn(200);
         }
         information.updateInformation = function () {
-                services.updateInfoById({information: information.information}).success(function (data) {
+            services.updateInfoById({information: information.information}).success(function (data) {
+                $(".overlayer").fadeOut(200);
+                $("#tipType").fadeOut(200);
+                getInformationList(sessionStorage.getItem("pageType"));
+                alert("更新成功！")
             });
-            $(".overlayer").fadeOut(200);
-            $("#tipType").fadeOut(200);
+
         }
 
         $("#disModify").click(function () {
@@ -176,6 +179,7 @@ app.controller('updateInformationController', [
         });
 
         information.add = function () {
+            information.info.type = "supplyInformation";
             $(".overlayer").fadeIn(200);
             $("#tipType1").fadeIn(200);
         }
@@ -192,8 +196,28 @@ app.controller('updateInformationController', [
         });
 
         information.addInformation = function () {
+            if (information.info.title == "") {
+                alert("标题不能为空！")
+                return false;
+            }
+            if (information.info.url == "") {
+                alert("URL不能为空！")
+                return false;
+            }
+            if (!isNaN(information.info.priority)) {
+                alert("优先级必须为整数！")
+                return false;
+            }
+            if (information.info.abstract) {
+                if (information.info.abstract.length > 200) {
+                    alert("摘要内容不能超过100字！")
+                    return false;
+                }
+            }
+
             console.log(information.info);
-            services.addInformation({information:information.info}).success(function () {
+            services.addInformation({information: information.info}).success(function () {
+                getInformationList(sessionStorage.getItem("pageType"));
                 alert("添加信息成功！");
             });
         }
@@ -202,6 +226,7 @@ app.controller('updateInformationController', [
             var id = this.inf.id;
             console.log(id);
             services.deleteInfoById({id: id}).success(function () {
+                getInformationList(sessionStorage.getItem("pageType"));
                 alert("删除信息成功！");
             });
         }
@@ -216,13 +241,6 @@ app.controller('updateInformationController', [
             });
         };
 
-        //获取文章详细内容
-        information.getArticleDetail = function () {
-            var articleId = this.art.pc_id;
-            window.sessionStorage.setItem('artId', articleId);
-            //console.log("获取文章id：" + articleId)
-
-        };
         //页面初始化时获取文章列表，含分页
         function getInformationList(infoType) {
             services.getInformationList({
@@ -248,33 +266,16 @@ app.controller('updateInformationController', [
         function initData() {
             //console.log("初始化页面信息");
             if ($location.path().indexOf('/supplyInformation') == 0) {//供应信息
+                sessionStorage.setItem("pageType", "supplyInformation")
                 getInformationList("supplyInformation");
             }
             else if ($location.path().indexOf('/buyInformation') == 0) {//求购信息
-                information.informations = [
-                    {id: 1, title: "呵呵能恩能够答案是aihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjas", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 2, title: "呵呵aihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjas", abstract: "aihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 3, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 4, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 5, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 6, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 7, title: "呵呵", abstract: "aihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"}
-
-
-                ]
+                sessionStorage.setItem("pageType", "buyInformation")
+                getInformationList("buyInformation");
             }
             else if ($location.path().indexOf('/businessInformation') == 0) {//商家信息
-                information.informations = [
-                    {id: 1, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 2, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 3, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 4, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 5, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 6, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 7, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"}
-
-
-                ]
+                sessionStorage.setItem("pageType", "businessInformation")
+                getInformationList("businessInformation");
             }
         }
 

@@ -112,7 +112,7 @@ app.controller('updateInformationController', [
 
         updateInformation.selectByTitle = function () {
             services.selectByTitle({title: $("#titleInput").val()}).success(function (data) {
-                //updateInformation.information = data;
+                updateInformation.information = data;
             });
         }
 
@@ -157,31 +157,11 @@ app.controller('updateInformationController', [
             }
             else if ($location.path().indexOf('/buyInformation') == 0) {//求购信息
                 $("#secUrl").html("求购信息");
-                updateInformation.informations = [
-                    {id: 1, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 2, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 3, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 4, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 5, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 6, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 7, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"}
-
-
-                ]
+                getInformationList("buyInformation");
             }
             else if ($location.path().indexOf('/businessInformation') == 0) {//商家信息
                 $("#secUrl").html("赞助商家");
-                updateInformation.informations = [
-                    {id: 1, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 2, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 3, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 4, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 5, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 6, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 7, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"}
-
-
-                ]
+                getInformationList("businessInformation");
             }
         }
 
