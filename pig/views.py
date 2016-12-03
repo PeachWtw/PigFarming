@@ -9,7 +9,10 @@ import math
 import datetime
 import time
 import random
+import MySQLdb
 from django.utils import timezone
+
+
 
 import string
 from django.http import HttpResponse
@@ -429,3 +432,90 @@ def generateTimestp(db_obj,priceFlag=False,scaleFlag=False,productionFlag=False,
         if priceFlag and scaleFlag and productionFlag and climateFlag:
            return None
         p.save()
+
+
+def func_wrap_getInformationList(db_obj,page,request,infoType):
+    temp_obj=db_obj.objects.filter(isDelete=0).order_by('-priority')
+    num=len(temp_obj)
+    page_total=int(math.ceil(num / 10.0))  #计算总页数
+    index_low = (page - 1) * 10
+    index_high = page * 10
+    filter_list=temp_obj.all()[index_low:index_high]
+    L = []  #生成dict对象
+    for iter in filter_list:
+        L.append(iter.res_dict())
+    request.session['StoreInfoType']=infoType    #利用Session供求类型
+    request.session['InformationData']=L  #利用Session存储表的数据
+    return L, page_total
+#功能：获取信息列表
+def func_getInformationList(request):
+    try:
+        infoType=request.GET['infoType']#信息类型
+        page=request.GET['page']#页数
+        for case in switch(infoType):
+                if case('supplyInformation'): #供应信息
+                    L, page_total=func_wrap_getInformationList(supplyInformation,int(page),request,infoType)
+                    break
+                if case('buyInformation'): #求购信息
+                    L, page_total=func_wrap_getInformationList(buyInformation,int(page),request,infoType)
+                    break
+                if case('businessInformation'): #赞助商家信息
+                    L, page_total=func_wrap_getInformationList(businessInformation,int(page),request,infoType)
+                    break
+        d = dict(allList=L, page=page_total)   #进行json串行化处理
+        return HttpResponse(json.dumps(d))
+    except BaseException,e:
+        return HttpResponse('获取失败')
+
+#添加信息
+def func_addInformation(request):
+    information=request.GET['information']
+    a=10
+
+
+def func_wrap_selectByTitle(db_obj,title):
+    conn=MySQLdb.Connect(
+                    host='127.0.0.1',
+                    port=3306,
+                    user='wtw',
+                    passwd='123456',
+                    db='superpig',
+                    charset='utf8'
+                    )
+    cursor=conn.cursor()
+    sql="SELECT * FROM pig_supplyInformation WHERE title LIKE '%{!s}%' and isDelete=0 order  by priority desc ;".format(title)
+    cursor.execute(sql)
+    T = []  #生成dict对象
+    T=cursor.fetchall()
+    cursor.close()
+    conn.close()
+    #s = '''SELECT * FROM pig_supplyInformation WHERE title like '%ccapple%';'''
+    #temp_obj=db_obj.objects.raw(s)
+    # temp_obj=db_obj.objects.raw("SELECT * FROM pig_supplyInformation WHERE title like '\\%ccapple\\%';")
+    # temp_obj1=db_obj.objects.filter(title__istartswith=title)
+    L = []  #生成dict对象
+    for iter in T:
+        L.append(dict(id=iter[0],title=iter[1],url=iter[2],priority=iter[3]))
+    return  L
+#通过title查找信息
+def func_selectByTitle(request):
+    title=request.GET['title']
+    infoType=request.session['StoreInfoType']    #利用Session供求类型
+    for case in switch(infoType):
+        if case('supplyInformation'): #供应信息
+            d=func_wrap_selectByTitle(supplyInformation,title)
+            break
+        if case('buyInformation'): #求购信息
+
+            break
+        if case('businessInformation'): #赞助商家信息
+
+            break
+    return HttpResponse(json.dumps(d))
+#通过id删除信息
+def unc_deleteInfoById(request):
+    pass
+
+#通过id更新信息
+def func_updateInfoById(request):
+    pass

@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     url(r'^charts/', include('pig.article_urls')),  #表格处理
     url(r'^climate/', include('pig.article_urls')), #气候处理
     url(r'^getVisits/', 'pig.views.func_getVisits'), #主页访问次数
+    url(r'^information/', include('pig.article_urls')), #供求信息
    #url(r'^article/getArticle/','pig.views.func_getArticle'),
 )
 

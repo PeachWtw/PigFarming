@@ -11,4 +11,15 @@ urlpatterns = patterns('',
     url(r'^getPigPriceChartData/','pig.views.func_getPigPriceChartData'),#猪价系统
     url(r'^getClimateData/','pig.views.func_getClimateData'),#气候k线图
     url(r'^uploadPic/','pig.views.func_uploadPic'),#上传图片
+    url(r'^getInformationList/','pig.views.func_getInformationList'),#获取信息列表
+    url(r'^addInformation/','pig.views.func_addInformation'),#添加信息
+    url(r'^selectByTitle/','pig.views.func_selectByTitle'),#通过title查找信息
+    url(r'^deleteInfoById/','pig.views.func_deleteInfoById'),#通过id删除信息
+    url(r'^updateInfoById/','pig.views.func_updateInfoById'),#通过id更新信息
+
+
+
+
+
+
 )

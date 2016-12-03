@@ -113,7 +113,16 @@ app.factory('services', ['$http', 'baseUrl', function ($http, baseUrl) {
             params: data
         });
     };
-    //根据文章类型获取文章列表
+
+    services.updateInfoById = function (data) {
+        //console.log("请求数据" + JSON.stringify(data));
+        return $http({
+            method: 'get',
+            url: '/pig/information/updateInfoById/',
+            params: data
+        });
+    };
+    //获取信息列表
     services.getInformationList = function (data) {
         //console.log("请求数据" + JSON.stringify(data));
         return $http({
@@ -131,21 +140,27 @@ app.controller('updateInformationController', [
     'services',
     '$location',
     function ($scope, services, $location) {
-        var updateInformation = $scope;
+        var information = $scope;
 
-        updateInformation.selectByTitle = function () {
+        information.selectByTitle = function () {
             services.selectByTitle({title: $("#titleInput").val()}).success(function (data) {
                 //updateInformation.information = data;
             });
         }
 
-        updateInformation.modify = function () {
+        information.modify = function () {
             var id = this.inf.id;
             services.getInfoById({id: id}).success(function (data) {
-                updateInformation.information = data;
+                information.information = data;
             });
             $(".overlayer").fadeIn(200);
             $("#tipType").fadeIn(200);
+        }
+        information.updateInformation = function () {
+                services.updateInfoById({information: information.information}).success(function (data) {
+            });
+            $(".overlayer").fadeOut(200);
+            $("#tipType").fadeOut(200);
         }
 
         $("#disModify").click(function () {
@@ -159,7 +174,7 @@ app.controller('updateInformationController', [
             $("#tipType").fadeOut(100);
         });
 
-        updateInformation.add = function () {
+        information.add = function () {
             $(".overlayer").fadeIn(200);
             $("#tipType1").fadeIn(200);
         }
@@ -175,14 +190,14 @@ app.controller('updateInformationController', [
             $("#tipType1").fadeOut(100);
         });
 
-        updateInformation.addInformation = function () {
-            console.log(updateInformation.info);
-            services.addInformation(updateInformation.info).success(function () {
+        information.addInformation = function () {
+            console.log(information.info);
+            services.addInformation({information:information.info}).success(function () {
                 alert("添加信息成功！");
             });
         }
 
-        updateInformation.delete = function () {
+        information.delete = function () {
             var id = this.inf.id;
             console.log(id);
             services.deleteInfoById({id: id}).success(function () {
@@ -190,18 +205,18 @@ app.controller('updateInformationController', [
             });
         }
         //获取文章列表分页
-        updateInformation.getInformationList = function (page, infoType) {
+        information.getInformationList = function (page, infoType) {
             services.getInformationList({
                 infoType: infoType,
                 page: page
             }).success(function (data) {
-                updateInformation.informations = data.allList;
-                updateInformation.totalPage = data.page;
+                information.informations = data.allList;
+                information.totalPage = data.page;
             });
         };
 
         //获取文章详细内容
-        updateInformation.getArticleDetail = function () {
+        information.getArticleDetail = function () {
             var articleId = this.art.pc_id;
             window.sessionStorage.setItem('artId', articleId);
             //console.log("获取文章id：" + articleId)
@@ -210,18 +225,18 @@ app.controller('updateInformationController', [
         //页面初始化时获取文章列表，含分页
         function getInformationList(infoType) {
             services.getInformationList({
-                'infoType': infoType,
-                'page': '1'
+                infoType: infoType,
+                page: '1'
             }).success(function (data) {
-                updateInformation.informations = data.allList;
-                updateInformation.totalPage = data.page;
+                information.informations = data.allList;
+                information.totalPage = data.page;
                 var $pages = $(".tcdPageCode");
                 if ($pages.length != 0) {
                     $pages.createPage({
-                        pageCount: updateInformation.totalPage,
+                        pageCount: information.totalPage,
                         current: 1,
                         backFn: function (p) {
-                            updateInformation.getInformationList(p, infoType);// 点击页码时获取第p页的数据
+                            information.getInformationList(p, infoType);// 点击页码时获取第p页的数据
                         }
                     });
                 }
@@ -235,20 +250,20 @@ app.controller('updateInformationController', [
                 getInformationList("supplyInformation");
             }
             else if ($location.path().indexOf('/buyInformation') == 0) {//求购信息
-                updateInformation.informations = [
-                    {id: 1, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 2, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                information.informations = [
+                    {id: 1, title: "呵呵能恩能够答案是aihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjas", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
+                    {id: 2, title: "呵呵aihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjas", abstract: "aihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
                     {id: 3, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
                     {id: 4, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
                     {id: 5, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
                     {id: 6, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
-                    {id: 7, title: "呵呵", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"}
+                    {id: 7, title: "呵呵", abstract: "aihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjasaihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"}
 
 
                 ]
             }
             else if ($location.path().indexOf('/businessInformation') == 0) {//商家信息
-                updateInformation.informations = [
+                information.informations = [
                     {id: 1, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
                     {id: 2, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},
                     {id: 3, title: "哈哈", abstract: "aihsjfdal;asfiodasofjas", url: "asdfsadfasdfasdf", priority: "23"},

@@ -537,9 +537,33 @@ class Visits(models.Model):
     #     managed = False
     #     db_table = 'visits'
 
-
-class SupplyInformation(models.Model):
+#供应信息
+class supplyInformation(models.Model):
     id=models.AutoField(primary_key=True)
-    title = models.CharField(max_length=100, blank=True, null=True)
+    title = models.CharField(max_length=200, blank=True, null=True)
     url=models.CharField(max_length=200, blank=True, null=True)
     priority=models.IntegerField(blank=True, null=True)
+    isDelete=models.IntegerField(blank=True, null=True)
+    def res_dict(self):
+        return dict(id=self.id,title=self.title,url=self.url,priority=self.priority,\
+            isDelete=self.isDelete)
+#求购信息
+class buyInformation(models.Model):
+    id=models.AutoField(primary_key=True)
+    title = models.CharField(max_length=200, blank=True, null=True)
+    url=models.CharField(max_length=200, blank=True, null=True)
+    priority=models.IntegerField(blank=True, null=True)
+    isDelete=models.IntegerField(blank=True, null=True)
+    def res_dict(self):
+        return dict(id=self.id,title=self.title,url=self.url,priority=self.priority,\
+            isDelete=self.isDelete)
+#赞助商家信息
+class businessInformation(models.Model):
+    id=models.AutoField(primary_key=True)
+    title = models.CharField(max_length=200, blank=True, null=True)
+    url=models.CharField(max_length=200, blank=True, null=True)
+    priority=models.IntegerField(blank=True, null=True)
+    isDelete=models.IntegerField(blank=True, null=True)
+    def res_dict(self):
+        return dict(id=self.id,title=self.title,url=self.url,priority=self.priority,\
+            isDelete=self.isDelete)
