@@ -1,5 +1,6 @@
 
-*.pyc
+/mysite/*.pyc
+/pig/*.pyc
 
 
 
