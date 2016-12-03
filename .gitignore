@@ -1,7 +1,15 @@
+  
+  
+# Python:  
+*.py[cod]  
+*.so  
+*.egg  
+*.egg-info  
+dist  
+build  
 
-/mysite/*.pyc
-/pig/*.pyc
-
+*.doc
+  
 
 
 # Compiled source #
