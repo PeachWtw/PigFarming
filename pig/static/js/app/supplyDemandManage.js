@@ -144,7 +144,8 @@ app.controller('updateInformationController', [
 
         information.selectByTitle = function () {
             services.selectByTitle({title: $("#titleInput").val()}).success(function (data) {
-                //updateInformation.information = data;
+                console.log("接到的数据："+data);
+                information.informations = data;
             });
         }
 
